@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Formulattor Quiz alpha version</title>
+</head>
+<body>
+        <form
+            action="/quiz"
+            method="post">
+            <label for="materia_id">Selecione uma matéria:</label>
+            <select name="materia_id" id="materia_id" required>
+                <option value="1">Física</option>
+                <option value="2">Química</option>
+                <option value="3">Matemática</option>
+            </select>
+            <button type="submit">Gerar uma pergunta</button>    
+        </form>
+        <% questoes.forEach(function(questao) { %>
+            <div>
+            <h2>Questão <%= questao.id %></h2>
+            <p><%= questao.enunciado %></p>
+            </div>
+        <% }); %>
+        <ul>
+            <% respperg.forEach(resp => { %>
+                <button onclick="didIGetItRight(this)" data-correta="<%= resp.verdadeira %>"><%= resp.resposta %></button>
+            <% }) %>
+        </ul>
+    <script>
+        function didIGetItRight(element){
+            console.log('Valor data-correta:', element.dataset.correta);
+            const val = element.dataset.correta || '';
+            const isCorrect = val === '';
+            if(isCorrect){
+                alert("Acertou!");
+            }
+            else{
+                alert("Ops, leia com atenção!");
+            }
+        }
+    </script>
+</body>
+</html>

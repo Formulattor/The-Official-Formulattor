@@ -1,0 +1,38 @@
+app.post('/submit/regs', async (req, res) => {
+    const { name, email, pass } = req.body;
+
+    if (!name || !email || !pass) {
+        return res.status(400).json({ erro: 'Tem algum item faltando ae' });
+    }
+
+    try {
+        const db = await openDb();
+        await db.exec('CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome varchar(50), email varchar(50) UNIQUE, pass varchar(50))');
+        await db.run('INSERT INTO usuarios (nome, email, pass) VALUES (?, ?, ?)', [name, email, pass]);
+        res.status(201).json({ message: 'usuário criado.' });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.post('/submit/logs', async (req, res) => {
+    const { email, pass } = req.body;
+
+    if (!email || !pass) {
+        return res.status(400).json({ erro: 'Tem algum item faltando ae' });
+    }
+    
+    try {
+        const db = await openDb();
+        const user = await db.get('SELECT * FROM usuarios WHERE email = ? AND pass = ?', [email, pass]);
+        if (user) {
+            console.log(user.nome, user.email, user.pass);
+            res.send(`Bem-vindo, ${user.nome}!`); 
+        } else {
+            console.log("não foi");
+            res.status(401).send('incoerencias de dados');
+        }
+    } catch (error) {
+        console.error(error);;
+  }
+});

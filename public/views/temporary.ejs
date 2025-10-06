@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/styles/temporary.css">
+    <script defer type="module" src="../threejsfiles/temporary.js"></script>
+    <script defer type="module" src="../assets/scripts/temporaryFront.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.153.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.153.0/examples/jsm/",
+                "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.2/index.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <%function getFirstName(name) {let letter1 = '';let firstName = '';for (let f = 0;f<name.length;f++){letter1 = name.charAt(f); firstName += letter1;if (name.charAt(f) === ' ') {return firstName;}}return firstName;}%>
+
+    <!-- logou -->
+
+    <!-- <form action="/matricular" method="post">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="materia_id">Matéria:</label>
+        <select name="materia_id" id="materia_id" required>
+            <option value="1">Física</option>
+            <option value="2">Química</option>
+            <option value="3">Matemática</option>
+        </select>
+
+        <button type="submit">Enviar</button>
+    </form> -->
+    
+    <div class="behindBody"></div>
+    <div class="threeJs3D"></div>
+    <header>
+        <p>Olá, seja bem vindo <%=getFirstName(usuario.nome)%>!</p>
+    </header>
+    <main>
+        <section id="fis" class="secOp">
+            <img src="../assets/images/FisIcon.png" alt="Fisics">
+        </section>
+
+        <section id="mat" class="secOp">
+            <img src="../assets/images/MathIcon.png" alt="Math">
+        </section>
+
+        <section id="qui" class="secOp">
+            <img src="../assets/images/CheIcon.png" alt="Chemistry">
+        </section>
+    </main>
+</body>
+</html>

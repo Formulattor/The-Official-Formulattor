@@ -1,0 +1,94 @@
+CREATE DATABASE formulattordb;
+USE formulattordb;
+
+-- Tabela de usuários
+CREATE TABLE usuario (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   nome VARCHAR(50) NOT NULL,
+   email VARCHAR(50) UNIQUE NOT NULL,
+   senha VARCHAR(255) NOT NULL, -- melhor usar hash
+   dataNascimento DATE,
+   pontuacao INT DEFAULT 0
+);
+
+-- Tabela de matérias
+CREATE TABLE materias (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   nome VARCHAR(50) NOT NULL
+);
+
+INSERT INTO materias (nome) VALUES 
+("Física"),
+("Química"),
+("Matemática");
+
+-- Tabela de aulas
+CREATE TABLE aulas(
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   nome VARCHAR(100),
+   materia_id INT NOT NULL,
+   FOREIGN KEY (materia_id) REFERENCES materias(id),
+   conteudo VARCHAR(500)
+);
+
+-- Inserindo aulas com a associação à matéria
+-- Aulas de Física (ID 1)
+INSERT INTO aulas (nome, conteudo, materia_id) VALUES
+("Introdução à Física", "Nesta aula, abordaremos os conceitos fundamentais da Física, como as leis de Newton, o movimento de corpos e a força.", 1),
+("Termodinâmica - Parte 1", "Esta aula trata dos conceitos iniciais de termodinâmica, incluindo a primeira e segunda lei da termodinâmica e suas aplicações.", 1),
+("Leis de Newton", "Estudo aprofundado das três leis de Newton e suas implicações na mecânica clássica.", 1),
+("Movimento Circular", "Abordagem do movimento circular uniforme e não uniforme, forças centrípetas e forças radiais.", 1);
+
+-- Aulas de Química (ID 2)
+INSERT INTO aulas (nome, conteudo, materia_id) VALUES
+("Estrutura Atômica", "Aula de Química Geral, discutindo a estrutura atômica, modelos atômicos e a tabela periódica.", 2),
+("Reações Químicas - Introdução", "Abordagem sobre as reações químicas, tipos de reações e como balancear equações químicas.", 2),
+("Ligação Química", "Estudo dos tipos de ligação química: covalente, iônica e metálica.", 2),
+("Termodinâmica Química", "Estudo da termodinâmica aplicada aos processos químicos, incluindo entalpia e entropia.", 2);
+
+-- Aulas de Matemática (ID 3)
+INSERT INTO aulas (nome, conteudo, materia_id) VALUES
+("Álgebra - Fundamentos", "Aula introdutória sobre álgebra, explorando expressões algébricas, equações e as operações fundamentais.", 3),
+("Cálculo Diferencial - Introdução", "Nesta aula, introduziremos os conceitos básicos do cálculo diferencial, incluindo limites e derivadas.", 3),
+("Geometria Analítica", "Exploração de coordenadas no plano cartesiano, equações de retas e curvas.", 3),
+("Equações Diferenciais", "Introdução ao estudo de equações diferenciais ordinárias e suas soluções.", 3);
+
+
+-- Tabela de matrículas (relaciona usuário com matéria)
+CREATE TABLE matriculas (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   usuario_id INT NOT NULL,
+   materia_id INT NOT NULL,
+   dataMatricula DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+   FOREIGN KEY (materia_id) REFERENCES materias(id)
+);
+
+-- Tabela de questões
+CREATE TABLE questoes (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   materia_id INT NOT NULL,
+   enunciado VARCHAR(255) NOT NULL,
+   FOREIGN KEY (materia_id) REFERENCES materias(id)
+);
+
+-- Tabela de possíveis respostas para cada questão
+CREATE TABLE respperg (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   questao_id INT NOT NULL,
+   resposta VARCHAR(255) NOT NULL,
+   verdadeira BIT NOT NULL,
+   FOREIGN KEY (questao_id) REFERENCES questoes(id)
+);
+
+-- Tabela para armazenar respostas dos usuários
+CREATE TABLE respostas (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   usuario_id INT NOT NULL,
+   questao_id INT NOT NULL,
+   respperg_id INT NOT NULL, -- qual alternativa o usuário escolheu
+   dataResposta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+   FOREIGN KEY (questao_id) REFERENCES questoes(id),
+   FOREIGN KEY (respperg_id) REFERENCES respperg(id)
+);

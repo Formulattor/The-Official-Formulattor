@@ -1,0 +1,91 @@
+* { 
+    padding: 0;
+    border: 0;
+    margin: 0;
+    user-select: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    background-color: #303030;
+    overflow: hidden;
+}
+
+header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5%;
+    height: 100vh;
+    background-color: aliceblue;
+}
+
+/* header.open {
+
+} */
+
+.mainContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 95%;
+    height: 100%;
+}
+
+.contentFooterDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 85%;
+    height: 95%;
+}
+
+.subHeader {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userMainInfos {
+    position: absolute;
+    left: 0;
+}
+
+.miniOptions {
+    position: absolute;
+    right: 0;
+}
+
+.infos {
+    width: 200px;
+    height: 100%;
+}
+
+.secHolder {    
+    height: 400px;
+    width: 100%;
+    gap: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+footer {
+    width: 85%;
+    height: 5%;
+}

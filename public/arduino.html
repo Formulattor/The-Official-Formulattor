@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn with Tubito - Formulattor</title>
+    <script type="module" src="./assets/scripts/serial.js"></script>
+    <script defer type="module" src="./threejsfiles/strangeMachine.js"></script>
+    <script type="importmap"> 
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.153.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.153.0/examples/jsm/"
+            }
+        }    
+    </script> 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/arduinocss.css">
+</head>
+<body>
+    <div class="vemAqui" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
+        
+    </div>
+
+    <main class="mainScreen">
+        <button class="closereturnSc material-symbols-outlined">
+            close
+        </button>
+
+        <div class="terminalHolder">
+            <div id="terminalTxt">
+                > _ <br><br>
+            </div>
+        </div>
+
+        <div class="btnsControl">
+            <div class="ledBtn">
+                <button id="vBtn" class="btn">
+                    Vermelho
+                </button>
+
+                <button id="vrBtn" class="btn">
+                    Verde
+                </button>
+
+                <button id="azBtn" class="btn">
+                    Azul
+                </button>
+            </div>
+
+            <button class="connBtn btn">
+                Conectar
+            </button>
+
+            <div class="loadingCell">
+                <button id="hxBtnCls" class="btn">
+                    Apagar
+                </button>
+                
+                <button id="hxBtn" class="btn">
+                    Hx711
+                </button>
+            </div>
+        </div>
+    </main> 
+</body>
+</html>

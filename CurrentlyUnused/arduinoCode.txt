@@ -1,0 +1,109 @@
+//PARTE DO HX711:---------------------------------------------------------------------------------------
+
+#include <HX711.h>;
+#include <Adafruit_GFX.h>
+#include <Adafruit_ILI9341.h>
+
+int DT = 2;
+
+int SCK = 3;
+
+int fatorCalb = ???;
+
+HX711 balanca;
+
+void setup () {
+    Serial.begin(9600);
+    balanca.begin(DT, SCK);
+    balanca.set_scale(fatorCalb);
+}
+
+void loop () {
+    if (scale.is_ready()) {
+        long leitura = balanca.get_units(10);
+        Serial.print("Peso: ");
+        Serial.println(leitura + "g");
+    } 
+    else {
+        Serial.println("Cade o hx711.");
+    }
+    delay(1000);
+}
+
+//PARTE TESTES LED:-----------------------------------------------------------------------------------------
+
+int pot;
+
+void setup() {
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  pot = analogRead(A0);
+
+  if (Serial.available()) {
+
+    String comando = Serial.readStringUntil('\n');
+
+    if (comando == "rgb_red_on") {
+      digitalWrite(11, 1);
+    } else if (comando == "rgb_green_on") {
+      digitalWrite(12, 1);
+    } else if (comando == "rgb_blue_on") {
+      digitalWrite(13, 1);
+    } else if (comando == "rgb_red_off") {
+      digitalWrite(11, 0);
+    } else if (comando == "rgb_green_off") {
+      digitalWrite(12, 0);
+    } else if (comando == "rgb_blue_off") {
+      digitalWrite(13, 0);
+    } 
+    
+    if (comando == "hx711") {
+      Serial.println(pot);
+    }
+  }
+}
+
+//PARTE TESTES ILI9341:-------------------------------------------------------------------------------------
+https://wokwi.com/projects/438494190586786817
+
+#include <Adafruit_GFX.h>
+#include <Adafruit_ILI9341.h>
+
+int TFT_CS = 10
+int TFT_DC = 8
+int TFT_RST = 9
+
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
+
+void setup() {
+  tft.begin();
+  tft.setRotation(1);
+  tft.fillScreen(ILI9341_WHITE);
+
+  int cx = 160;
+  int cy = 110;
+  int radius = 80;
+
+  tft.fillCircle(cx, cy, radius, ILI9341_YELLOW);
+
+  tft.fillCircle(cx - 30, cy - 30, 18, ILI9341_BLACK);
+  tft.fillCircle(cx + 30, cy - 30, 18, ILI9341_BLACK);
+
+  tft.fillCircle(cx - 22, cy - 38, 6, ILI9341_WHITE);
+  tft.fillCircle(cx + 38, cy - 38, 6, ILI9341_WHITE);
+
+  for (int i = 0; i < 70; i++) {
+    int x = cx - 35 + i;
+    int y = cy + 40 + (int)(-10 * sin((i / 70.0) * -3.14));
+    tft.drawPixel(x, y, ILI9341_BLACK);
+  }
+}
+
+void loop() {
+  // Nada aqui
+}

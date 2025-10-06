@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    user-select: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(90deg, #e2e2e2, #cfa8f3);
+    overflow: hidden;
+}
+
+main {
+    gap: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.secOp {
+    width: 400px;
+    height: 600px;
+    background-color: #8c60b6;
+    clip-path: polygon(50% 0%, 100% 0, 100% 35%, 100% 70%, 100% 100%, 50% 100%, 0 100%, 0% 70%, 0 35%, 0 0);
+}
