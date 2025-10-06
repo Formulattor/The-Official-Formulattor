@@ -36,8 +36,8 @@ const pool = new Pool(
               password: process.env.DB_PASS,
               ssl: { rejectUnauthorized: false },
               max: 20,
-              idleTimeoutMillis: 30000,
-              connectionTimeoutMillis: 10000,
+              idleTimeoutMillis: 70000,
+              connectionTimeoutMillis: 50000,
           }
 );
 
