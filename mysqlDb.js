@@ -1,12 +1,17 @@
-import mysql from 'mysql2';
+import pg from 'pg';
 import path from 'path';
 import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
-
+const { Pool } = pg;
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configuração do transporter de e-mail
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -15,58 +20,80 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const db = mysql.createConnection({
+// Configuração do pool PostgreSQL (Supabase)
+const pool = new Pool({
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE
+    ssl: {
+        rejectUnauthorized: false // Necessário para Supabase
+    },
+    max: 20, // Máximo de conexões no pool
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
 });
 
-const dbPromise = db.promise();
-
-db.connect((err) => {
+// Testar conexão inicial
+pool.connect((err, client, release) => {
     if (err) {
-        console.error('Erro ao conectar ao banco:', err);
+        console.error('❌ Erro ao conectar ao PostgreSQL:', err.message);
+        console.error('Detalhes:', {
+            host: process.env.DB_HOST,
+            database: process.env.DB_DATABASE,
+            port: process.env.DB_PORT || 5432
+        });
     } else {
-        console.log('Conectado ao MySQL!');
+        console.log('✓ Conectado ao PostgreSQL (Supabase) com sucesso!');
+        release();
     }
 });
+
+// Função auxiliar para enviar e-mail
+async function sendEmail(mailOptions) {
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log('E-mail enviado com sucesso');
+    } catch (err) {
+        console.error('Erro ao enviar e-mail:', err.message);
+    }
+}
 
 export async function registerNewUser(req, res) {
     try { 
         const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).send('Todos os campos são obrigatórios');
+        }
+
+        // Verificar se o e-mail já existe
+        const existingResult = await pool.query('SELECT id FROM usuario WHERE email = $1', [email]);
+        if (existingResult.rows.length > 0) {
+            return res.status(400).send('E-mail já cadastrado');
+        }
     
         const hashedPassword = await bcrypt.hash(password, 10);
     
-        const sql = `INSERT INTO usuario (nome, email, senha, pontuacao) VALUES (?, ?, ?, 0)`;
+        const sql = `INSERT INTO usuario (nome, email, senha, pontuacao) VALUES ($1, $2, $3, 0)`;
     
-        db.query(sql, [name, email, hashedPassword], (err, result) => {
-            if (err) {
-                console.error('Erro ao inserir:', err);
-                return res.send('Erro ao cadastrar usuário!');
-            }
-            res.sendFile(path.join(__dirname, 'public', 'login.html'), (err) => {
-                if (err) {
-                    console.error('Deu problema: ', err);   
-                    res.status(500);
-                    return;
-                }
-            });
-        });
+        await pool.query(sql, [name, email, hashedPassword]);
 
+        // Enviar e-mail de boas-vindas
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
-            subject: 'Login realizado com sucesso',
-            text: `Olá, ${name}! Seu login foi realizado às ${new Date().toLocaleString('pt-BR')}. Se não foi você, entre em contato.`
+            subject: 'Cadastro realizado com sucesso',
+            text: `Olá, ${name}! Seu cadastro foi realizado com sucesso em ${new Date().toLocaleString('pt-BR')}.`
         };
+        sendEmail(mailOptions);
 
-        // transporter.sendMail(mailOptions).then(() => console.log('E-mail enviado com sucesso')).catch(err => console.error('Erro ao enviar e-mail:', err));
+        res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
+
     } catch (error) {
-        console.error('Deu ruim ai: ', error);
+        console.error('Erro ao cadastrar usuário:', error);
+        res.status(500).send('Erro ao cadastrar usuário');
     }
 }
 
@@ -74,178 +101,196 @@ export async function loginUser(req, res) {
     const { email, password } = req.body;
 
     try {
-        const [rows] = await dbPromise.query('SELECT * FROM usuario WHERE email = ?', [email]);
-
-        if (rows.length === 0) {
-            return res.status(401).send('Email ou senha incorretos');
+        if (!email || !password) {
+            return res.status(400).send('E-mail e senha são obrigatórios');
         }
 
-        const user = rows[0];
+        const result = await pool.query('SELECT * FROM usuario WHERE email = $1', [email]);
+
+        if (result.rows.length === 0) {
+            return res.status(401).send('E-mail ou senha incorretos');
+        }
+
+        const user = result.rows[0];
 
         const match = await bcrypt.compare(password, user.senha);
-        if (!match) return res.status(401).send('Email ou senha incorretos');
+        if (!match) {
+            return res.status(401).send('E-mail ou senha incorretos');
+        }
 
-        req.session.email = email; //------------------------------------------------------------------------------Fica de olho
-        res.render('temporary', { usuario: user }); //colocar somente register para acessar esssa tela depois...
+        req.session.email = email;
+        req.session.userId = user.id;
+
+        // Enviar e-mail de notificação de login
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Login realizado',
+            text: `Olá, ${user.nome}! Login realizado em ${new Date().toLocaleString('pt-BR')}.`
+        };
+        sendEmail(mailOptions);
+
+        res.render('temporary', { usuario: user });
     } catch (err) {
-        console.error(err);
+        console.error('Erro ao fazer login:', err);
         res.status(500).send('Erro no servidor');
     }
 }
 
-const shownQuestions = new Set();
+const shownQuestions = new Map();
 
-// export async function randomQuest(res) {
-//     try {
-//         let numMat = 1;
-
-//         const [questions] = await dbPromise.query(
-//             'SELECT id, enunciado FROM questoes WHERE materia_id = ?', [numMat]);
-
-//         const remaining = questions.filter(q => !shownQuestions.has(q.id));
-
-//         if (remaining.length === 0) {
-//             shownQuestions.clear();
-//             return res.send({ message: 'Acabaram as questões, reiniciando!' });
-//         }
-
-//         const randomIndex = Math.floor(Math.random() * remaining.length);
-//         const question = remaining[randomIndex];
-
-//         shownQuestions.add(question.id);
-
-//         res.send(question.enunciado);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Erro no servidor');
-//     }
-// }
-
-export async function getTopTen(res) {
-    db.query('SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10', (err, results) => {
-        if (err) {
-            console.error(err);
-            return res.send('Erro ao buscar usuários');
-        }
-        res.render('usuarios', { usuarios: results });
-    });
+export async function getTopTen(req, res) {
+    try {
+        const result = await pool.query(
+            'SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10'
+        );
+        res.render('usuarios', { usuarios: result.rows });
+    } catch (err) {
+        console.error('Erro ao buscar top 10:', err);
+        res.status(500).send('Erro ao buscar usuários');
+    }
 }
 
-export async function joinCourse(req, res){
-    // const { email, materia_id } = req.body; -- primeira versão
-    const { materia_id } = req.body; // -- segunda versão
-    try{
-        // const [user] = await dbPromise.query(`SELECT id FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER(?))`, [email]);
-        const [user] = await dbPromise.query(`SELECT id FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER(?))`, [req.session.email]);
-        if (user.length === 0) {
-            return res.status(404).send("Usuário não encontrado.");
+export async function joinCourse(req, res) {
+    const { materia_id } = req.body;
+    
+    try {
+        if (!req.session.email) {
+            return res.status(401).send('Usuário não autenticado');
+        }
+
+        const userResult = await pool.query(
+            `SELECT id FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER($1))`, 
+            [req.session.email]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).send('Usuário não encontrado');
+        }
+
+        // Verificar se já está matriculado
+        const existingResult = await pool.query(
+            'SELECT id FROM matriculas WHERE usuario_id = $1 AND materia_id = $2',
+            [userResult.rows[0].id, materia_id]
+        );
+
+        if (existingResult.rows.length > 0) {
+            return res.status(400).send('Você já está matriculado nesta matéria');
         }
 
         const dataMatricula = new Date();
+        await pool.query(
+            'INSERT INTO matriculas (usuario_id, materia_id, "dataMatricula") VALUES ($1, $2, $3)', 
+            [userResult.rows[0].id, materia_id, dataMatricula]
+        );
 
-        await dbPromise.query('INSERT INTO matriculas (usuario_id, materia_id, dataMatricula) VALUES (?, ?, ?)', [user[0].id, materia_id, dataMatricula]);
-        return res.send("Matrícula realizada com sucesso!");
+        res.status(201).json({ message: 'Matrícula realizada com sucesso!' });
 
+    } catch (e) {
+        console.error('Erro ao matricular:', e);
+        res.status(500).send('Erro ao matricular usuário');
     }
-    catch(e){
-        console.error(e);
-        return res.send("Erro ao matricular usuário");
-    }
-
 }
 
 export async function renderQuestion(req, res, renderSomething = false) {
     if (renderSomething && req.body?.materia_id) {
         const { materia_id } = req.body;
+        const userId = req.session.userId || 'guest';
 
         try {
-            // Pegando todas as questões da matéria passada
-            const [qResults] = await dbPromise.query('SELECT id, enunciado FROM questoes WHERE materia_id = ?', [materia_id]);
-            // Caso não encontre nenhuma questão
-            if (!qResults || qResults.length === 0) {
-                return res.send({ message: 'Não há questões para essa matéria.' });
+            const qResult = await pool.query(
+                'SELECT id, enunciado FROM questoes WHERE materia_id = $1', 
+                [materia_id]
+            );
+
+            if (!qResult.rows || qResult.rows.length === 0) {
+                return res.status(404).json({ message: 'Não há questões para essa matéria' });
             }
 
-            // Garante que somente reste as que não foram exibidas
-            const remaining = qResults.filter(q => !shownQuestions.has(q.id));
-            // Reinicia caso já tenha exibido todas as questões
+            if (!shownQuestions.has(userId)) {
+                shownQuestions.set(userId, new Set());
+            }
+            const userShown = shownQuestions.get(userId);
+
+            const remaining = qResult.rows.filter(q => !userShown.has(q.id));
+
             if (remaining.length === 0) {
-                shownQuestions.clear();
-                return res.send({ message: 'Acabaram as questões, reiniciando!' });
+                userShown.clear();
+                return res.json({ message: 'Todas as questões foram respondidas. Reiniciando!' });
             }
 
-            // Sorteia uma questão
             const randomIndex = Math.floor(Math.random() * remaining.length);
             const question = remaining[randomIndex];
+            userShown.add(question.id);
 
-            shownQuestions.add(question.id);
-
-            // Pega as alternativas da questão
-            const [rResults] = await dbPromise.query('SELECT id, resposta, questao_id, verdadeira FROM respperg WHERE questao_id = ?', [question.id]);
+            const rResult = await pool.query(
+                'SELECT id, resposta, questao_id, verdadeira FROM respperg WHERE questao_id = $1', 
+                [question.id]
+            );
 
             return res.render('quiz', {
-                questoes: [question], // Somente a questão que foi sorteada
-                respperg: rResults
+                questoes: [question],
+                respperg: rResult.rows
             });
 
         } catch (err) {
-            console.error(err);
+            console.error('Erro ao renderizar questão:', err);
             return res.status(500).send('Erro no servidor');
         }
     }
 
-    // Se não veio materia_id ou renderSomething
     res.render('quiz', {
         questoes: [],
         respperg: []
     });
 }
 
-export async function listCourses(req, res){
-    try{
-        const [list] = await dbPromise.query("SELECT usuario_id, materia_id, dataMatricula FROM matriculas");
-        console.log("Matrículas consultadas com sucesso!");
-        return res.status(200).send(list);
+export async function listCourses(req, res) {
+    try {
+        const result = await pool.query(
+            'SELECT usuario_id, materia_id, "dataMatricula" FROM matriculas'
+        );
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Erro ao listar matrículas:', error);
+        res.status(500).send('Erro ao buscar matrículas');
     }
-    catch (error){
-        console.log("Algo ocorreu ao buscar as matrículas: ", error);
-        return res.send(`Algo ocorreu ao buscar as matrículas`);
-    }
-    
 }
 
-// export async function userPredef(req, res) {
-//     try {
-//         const { materia_id } = req.body;
-//     } catch (error) {
-//         console.log("Algo ocorreu ao entrar na rota da tela inicial: ", error);
-//         return res.send(`Algo ocorreu ao entrar na rota da tela inicial`);
-//     }
-// }
-
-export async function getClassById(req, res){
-    try{
+export async function getClassById(req, res) {
+    try {
         const id = req.params.id;
-        const [list] = await dbPromise.query("SELECT id, nome, conteudo FROM aulas WHERE id = ?", [id]);
-        console.log("Aula acessada com sucesso!");
-        return res.status(200).send(list);
+        const result = await pool.query(
+            'SELECT id, nome, conteudo FROM aulas WHERE id = $1', 
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).send('Aula não encontrada');
+        }
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error('Erro ao acessar aula:', error);
+        res.status(500).send('Erro ao acessar aula');
     }
-    catch (error){
-        console.log("Algo ocorreu ao tentar acessar a aula: ", error);
-        return res.send(`Algo ocorreu ao acessar a aula`);
-    }
-    
 }
 
-export async function getClass(req, res){
-    try{
-        const [list] = await dbPromise.query("SELECT id, nome, conteudo FROM aulas");
-        console.log("Aulas acessadas com sucesso!");
-        return res.status(200).send(list);
+export async function getClass(req, res) {
+    try {
+        const result = await pool.query('SELECT id, nome, conteudo FROM aulas');
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Erro ao acessar aulas:', error);
+        res.status(500).send('Erro ao acessar aulas');
     }
-    catch (error){
-        console.log("Algo ocorreu ao tentar acessar as aulas: ", error);
-        return res.send(`Algo ocorreu ao acessar as aulas`);
-    }
-    
 }
+
+// Limpar conexões ao encerrar
+process.on('SIGTERM', () => {
+    console.log('SIGTERM recebido. Fechando conexões...');
+    pool.end(() => {
+        console.log('Pool de conexões fechado');
+        process.exit(0);
+    });
+});
