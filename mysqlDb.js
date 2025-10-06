@@ -45,10 +45,14 @@ const pool = new Pool(
 pool.connect((err, client, release) => {
     if (err) {
         console.error('❌ Erro ao conectar ao PostgreSQL:', err.message);
-        console.error('Detalhes:', {
-            host: process.env.DB_HOST,
-            database: process.env.DB_DATABASE,
-            port: process.env.DB_PORT || 5432
+        console.error('Código do erro:', err.code);
+        console.error('Detalhes da conexão:', {
+            host: process.env.DB_HOST || 'não definido',
+            database: process.env.DB_DATABASE || 'não definido',
+            port: process.env.DB_PORT || 'não definido',
+            user: process.env.DB_USER || 'não definido',
+            hasPassword: !!process.env.DB_PASS,
+            hasDatabaseURL: !!process.env.DATABASE_URL
         });
     } else {
         console.log('✓ Conectado ao PostgreSQL (Supabase) com sucesso!');
