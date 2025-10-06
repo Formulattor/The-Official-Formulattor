@@ -21,19 +21,25 @@ const transporter = nodemailer.createTransport({
 });
 
 // Configuração do pool PostgreSQL (Supabase)
-const pool = new Pool({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 5432,
-    database: process.env.DB_DATABASE,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    ssl: {
-        rejectUnauthorized: false // Necessário para Supabase
-    },
-    max: 20, // Máximo de conexões no pool
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 10000,
-});
+// Suporta tanto variáveis individuais quanto DATABASE_URL completa
+const pool = new Pool(
+    process.env.DATABASE_URL
+        ? {
+              connectionString: process.env.DATABASE_URL,
+              ssl: { rejectUnauthorized: false }
+          }
+        : {
+              host: process.env.DB_HOST,
+              port: parseInt(process.env.DB_PORT) || 5432,
+              database: process.env.DB_DATABASE,
+              user: process.env.DB_USER,
+              password: process.env.DB_PASS,
+              ssl: { rejectUnauthorized: false },
+              max: 20,
+              idleTimeoutMillis: 30000,
+              connectionTimeoutMillis: 10000,
+          }
+);
 
 // Testar conexão inicial
 pool.connect((err, client, release) => {
