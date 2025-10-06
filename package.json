@@ -1,34 +1,36 @@
 {
-  "name": "the-official-formulattor",
+  "name": "projeto-educacional",
   "version": "1.0.0",
-  "description": "This is an official repository for a school project called Formulattor. Our goal is to transform learning methods at Etec Bento Quirino.",
+  "description": "Aplicação educacional com Node.js, Express e MySQL",
+  "type": "module",
   "main": "server.js",
   "scripts": {
-    "start:dev": "node ./"
+    "start:dev": "node server.js",
+    "dev": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gabriel-Comparini/The-Official-Formulattor.git"
-  },
-  "keywords": [],
-  "author_1": "Gabriel Comparini",
-  "author_2": "Fabrício Krull",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "education",
+    "quiz"
+  ],
+  "author": "Seu Nome",
   "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/Gabriel-Comparini/The-Official-Formulattor/issues"
-  },
-  "homepage": "https://github.com/Gabriel-Comparini/The-Official-Formulattor#readme",
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "body-parser": "^2.2.0",
-    "dotenv": "^17.2.1",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.2",
-    "gsap": "^3.13.0",
-    "mysql2": "^3.14.3",
-    "nodemailer": "^7.0.5",
-    "three": "^0.179.1"
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "pg": "^8.11.3",
+    "nodemailer": "^6.9.13"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
