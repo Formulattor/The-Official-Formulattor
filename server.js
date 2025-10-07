@@ -79,15 +79,34 @@ function isAuthenticated(req, res, next) {
 
 // Rotas públicas
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    const homePath = path.join(__dirname, 'public', 'home.html');
+    console.log('📂 Tentando servir:', homePath);
+    res.sendFile(homePath, (err) => {
+        if (err) {
+            console.error('❌ Erro ao servir home.html:', err.message);
+            res.status(404).send('Página não encontrada. Verifique se a pasta public/ existe.');
+        }
+    });
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    const loginPath = path.join(__dirname, 'public', 'login.html');
+    res.sendFile(loginPath, (err) => {
+        if (err) {
+            console.error('❌ Erro ao servir login.html:', err.message);
+            res.status(404).send('Página não encontrada');
+        }
+    });
 });
 
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+    const registerPath = path.join(__dirname, 'public', 'register.html');
+    res.sendFile(registerPath, (err) => {
+        if (err) {
+            console.error('❌ Erro ao servir register.html:', err.message);
+            res.status(404).send('Página não encontrada');
+        }
+    });
 });
 
 // Health check endpoint (importante para Render)
@@ -132,6 +151,9 @@ app.use((err, req, res, next) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor rodando na porta ${PORT}`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`📂 Diretório base: ${__dirname}`);
+    console.log(`📂 Pasta public: ${path.join(__dirname, 'public')}`);
+    console.log(`📂 Pasta views: ${path.join(__dirname, 'views')}`);
 });
 
 // Tratamento de erros não capturados
