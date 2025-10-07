@@ -44,20 +44,15 @@ app.use(session({
     name: 'connect.sid'
 }));
 
-// 3. Debug (remover depois que funcionar) - Apenas para rotas, não para arquivos estáticos
-app.use((req, res, next) => {
-    // Só loga se NÃO for arquivo estático
-    if (!req.path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-        console.log('🔍 Sessão check:', {
-            path: req.path,
-            method: req.method,
-            existe: !!req.session,
-            sessionID: req.sessionID || 'sem ID',
-            email: req.session?.email || 'sem email'
-        });
-    }
-    next();
-});
+// 3. Debug - Apenas em desenvolvimento
+if (process.env.NODE_ENV !== 'production') {
+    app.use((req, res, next) => {
+        if (!req.path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+            console.log('🔍 Rota:', req.method, req.path);
+        }
+        next();
+    });
+}
 
 // 4. Arquivos estáticos por último
 app.use(express.static(path.join(__dirname, 'public')));
@@ -114,6 +109,25 @@ app.get('/register', (req, res) => {
     });
 });
 
+// Rota para aulas
+app.get('/aulas', (req, res) => {
+    const aulasPath = path.join(__dirname, 'public', 'aulas.html');
+    res.sendFile(aulasPath, (err) => {
+        if (err) {
+            console.error('❌ Erro ao servir aulas.html:', err.message);
+            res.status(404).send('Página não encontrada');
+        }
+    });
+});
+
+// Rota POST /home (redirecionar ou renderizar)
+app.post('/home', (req, res) => {
+    // Se você quer redirecionar após alguma ação
+    res.redirect('/');
+    // OU se quer renderizar algo específico:
+    // res.render('home', { dados: req.body });
+});
+
 // Health check endpoint (importante para Render)
 app.get('/health', (req, res) => {
     res.status(200).json({ 
@@ -147,7 +161,8 @@ app.post('/logout', (req, res) => {
 
 // Tratamento de erros 404
 app.use((req, res) => {
-    res.status(404).send('Página não encontrada');
+    console.log('⚠️  404 - Rota não encontrada:', req.method, req.path);
+    res.status(404).send(`Página não encontrada: ${req.path}`);
 });
 
 // Tratamento de erros gerais
