@@ -12,7 +12,7 @@ import {
     listCourses,
     getClassById,
     getClass
-} from './mysqldb.js';
+} from './mysqlDb.js';
 
 dotenv.config();
 
