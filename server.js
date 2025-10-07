@@ -44,13 +44,18 @@ app.use(session({
     name: 'connect.sid'
 }));
 
-// 3. Debug (remover depois que funcionar)
+// 3. Debug (remover depois que funcionar) - Apenas para rotas, não para arquivos estáticos
 app.use((req, res, next) => {
-    console.log('🔍 Sessão check:', {
-        existe: !!req.session,
-        sessionID: req.sessionID || 'sem ID',
-        email: req.session?.email || 'sem email'
-    });
+    // Só loga se NÃO for arquivo estático
+    if (!req.path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+        console.log('🔍 Sessão check:', {
+            path: req.path,
+            method: req.method,
+            existe: !!req.session,
+            sessionID: req.sessionID || 'sem ID',
+            email: req.session?.email || 'sem email'
+        });
+    }
     next();
 });
 
@@ -111,7 +116,11 @@ app.get('/register', (req, res) => {
 
 // Health check endpoint (importante para Render)
 app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+    res.status(200).json({ 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        database: process.env.DATABASE_URL ? 'configurado' : 'não configurado'
+    });
 });
 
 // Rotas de autenticação
@@ -149,11 +158,14 @@ app.use((err, req, res, next) => {
 
 // Inicialização do servidor
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`📂 Diretório base: ${__dirname}`);
-    console.log(`📂 Pasta public: ${path.join(__dirname, 'public')}`);
-    console.log(`📂 Pasta views: ${path.join(__dirname, 'views')}`);
+    console.log('==========================================');
+    console.log(`✅ Servidor rodando na porta ${PORT}`);
+    console.log(`📍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌐 URL: https://the-official-formulattor.onrender.com`);
+    console.log(`📂 Diretório: ${__dirname}`);
+    console.log(`📂 Public: ${path.join(__dirname, 'public')}`);
+    console.log(`📂 Views: ${path.join(__dirname, 'views')}`);
+    console.log('==========================================');
 });
 
 // Tratamento de erros não capturados
