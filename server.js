@@ -1,92 +1,145 @@
 import express from 'express';
+import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { joinCourse, listCourses, registerNewUser, renderQuestion, getTopTen, loginUser, getClass, getClassById } from './mysqlDb.js';
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import session from 'express-session';
-
-
-const port = 3000;
-const app = express();
+import {
+    registerNewUser,
+    loginUser,
+    getTopTen,
+    joinCourse,
+    renderQuestion,
+    listCourses,
+    getClassById,
+    getClass
+} from './mysqldb.js';
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// ========================================
+// ORDEM CORRETA DOS MIDDLEWARES
+// ========================================
+
+// 1. Parse do body ANTES de tudo
 app.use(express.json());
-app.set('views', path.join(__dirname, 'public', 'views'));
+app.use(express.urlencoded({ extended: true }));
+
+// 2. Sessão logo DEPOIS do parse
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'fallback-secret-change-me-in-production',
+    resave: false,
+    saveUninitialized: true, // Mudado para true
+    cookie: {
+        secure: false, // Sempre false até resolver (mesmo em produção)
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 24 horas
+        sameSite: 'lax'
+    },
+    name: 'connect.sid'
+}));
+
+// 3. Debug (remover depois que funcionar)
+app.use((req, res, next) => {
+    console.log('🔍 Sessão check:', {
+        existe: !!req.session,
+        sessionID: req.sessionID || 'sem ID',
+        email: req.session?.email || 'sem email'
+    });
+    next();
+});
+
+// 4. Arquivos estáticos por último
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Configuração do view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: true
-// }));
+// Middleware para adicionar cabeçalhos de segurança
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+});
 
+// Middleware de autenticação
+function isAuthenticated(req, res, next) {
+    if (req.session.email) {
+        return next();
+    }
+    res.status(401).send('Você precisa estar logado para acessar esta página');
+}
+
+// Rotas públicas
 app.get('/', (req, res) => {
-    res.status(200);
-    res.sendFile(path.join(__dirname, 'public', 'home.html'), (err) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
+// Health check endpoint (importante para Render)
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Rotas de autenticação
+app.post('/register', registerNewUser);
+app.post('/login', loginUser);
+
+// Rotas protegidas
+app.get('/top-ten', getTopTen);
+app.post('/join-course', isAuthenticated, joinCourse);
+app.post('/render-question', isAuthenticated, (req, res) => renderQuestion(req, res, true));
+app.get('/list-courses', isAuthenticated, listCourses);
+app.get('/class/:id', isAuthenticated, getClassById);
+app.get('/classes', isAuthenticated, getClass);
+
+// Rota de logout
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
         if (err) {
-            console.error('Deu problema: ', err);   
-            res.status(500);
-            return;
+            return res.status(500).send('Erro ao fazer logout');
         }
+        res.status(200).send('Logout realizado com sucesso');
     });
 });
 
-app.get('/usuarios', (req, res) => {
-    getTopTen(res);
+// Tratamento de erros 404
+app.use((req, res) => {
+    res.status(404).send('Página não encontrada');
 });
 
-// app.get('/enun', (req, res) => {
-//     randomQuest(res);
-// });
-
-app.post('/cadastrar', (req, res) => {
-    registerNewUser(req, res);
+// Tratamento de erros gerais
+app.use((err, req, res, next) => {
+    console.error('Erro não tratado:', err);
+    res.status(500).send('Erro interno do servidor');
 });
 
-app.post('/home',(req, res) => {
-    loginUser(req, res);
+// Inicialização do servidor
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
 
-app.post('/matricular', (req, res) => {
-    joinCourse(req, res);
+// Tratamento de erros não capturados
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-app.get('/matriculas', (req, res) => {
-    listCourses(req, res);
-});
-
-app.get("/aulas/:id", (req, res) => {
-    getClassById(req, res);
-});
-
-app.get("/aulas", (req, res) => {
-    getClass(req, res);
-});
-
-// app.post('/initialscreen', (req, res) => {
-//     userPredef(req, res);
-// });
-
-app.get('/quiz', (req, res) => {
-    renderQuestion(req, res);
-});
-
-app.post('/quiz', (req, res) => {
-    renderQuestion(req, res, true);
-});
-
-app.listen(port, (err) => {
-    if (err) {
-        console.log('Deu problema: ', err);
-        return;
-    }
-    console.log(`Servidor aberto em: http://localhost:${port}/`);
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    process.exit(1);
 });
