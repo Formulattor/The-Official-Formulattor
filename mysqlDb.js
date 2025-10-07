@@ -8,13 +8,6 @@ import dotenv from 'dotenv';
 const { Pool } = pg;
 dotenv.config();
 
-// DEBUG: Verificar se variáveis estão sendo lidas
-console.log('🔍 DEBUG - Variáveis de ambiente:');
-console.log('DATABASE_URL existe?', !!process.env.DATABASE_URL);
-console.log('DATABASE_URL length:', process.env.DATABASE_URL?.length || 0);
-console.log('DB_HOST:', process.env.DB_HOST || 'NÃO DEFINIDO');
-console.log('---');
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
