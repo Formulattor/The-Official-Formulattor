@@ -8,6 +8,13 @@ import dotenv from 'dotenv';
 const { Pool } = pg;
 dotenv.config();
 
+// DEBUG: Verificar se variáveis estão sendo lidas
+console.log('🔍 DEBUG - Variáveis de ambiente:');
+console.log('DATABASE_URL existe?', !!process.env.DATABASE_URL);
+console.log('DATABASE_URL length:', process.env.DATABASE_URL?.length || 0);
+console.log('DB_HOST:', process.env.DB_HOST || 'NÃO DEFINIDO');
+console.log('---');
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,21 +33,18 @@ const pool = new Pool(
     process.env.DATABASE_URL
         ? {
               connectionString: process.env.DATABASE_URL,
-              ssl: { rejectUnauthorized: false },
-              max: 20,
-              idleTimeoutMillis: 30000,
-              connectionTimeoutMillis: 5000,
+              ssl: { rejectUnauthorized: false }
           }
         : {
-              host: process.env.DB_HOST,
-              port: parseInt(process.env.DB_PORT) || 6543, // usar porta do pooler
-              database: process.env.DB_DATABASE,
-              user: process.env.DB_USER,
-              password: process.env.DB_PASS,
+              host: process.env.DB_HOST || 'aws-1-us-east-2.pooler.supabase.com', // TEMPORÁRIO: seu host aqui
+              port: parseInt(process.env.DB_PORT) || 6543,
+              database: process.env.DB_DATABASE || 'postgres',
+              user: process.env.DB_USER || 'postgres.seuprojeto', // TEMPORÁRIO: seu user aqui
+              password: process.env.DB_PASS || 'suasenha', // TEMPORÁRIO: sua senha aqui
               ssl: { rejectUnauthorized: false },
               max: 20,
               idleTimeoutMillis: 30000,
-              connectionTimeoutMillis: 5000,
+              connectionTimeoutMillis: 10000,
           }
 );
 
@@ -112,6 +116,14 @@ export async function registerNewUser(req, res) {
 
 export async function loginUser(req, res) {
     const { email, password } = req.body;
+
+    // DEBUG: Verificar req.session
+    console.log('🔍 DEBUG loginUser:', {
+        temSession: !!req.session,
+        temSessionID: !!req.sessionID,
+        tipoReq: typeof req.session,
+        email: email
+    });
 
     try {
         if (!email || !password) {
