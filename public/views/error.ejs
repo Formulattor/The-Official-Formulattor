@@ -7,14 +7,14 @@
 </head>
 <body>
     <!-- Exibindo erro único -->
-    <img id="errors" data-code="<%= erro.code %>" alt="Erro">
+    <img id="errors" data-code="<%= erro.code %>">
     <h2>Erro: <%= erro.erro %></h2>
 
     <script>
 
         const code = document.getElementById('errors').dataset.code;
 
-        document.getElementById("errors").url = `../assets/images/${code}.jpeg`;
+        document.getElementById("errors").src = `../assets/images/${code}.jpeg`;
 
     </script>
 </body>
