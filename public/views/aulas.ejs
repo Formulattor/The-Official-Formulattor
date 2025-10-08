@@ -17,13 +17,14 @@
 </body>
     <script>
     
-        function getAula(element){
-            getClassById({
-                params:{
-                    id: element.dataset.id
-                }
-            })
-        }
+    function getAula(element) {
+        const aulaId = element.dataset.id;
+
+        const url = `/aulas/${aulaId}`;
+
+        // Redireciona para a nova URL
+        window.location.href = url;
+    }
 
     </script>
 
