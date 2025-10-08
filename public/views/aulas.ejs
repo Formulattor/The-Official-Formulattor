@@ -6,9 +6,9 @@
     <title>Aulas</title>
 </head>
 <body>
-    <% aulas.forEach(function(aula) { %>
+    <% aulas.forEach(aula => { %>
             <div>
-            <h2>Aula <%= aula.id %></h2>
+            <h2>Aula <%= aula.nome %></h2>
             <p><%= aula.conteudo %></p>
             </div>
         <% }); %>
