@@ -114,6 +114,11 @@ app.get('/aulas', (req, res) => {
     getClass(req, res);
 });
 
+app.get('/aulas/:id', (req, res) => {
+    getClassById(req, res);
+}
+);
+
 // Rota POST /home (redirecionar ou renderizar)
 app.post('/home', (req, res) => {
     // Se você quer redirecionar após alguma ação
@@ -140,7 +145,7 @@ app.get('/top-ten', getTopTen);
 app.post('/join-course', isAuthenticated, joinCourse);
 app.post('/render-question', isAuthenticated, (req, res) => renderQuestion(req, res, true));
 app.get('/list-courses', isAuthenticated, listCourses);
-app.get('/class/:id', isAuthenticated, getClassById);
+
 app.get('/classes', isAuthenticated, getClass);
 
 // Rota de logout
