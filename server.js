@@ -89,79 +89,32 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/login', (req, res) => {
-    const loginPath = path.join(__dirname, 'public', 'login.html');
-    res.sendFile(loginPath, (err) => {
-        if (err) {
-            console.error('❌ Erro ao servir login.html:', err.message);
-            res.status(404).send('Página não encontrada');
-        }
-    });
+app.get('/usuarios', (req, res) => {
+    getTopTen(res);
 });
 
-app.get('/register', (req, res) => {
-    const registerPath = path.join(__dirname, 'public', 'register.html');
-    res.sendFile(registerPath, (err) => {
-        if (err) {
-            console.error('❌ Erro ao servir register.html:', err.message);
-            res.status(404).send('Página não encontrada');
-        }
-    });
+app.post('/cadastrar', (req, res) => {
+    registerNewUser(req, res);
 });
 
-// Rota para aulas
-app.get('/aulas', (req, res) => {
-    getClass(req, res);
+app.post('/home',(req, res) => {
+    loginUser(req, res);
 });
 
-app.get('/aulas/:id', (req, res) => {
+app.post('/matricular', (req, res) => {
+    joinCourse(req, res);
+});
+
+app.get('/matriculas', (req, res) => {
+    listCourses(req, res);
+});
+
+app.get("/aulas/:id", (req, res) => {
     getClassById(req, res);
-}
-);
-
-// Rota POST /home (redirecionar ou renderizar)
-app.post('/home', (req, res) => {
-    // Se você quer redirecionar após alguma ação
-    res.redirect('/');
-    // OU se quer renderizar algo específico:
-    // res.render('home', { dados: req.body });
 });
 
-// Health check endpoint (importante para Render)
-app.get('/health', (req, res) => {
-    res.status(200).json({ 
-        status: 'ok', 
-        timestamp: new Date().toISOString(),
-        database: process.env.DATABASE_URL ? 'configurado' : 'não configurado'
-    });
-});
-
-// Rotas de autenticação
-app.post('/register', registerNewUser);
-app.post('/login', loginUser);
-
-// Rotas protegidas
-app.get('/top-ten', getTopTen);
-app.post('/join-course', isAuthenticated, joinCourse);
-app.post('/render-question', isAuthenticated, (req, res) => renderQuestion(req, res, true));
-app.get('/list-courses', isAuthenticated, listCourses);
-
-app.get('/classes', isAuthenticated, getClass);
-
-// Rota de logout
-app.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).send('Erro ao fazer logout');
-        }
-        res.status(200).send('Logout realizado com sucesso');
-    });
-});
-
-// Tratamento de erros 404
-app.use((req, res) => {
-    console.log('⚠️  404 - Rota não encontrada:', req.method, req.path);
-    res.status(404).send(`Página não encontrada: ${req.path}`);
+app.get("/aulas", (req, res) => {
+    getClass(req, res);
 });
 
 // Tratamento de erros gerais
@@ -173,12 +126,12 @@ app.use((err, req, res, next) => {
 // Inicialização do servidor
 app.listen(PORT, '0.0.0.0', () => {
     console.log('==========================================');
-    console.log(`✅ Servidor rodando na porta ${PORT}`);
-    console.log(`📍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🌐 URL: https://the-official-formulattor.onrender.com`);
-    console.log(`📂 Diretório: ${__dirname}`);
-    console.log(`📂 Public: ${path.join(__dirname, 'public')}`);
-    console.log(`📂 Views: ${path.join(__dirname, 'views')}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`URL: https://the-official-formulattor.onrender.com`);
+    console.log(`Diretório: ${__dirname}`);
+    console.log(`Public: ${path.join(__dirname, 'public')}`);
+    console.log(`Views: ${path.join(__dirname, 'views')}`);
     console.log('==========================================');
 });
 

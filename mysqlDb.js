@@ -268,7 +268,10 @@ export async function listCourses(req, res) {
         const result = await pool.query(
             'SELECT usuario_id, materia_id, "dataMatricula" FROM matriculas'
         );
-        res.status(200).json(result.rows);
+        // res.status(200).json(result.rows);
+        res.render('matriculas', {
+            matriculas: result.rows
+        })
     } catch (error) {
         console.error('Erro ao listar matrículas:', error);
         res.status(500).send('Erro ao buscar matrículas');
@@ -306,12 +309,3 @@ export async function getClass(req, res) {
         res.status(500).send('Erro ao acessar aulas');
     }
 }
-
-// Limpar conexões ao encerrar
-process.on('SIGTERM', () => {
-    console.log('SIGTERM recebido. Fechando conexões...');
-    pool.end(() => {
-        console.log('Pool de conexões fechado');
-        process.exit(0);
-    });
-});
