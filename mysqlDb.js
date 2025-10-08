@@ -318,7 +318,12 @@ export async function getClassById(req, res) {
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).send('Aula não encontrada');
+            return res.render("error", {
+                erro: {
+                    code: 404,
+                    message: "Aula não encontrada"
+                }
+            })
         }
 
         res.status(200).json(result.rows[0]);
