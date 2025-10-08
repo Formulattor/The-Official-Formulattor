@@ -88,7 +88,7 @@ window.addEventListener('load', createStars);
 function selectsubject(valor) {
     fetch('/matricular', {
         method: 'POST',
-        body: JSON.stringify({ materia_id: valor })
+        body: { materia_id: valor }
     })
     .then(response => response.json())
     .then(data => {
