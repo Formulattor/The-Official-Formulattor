@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/styles/error.css">
     <title>Ops! Algo deu errado...</title>
 </head>
 <body>
     <!-- Exibindo erro único -->
-    <img id="errors" data-code="<%= erro.code %>">
-    <h2>Erro: <%= erro.erro %></h2>
+    <div id="content">
+
+        <div id="image">
+            <img id="errors" data-code="<%= erro.code %>">
+        </div>
+        <div id="text">
+            <h2>Erro: <%= erro.erro %></h2>
+        </div>
+
+    </div>
 
     <script>
 
