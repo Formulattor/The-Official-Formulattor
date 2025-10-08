@@ -103,7 +103,12 @@ export async function registerNewUser(req, res) {
 
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
-        res.status(500).send('Erro ao cadastrar usuário');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        })
     }
 }
 
@@ -151,9 +156,15 @@ export async function loginUser(req, res) {
         res.render('temporary', { usuario: user });
     } catch (err) {
         console.error('Erro ao fazer login:', err);
-        res.status(500).send('Erro no servidor');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        })
     }
 }
+
 
 const shownQuestions = new Map();
 
@@ -165,7 +176,12 @@ export async function getTopTen(req, res) {
         res.render('usuarios', { usuarios: result.rows });
     } catch (err) {
         console.error('Erro ao buscar top 10:', err);
-        res.status(500).send('Erro ao buscar usuários');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        })
     }
 }
 
@@ -206,7 +222,12 @@ export async function joinCourse(req, res) {
 
     } catch (e) {
         console.error('Erro ao matricular:', e);
-        res.status(500).send('Erro ao matricular usuário');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        })
     }
 }
 
@@ -253,10 +274,15 @@ export async function renderQuestion(req, res, renderSomething = false) {
 
         } catch (err) {
             console.error('Erro ao renderizar questão:', err);
-            return res.status(500).send('Erro no servidor');
+            return res.render('error', {
+                erro: {
+                    code: 500,
+                    message: "Erro interno no servidor"
+                }
+            })
         }
-    }
 
+    }
     res.render('quiz', {
         questoes: [],
         respperg: []
@@ -274,7 +300,12 @@ export async function listCourses(req, res) {
         })
     } catch (error) {
         console.error('Erro ao listar matrículas:', error);
-        res.status(500).send('Erro ao buscar matrículas');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        })
     }
 }
 
@@ -293,7 +324,12 @@ export async function getClassById(req, res) {
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error('Erro ao acessar aula:', error);
-        res.status(500).send('Erro ao acessar aula');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        })
     }
 }
 
@@ -306,6 +342,11 @@ export async function getClass(req, res) {
         });
     } catch (error) {
         console.error('Erro ao acessar aulas:', error);
-        res.status(500).send('Erro ao acessar aulas');
+        res.render('error', {
+            erro: {
+                code: 500,
+                erro: "Erro interno no servidor"
+            }
+        });
     }
 }

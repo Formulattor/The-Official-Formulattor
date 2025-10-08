@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ops! Algo deu errado...</title>
+</head>
+<body>
+    
+    <% erro.forEach(e => { %>
+        <img id="errors" data-code="<%= e.code %>"></img>
+        <h2>Erro: <%= e.message %></h2>
+    <% }); %>
+
+</body>
+
+    <script>
+
+        const code = document.getElementById('errors').dataset.code;
+
+        document.getElementById("errors").url = `../assets/images/${code}`;
+
+    </script>
+
+</html>
