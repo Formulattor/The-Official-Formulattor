@@ -296,10 +296,10 @@ export async function getClassById(req, res) {
 
 export async function getClass(req, res) {
     try {
-        const result = await pool.query('SELECT id, nome, conteudo FROM aulas');
+        const [result] = await pool.query('SELECT id, nome, conteudo FROM aulas');
         // res.status(200).json(result.rows);
         res.render('aulas', {
-            aulas: result
+            aulas: result.rows
         });
     } catch (error) {
         console.error('Erro ao acessar aulas:', error);
