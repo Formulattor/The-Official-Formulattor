@@ -111,7 +111,7 @@ app.get('/register', (req, res) => {
 
 // Rota para aulas
 app.get('/aulas', (req, res) => {
-    const aulasPath = path.join(__dirname, 'public', 'aulas.html');
+    const aulasPath = path.join(__dirname, 'views', 'aulas.ejs');
     res.sendFile(aulasPath, (err) => {
         if (err) {
             console.error('❌ Erro ao servir aulas.html:', err.message);
