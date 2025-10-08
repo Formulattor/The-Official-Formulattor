@@ -41,6 +41,15 @@ const pool = new Pool(
           }
 );
 
+function returnError(code, message, response){
+    return response.render("error", {
+        erro: {
+            code: code,
+            message: message
+        }
+    });
+}
+
 // Testar conexão inicial
 pool.connect((err, client, release) => {
     if (err) {
@@ -103,12 +112,7 @@ export async function registerNewUser(req, res) {
 
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        })
+        returnError(500, "Erro interno no servidor", res);
     }
 }
 
@@ -156,12 +160,7 @@ export async function loginUser(req, res) {
         res.render('temporary', { usuario: user });
     } catch (err) {
         console.error('Erro ao fazer login:', err);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        })
+        returnError(500, "Erro interno no servidor", res);
     }
 }
 
@@ -176,12 +175,7 @@ export async function getTopTen(req, res) {
         res.render('usuarios', { usuarios: result.rows });
     } catch (err) {
         console.error('Erro ao buscar top 10:', err);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        })
+        returnError(500, "Erro interno no servidor", res);
     }
 }
 
@@ -199,7 +193,8 @@ export async function joinCourse(req, res) {
         );
 
         if (userResult.rows.length === 0) {
-            return res.status(404).send('Usuário não encontrado');
+            returnError(404, "Usuário não encontrado", res);
+            // return res.status(404).send('Usuário não encontrado');
         }
 
         // Verificar se já está matriculado
@@ -222,12 +217,7 @@ export async function joinCourse(req, res) {
 
     } catch (e) {
         console.error('Erro ao matricular:', e);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        })
+        returnError(500, "Erro interno no servidor", res);
     }
 }
 
@@ -243,6 +233,7 @@ export async function renderQuestion(req, res, renderSomething = false) {
             );
 
             if (!qResult.rows || qResult.rows.length === 0) {
+                returnError(404, "Não há questões para essa matéria", res);
                 return res.status(404).json({ message: 'Não há questões para essa matéria' });
             }
 
@@ -274,12 +265,7 @@ export async function renderQuestion(req, res, renderSomething = false) {
 
         } catch (err) {
             console.error('Erro ao renderizar questão:', err);
-            return res.render('error', {
-                erro: {
-                    code: 500,
-                    message: "Erro interno no servidor"
-                }
-            })
+            returnError(500, "Erro interno no servidor", res);
         }
 
     }
@@ -300,12 +286,7 @@ export async function listCourses(req, res) {
         })
     } catch (error) {
         console.error('Erro ao listar matrículas:', error);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        })
+        returnError(500, "Erro interno no servidor", res);
     }
 }
 
@@ -323,18 +304,13 @@ export async function getClassById(req, res) {
                     code: 404,
                     message: "Aula não encontrada"
                 }
-            })
+            });
         }
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error('Erro ao acessar aula:', error);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        })
+        returnError(500, "Erro interno no servidor", res);
     }
 }
 
@@ -347,11 +323,6 @@ export async function getClass(req, res) {
         });
     } catch (error) {
         console.error('Erro ao acessar aulas:', error);
-        res.render('error', {
-            erro: {
-                code: 500,
-                erro: "Erro interno no servidor"
-            }
-        });
+        returnError(500, "Erro interno no servidor", res);
     }
 }
