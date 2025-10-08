@@ -8,20 +8,19 @@
 <body>
     <% aulas.forEach(aula => { %>
         <div>
-            <button onclick="getAula(aula.id)">
+            <button onclick="getAula(this)" data-id="<%= aula.id %>">
                 <h2>Aula <%= aula.nome %></h2>
                 <p><%= aula.conteudo %></p>
             </button>
         </div>
     <% }); %>
 </body>
-
     <script>
-
-        function getAula(id){
+    
+        function getAula(element){
             getClassById({
                 params:{
-                    id: id
+                    id: element.dataset.id
                 }
             })
         }
