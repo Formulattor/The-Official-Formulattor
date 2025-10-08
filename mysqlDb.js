@@ -198,7 +198,7 @@ export async function joinCourse(req, res) {
 
         const dataMatricula = new Date();
         await pool.query(
-            'INSERT INTO matriculas (usuario_id, materia_id, "dataMatricula") VALUES ($1, $2, $3)', 
+            'INSERT INTO matriculas (usuario_id, materia_id, data_matricula) VALUES ($1, $2, $3)', 
             [userResult.rows[0].id, materia_id, dataMatricula]
         );
 
@@ -266,7 +266,7 @@ export async function renderQuestion(req, res, renderSomething = false) {
 export async function listCourses(req, res) {
     try {
         const result = await pool.query(
-            'SELECT usuario_id, materia_id, "dataMatricula" FROM matriculas'
+            'SELECT usuario_id, materia_id, data_matricula FROM matriculas'
         );
         // res.status(200).json(result.rows);
         res.render('matriculas', {
