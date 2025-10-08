@@ -59,7 +59,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Configuração do view engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public', 'views'));
 
 // Middleware para adicionar cabeçalhos de segurança
 app.use((req, res, next) => {
@@ -111,13 +111,7 @@ app.get('/register', (req, res) => {
 
 // Rota para aulas
 app.get('/aulas', (req, res) => {
-    const aulasPath = path.join(__dirname, 'public/views', 'aulas.ejs');
-    res.sendFile(aulasPath, (err) => {
-        if (err) {
-            console.error('❌ Erro ao servir aulas.html:', err.message);
-            res.status(404).send('Página não encontrada');
-        }
-    });
+    getClass(req, res);
 });
 
 // Rota POST /home (redirecionar ou renderizar)
