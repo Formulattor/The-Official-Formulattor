@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas</title>
+</head>
+<body>
+    <% aulas.forEach(function(aula) { %>
+            <div>
+            <h2>Aula <%= aula.id %></h2>
+            <p><%= aula.conteudo %></p>
+            </div>
+        <% }); %>
+</body>
+</html>
