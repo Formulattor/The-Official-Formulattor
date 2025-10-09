@@ -88,11 +88,14 @@ window.addEventListener('load', createStars);
 function selectsubject(valor) {
     fetch('/matricular', {
         method: 'POST',
-        body: { materia_id: valor }
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ materia_id: valor })
     })
     .then(response => response.json())
     .then(data => {
-      console.log('Resposta do server:', data);
+        console.log('Resposta do server:', data);
     })
     .catch(error => console.error('Erro:', error));
 }

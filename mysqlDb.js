@@ -108,7 +108,12 @@ export async function registerNewUser(req, res) {
         };
         sendEmail(mailOptions);
 
-        res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
+        req.session.email = email;
+        req.session.userId = user.id;
+
+        res.render('temporary', {
+            usuario: user 
+       });
 
     } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
@@ -157,7 +162,9 @@ export async function loginUser(req, res) {
         };
         sendEmail(mailOptions);
 
-        res.render('temporary', { usuario: user });
+        res.render('temporary', {
+             usuario: user 
+        });
     } catch (err) {
         console.error('Erro ao fazer login:', err);
         returnError(500, "Erro interno no servidor", res);
@@ -181,7 +188,7 @@ export async function getTopTen(req, res) {
 
 export async function joinCourse(req, res) {
     const { materia_id } = req.body;
-    
+
     try {
         if (!req.session.email) {
             return res.status(401).send('Usuário não autenticado');
@@ -307,7 +314,9 @@ export async function getClassById(req, res) {
             });
         }
 
-        res.status(200).json(result.rows[0]);
+        res.render('aulas', {
+            aulas: result.rows
+        });
     } catch (error) {
         console.error('Erro ao acessar aula:', error);
         returnError(500, "Erro interno no servidor", res);
