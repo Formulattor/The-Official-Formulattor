@@ -285,9 +285,10 @@ export async function renderQuestion(req, res, renderSomething = false) {
 export async function listCourses(req, res) {
     try {
         const result = await pool.query(
-            'SELECT usuario_id, materia_id, data_matricula FROM matriculas'
+            'SELECT * FROM matriculas'
         );
         // res.status(200).json(result.rows);
+        console.log(result.rows);
         res.render('matriculas', {
             matriculas: result.rows
         })

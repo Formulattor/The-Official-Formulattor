@@ -8,8 +8,10 @@
 <body>
     <% matriculas.forEach(matricula => { %>
         <div>
-                <h2>Matricula <%= matricula.nome %></h2>
-                <p><%= matricula.conteudo %></p>
+                <h2>Matricula: <%= matricula.id %></h2>
+                <p>Usuário: <%= matricula.usuario_id %></p>
+                <p>Matéria: <%= matricula.materia_id %></p>
+                <p>Data: <%= matricula.data_matricula %></p>
         </div>
     <% }); %>
 </body>
