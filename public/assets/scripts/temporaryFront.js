@@ -96,6 +96,7 @@ function selectsubject(valor) {
     .then(response => response.json())
     .then(data => {
         console.log('Resposta do server:', data);
+        window.location.href = '/initialscreen';
     })
     .catch(error => console.error('Erro:', error));
 }

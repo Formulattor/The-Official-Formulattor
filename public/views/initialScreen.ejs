@@ -8,160 +8,122 @@
     <link rel="stylesheet" href="../assets/styles/initialScreen.css">
 </head>
 <body>
-    <header>
-        <div class="">
-            
+    <!-- <header class="header">
+        <div class="header-left">
+            <h2>Formulattor</h2>
         </div>
-
-        <div class="">
-
-        </div>
-    </header>
+        <div class="header-right"></div>
+    </header> -->
 
     <div class="mainContent">
         <div class="contentFooterDiv">
             <div class="subHeader">
                 <div class="userMainInfos infos">
-                    <img src="" alt="Profile Photo">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%635eea' width='60' height='60'/%3E%3C/svg%3E" alt="Profile Photo" class="profile-photo">
                     <ul>
-                        <li>
-                            <%= usuario.nome %>
-                        </li>
-                        
-                        <li>
-                            <%= materia.nome %>
-                        </li>
+                        <li><%= usuario.nome %></li>
+                        <li>Nome_Materia</li>
                     </ul>
                 </div>
 
                 <div class="miniOptions infos">
-                    <button>
-                        <!-- Amigos -->
-                        <img src="">
+                    <button class="option-btn" title="Amigos">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect fill='white' width='24' height='24'/%3E%3C/svg%3E" alt="Friends Icon">
                     </button>
-                    
-                    <button>
-                        <!-- Mensagens -->
-                         <img src="">
+                    <button class="option-btn" title="Mensagens">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect fill='white' width='24' height='24'/%3E%3C/svg%3E" alt="Messages Icon">
                     </button>
-                    
-                    <button>
-                        <!-- Configs -->
-                         <img src="">
+                    <button class="option-btn" title="Configurações">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect fill='white' width='24' height='24'/%3E%3C/svg%3E" alt="Settings Icon">
                     </button>
                 </div>
             </div>
 
             <div class="secHolder">
-                <section class="mainSecs">
-                    <div class="">
-                        <div class="">
-                            <img src="" alt="">
-                            <p># <%= //Tem que colocar o ranking aqui  %></p>
+                <section class="mainSecs score-section">
+                    <div class="score-header">
+                        <div class="rank-info">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Ranking Icon">
+                            <p>#0</p>
                         </div>
-                        <div class="">
-                            <p>
-                                Score
-                            </p>
-
-                            <div class="">
-                                <p>
-                                    <%= usuario.pontuacao %>
-                                </p>
-
-                                <img src="" alt="Trophy Ex">
+                        <div class="score-display">
+                            <p>Pontuacao</p>
+                            <div class="score-value">
+                                <p>0</p>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Trophy Icon">
                             </div>
                         </div>
                     </div>
-
-                    <div class="">
-                        <button>
-                            <img src="" alt="">
-                            <p>Do exercises</p>
+                    <div class="score-actions">
+                        <button class="action-btn">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect fill='white' width='20' height='20'/%3E%3C/svg%3E" alt="Exercises Icon">
+                            <p>Fazer Exercicios</p>
                         </button>
-                        
-                        <button>
-                            <img src="" alt="">
-                            <p>Subject studing</p>
+                        <button class="action-btn">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect fill='white' width='20' height='20'/%3E%3C/svg%3E" alt="Subject Icon">
+                            <p>Aulas</p>
                         </button>
-                        
-                        <button>
-                            <img src="" alt="">
-                            <p>General tests</p>
+                        <button class="action-btn">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect fill='white' width='20' height='20'/%3E%3C/svg%3E" alt="Test Icon">
+                            <p>Testes grandes</p>
                         </button>
                     </div>
                 </section>
 
-                <section class="mainSecs">
-                    <div class="">
-                        <div class="">
-                            <img src="" alt="Calendar Ex">
-                            <p># <%= //Tem que colocar a quantidade de exercícios resolvidos aqui  %></p>
+                <section class="mainSecs exercises-section">
+                    <div class="exercise-header">
+                        <div class="exercise-info">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Calendar Icon">
+                            <p>0</p>
                         </div>
-                        <div class="">
-                            <p>
-                                Exercises
-                            </p>
-
-                            <div class="">
-                                <p>
-                                    <%= //Colocar o streak do problema diário %>
-                                </p>
-
-                                <img src="" alt="Fire Ex">
+                        <div class="exercise-streak">
+                            <p>Exercicios feitos</p>
+                            <div class="streak-display">
+                                <p>0</p>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Fire Icon">
                             </div>
                         </div>
                     </div>
-
-                    <div class="">
-                        <img src="" alt="Idk for now">
-                        <div class="">
-                            <p></p>
+                    <div class="exercise-extra">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Extra Icon">
+                        <div class="extra-text">
+                            <p>Problema diário!</p>
                         </div>
                     </div>
                 </section>
 
-                <section class="mainSecs">
-                    <div class="">
-                        <div class="">
-                            <img src="" alt="Leaderboard Ex">
+                <section class="mainSecs leaderboard-section">
+                    <div class="leaderboard-header">
+                        <div class="leaderboard-icon">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Leaderboard Icon">
                         </div>
-                        <div class="">
-                            <p>
-                                Leaderboard
-                            </p>
+                        <div class="leaderboard-title">
+                            <p>Leaderboard</p>
                         </div>
                     </div>
-
-                    <div class="">
-                        <img src="" alt="Idk for now">
-                        <div class="">
-                            <p>Highest scores</p>
+                    <div class="leaderboard-body">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Users Icon">
+                        <div class="leaderboard-text">
+                            <p>Maiores pontuações</p>
                         </div>
                     </div>
                 </section>
 
-                <section class="mainSecs">
-                    <!-- Não sei o que fazer aqui por hora -->
-                    <div class="">
-
-                    </div>
-
-                    <div class="">
-
+                <section class="mainSecs future-section">
+                    <div class="future-placeholder">
+                        <p>Arduino chegando...</p>
                     </div>
                 </section>
             </div>
 
             <div class="searchContent">
-                <input type="search">
-
+                <input type="search" placeholder="Procure algo...">
             </div>
         </div>
-        <footer>
-            <nav></nav>
-            <nav></nav>
+
+        <footer class="footer">
+            <nav class="footer-nav"></nav>
+            <nav class="footer-nav"></nav>
         </footer>
     </div>
 </body>
-</html>

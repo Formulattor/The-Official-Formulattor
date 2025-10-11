@@ -11,7 +11,8 @@ import {
     renderQuestion,
     listCourses,
     getClassById,
-    getClass
+    getClass,
+    redirectAfterJoining
 } from './mysqlDb.js';
 
 dotenv.config();
@@ -105,6 +106,10 @@ app.post('/matricular', (req, res) => {
     joinCourse(req, res);
 });
 
+app.get('/initialscreen', (req, res) => {
+    redirectAfterJoining(req, res);
+});
+
 app.get('/matriculas', (req, res) => {
     listCourses(req, res);
 });
@@ -142,7 +147,7 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`URL: https://the-official-formulattor.onrender.com`);
     console.log(`Diretório: ${__dirname}`);
     console.log(`Public: ${path.join(__dirname, 'public')}`);
-    console.log(`Views: ${path.join(__dirname, 'views')}`);
+    console.log(`Views: ${path.join(__dirname,'public', 'views')}`);
     console.log('==========================================');
 });
 

@@ -230,6 +230,17 @@ export async function joinCourse(req, res) {
     }
 }
 
+export async function redirectAfterJoining(req, res) {
+    const userResultName = await pool.query(
+        `SELECT nome FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER($1))`, 
+        [req.session.email]
+    );
+
+    res.render('initialScreen', {
+        usuario: userResultName.rows[0]
+    });
+}
+
 export async function renderQuestion(req, res, renderSomething = false) {
     if (renderSomething && req.body?.materia_id) {
         const { materia_id } = req.body;

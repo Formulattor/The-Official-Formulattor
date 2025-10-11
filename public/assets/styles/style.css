@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap');
 
-
 * {
     margin: 0;
     padding: 0;
@@ -464,6 +463,7 @@ header.homeHeader {
     height: 500px;
     padding-top: 200px;
     transition: opacity 0.2s, transform 0.2s;
+    /* z-index: 0; */
 }
 
 .mainOptionsdescription {
@@ -552,10 +552,880 @@ header.homeHeader {
     border-top: none;
     border-right: none;
 }
-
 .rightxSubclass div:nth-child(2) {
     border-radius: 0;
     border-right: none;
     border-bottom: none;
     border-top: none;
+}
+
+.mainHomeContent {
+    width: 100%;
+    background: #f8f9fa;
+}
+
+.featuresSection {
+    padding: 100px 5%;
+    background: #fff;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.sectionHeader h2 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #360264;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sectionHeader p {
+    font-size: 20px;
+    color: #666;
+    font-family: 'Lato', sans-serif;
+}
+
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.featureCard {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.featureCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(126, 69, 180, 0.2);
+}
+
+.featureIcon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.featureCard h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #360264;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.featureCard p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    font-family: 'Lato', sans-serif;
+}
+
+.statsSection {
+    padding: 80px 5%;
+    background: linear-gradient(135deg, #7e45b4, #360264);
+}
+
+.statsContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.statItem {
+    text-align: center;
+    color: #fff;
+}
+
+.statItem h3 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.statItem p {
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Lato', sans-serif;
+}
+
+.subjectsSection {
+    padding: 100px 5%;
+    background: #f8f9fa;
+}
+
+.subjectsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.subjectCard {
+    height: 350px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.subjectCard:hover {
+    transform: scale(1.02);
+}
+
+.subjectCard.mathematics {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="60" fill="rgba(255,255,255,0.1)">∑π∫</text></svg>');
+    background-size: cover;
+}
+
+.subjectCard.physics {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="60" fill="rgba(255,255,255,0.1)">⚛E=mc²</text></svg>');
+    background-size: cover;
+}
+
+.subjectCard.chemistry {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="60" fill="rgba(255,255,255,0.1)">⚗H₂O</text></svg>');
+    background-size: cover;
+}
+
+.subjectCard.programming {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.9), rgba(142, 68, 173, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="60" fill="rgba(255,255,255,0.1)">&lt;/&gt;</text></svg>');
+    background-size: cover;
+}
+
+.subjectOverlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.subjectCard:hover .subjectOverlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.subjectOverlay h3 {
+    font-size: 40px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.subjectOverlay p {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 25px;
+    font-family: 'Lato', sans-serif;
+}
+
+.exploreBtn {
+    background: #fff;
+    color: #360264;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Lato', sans-serif;
+}
+
+.exploreBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+}
+
+.testimonialsSection {
+    padding: 100px 5%;
+    background: #fff;
+}
+
+.testimonialsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.testimonialCard {
+    background: #f8f9fa;
+    padding: 35px;
+    border-radius: 15px;
+    border-left: 4px solid #7e45b4;
+}
+
+.testimonialContent {
+    margin-bottom: 25px;
+}
+
+.testimonialContent p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    font-style: italic;
+    font-family: 'Lato', sans-serif;
+}
+
+.testimonialAuthor {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.authorAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7e45b4, #360264);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.authorInfo h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #360264;
+    margin-bottom: 3px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.authorInfo span {
+    font-size: 14px;
+    color: #888;
+    font-family: 'Lato', sans-serif;
+}
+
+.supportersSection {
+    padding: 80px 0;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+
+.supportersSection .sectionHeader {
+    padding: 0 5%;
+    margin-bottom: 60px;
+}
+
+.carouselContainer {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carouselContainer::before,
+.carouselContainer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.carouselContainer::before {
+    left: 0;
+    background: linear-gradient(to right, #f8f9fa 0%, transparent 100%);
+}
+
+.carouselContainer::after {
+    right: 0;
+    background: linear-gradient(to left, #f8f9fa 0%, transparent 100%);
+}
+
+.carouselTrack {
+    display: flex;
+    gap: 40px;
+    animation: scroll 30s linear infinite;
+    width: max-content;
+}
+
+.carouselTrack:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.supporterCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    min-width: 180px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.supporterCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(126, 69, 180, 0.15);
+}
+
+.supporterLogo {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.supporterCard p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #360264;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ctaSection {
+    padding: 120px 5%;
+    background: linear-gradient(135deg, #7e45b4, #360264);
+    text-align: center;
+}
+
+.ctaContent h2 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ctaContent p {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    font-family: 'Lato', sans-serif;
+}
+
+.ctaButton {
+    background: #fff;
+    color: #360264;
+    border: none;
+    padding: 20px 60px;
+    border-radius: 30px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ctaButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+}
+
+.mainFooter {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 60px 5% 30px;
+}
+
+.footerContent {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    max-width: 1400px;
+    margin: 0 auto 40px;
+}
+
+.footerColumn h4 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #7e45b4;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footerColumn p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #bbb;
+    font-family: 'Lato', sans-serif;
+}
+
+.footerColumn ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footerColumn ul li {
+    margin-bottom: 12px;
+}
+
+.footerColumn ul li a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.3s;
+    font-family: 'Lato', sans-serif;
+}
+
+.footerColumn ul li a:hover {
+    color: #7e45b4;
+}
+
+.footerBottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid #333;
+}
+
+.footerBottom p {
+    font-size: 14px;
+    color: #888;
+    font-family: 'Lato', sans-serif;
+}
+
+@media (max-width: 1400px) {
+    .mainOptionsscreen {
+        width: 90%;
+    }
+    
+    .mainOptionsdescription {
+        width: 100%;
+    }
+    
+    .nonameDiv {
+        width: 95%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .featuresGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .statsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .testimonialsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footerContent {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+    }
+}
+
+@media (max-width: 992px) {
+    .mainOptionsdescription p:nth-child(1) {
+        font-size: 60px;
+    }
+    
+    .mainOptionsdescription p:nth-child(2) {
+        font-size: 20px;
+    }
+    
+    .mainDesign {
+        width: 90%;
+        flex-direction: column;
+        height: auto;
+        padding: 30px 20px;
+        gap: 20px;
+    }
+    
+    .inputBackground {
+        width: 100%;
+        height: 70px;
+        padding: 10px;
+    }
+    
+    #emailLabel {
+        font-size: 24px;
+        margin-left: 15px;
+    }
+    
+    #emailInput {
+        font-size: 20px;
+        width: 90%;
+    }
+    
+    .inputBackground.inputIsfocus #emailLabel {
+        font-size: 16px;
+        transform: translateY(-12px);
+    }
+    
+    .signinButton {
+        width: 100%;
+        height: 60px;
+        margin-top: 0;
+    }
+    
+    .nonameDiv {
+        width: 95%;
+        height: auto;
+        min-height: 600px;
+        padding: 20px 10px;
+    }
+    
+    .xContent {
+        flex-direction: column;
+        height: auto;
+        min-height: 500px;
+    }
+    
+    .rightxSubclass, .leftxSubclass {
+        width: 100%;
+        min-height: 250px;
+    }
+    
+    .xsubclassContent {
+        padding: 25px;
+        min-height: 250px;
+    }
+    
+    .rightxSubclass div:nth-child(1) {
+        border-radius: 0;
+        border-right: 1px solid #654a6b;
+    }
+    
+    .rightxSubclass div:nth-child(2) {
+        border-right: 1px solid #654a6b;
+        border-bottom: 1px solid #654a6b;
+    }
+    
+    .sectionHeader h2 {
+        font-size: 38px;
+    }
+    
+    .subjectsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    header.homeHeader {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .leftHomeHeaderContent {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .leftHomeHeaderContent img {
+        width: auto;
+        max-width: 180px;
+        height: 45px;
+        margin-bottom: 10px;
+    }
+    
+    .leftHomeHeaderContent button {
+        min-width: auto;
+        flex: 1 1 calc(50% - 5px);
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+    
+    .rightHomeHeaderContent {
+        width: 100%;
+        justify-content: center;
+        margin-top: 0;
+        gap: 10px;
+    }
+    
+    .rightHomeHeaderContent a {
+        flex: 1;
+        max-width: 150px;
+    }
+    
+    .mainOptionsscreen {
+        padding-top: 250px;
+        width: 95%;
+    }
+    
+    .mainOptionsdescription {
+        padding: 0 15px;
+    }
+    
+    .mainOptionsdescription p:nth-child(1) {
+        font-size: 42px;
+        text-align: center;
+        line-height: 1.2;
+    }
+    
+    .mainOptionsdescription p:nth-child(2) {
+        font-size: 16px;
+        text-align: center;
+        padding: 0 10px;
+    }
+    
+    .mainDesign {
+        width: 95%;
+        padding: 25px 15px;
+    }
+    
+    .inputBackground {
+        height: 65px;
+    }
+    
+    #emailLabel {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+    
+    #emailInput {
+        font-size: 18px;
+    }
+    
+    .inputBackground.inputIsfocus #emailLabel {
+        font-size: 14px;
+        transform: translateY(-10px);
+    }
+    
+    .signinButton {
+        font-size: 18px;
+        height: 55px;
+    }
+    
+    .nonameDiv {
+        width: 98%;
+        min-height: 500px;
+        padding: 15px 5px;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .xContent {
+        width: 98%;
+        padding: 10px;
+    }
+    
+    .xsubclassContent {
+        padding: 20px;
+        min-height: 200px;
+    }
+    
+    .featuresGrid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .statsContainer {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .statItem h3 {
+        font-size: 42px;
+    }
+    
+    .testimonialsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .supporterCard {
+        min-width: 150px;
+        padding: 25px 30px;
+    }
+    
+    .supporterLogo {
+        font-size: 40px;
+    }
+    
+    .carouselContainer::before,
+    .carouselContainer::after {
+        width: 80px;
+    }
+    
+    .ctaContent h2 {
+        font-size: 32px;
+    }
+    
+    .ctaContent p {
+        font-size: 18px;
+    }
+    
+    .footerContent {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .leftHomeHeaderContent img {
+        max-width: 150px;
+        height: 40px;
+    }
+    
+    .leftHomeHeaderContent button {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+    
+    .rightHomeHeaderContent a {
+        font-size: 13px;
+        min-width: 80px;
+    }
+    
+    .mainOptionsdescription p:nth-child(1) {
+        font-size: 32px;
+        padding: 0 10px;
+    }
+    
+    .mainOptionsdescription p:nth-child(2) {
+        font-size: 14px;
+    }
+    
+    .mainDesign {
+        padding: 20px 12px;
+        gap: 15px;
+    }
+    
+    .inputBackground {
+        height: 60px;
+        padding: 8px;
+    }
+    
+    #emailLabel {
+        font-size: 16px;
+        margin-left: 8px;
+    }
+    
+    #emailInput {
+        font-size: 16px;
+    }
+    
+    .inputBackground.inputIsfocus #emailLabel {
+        font-size: 12px;
+        transform: translateY(-8px);
+    }
+    
+    .signinButton {
+        font-size: 16px;
+        height: 50px;
+        padding: 0 15px;
+    }
+    
+    .nonameDiv {
+        width: 100%;
+        min-height: 450px;
+        border-radius: 15px 15px 0 0;
+        padding: 10px 3px;
+    }
+    
+    .xContent {
+        width: 99%;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .xsubclassContent {
+        padding: 15px;
+        min-height: 180px;
+    }
+    
+    .sectionHeader h2 {
+        font-size: 28px;
+    }
+    
+    .sectionHeader p {
+        font-size: 16px;
+    }
+    
+    .featureCard {
+        padding: 30px 20px;
+    }
+    
+    .featureIcon {
+        font-size: 45px;
+    }
+    
+    .featureCard h3 {
+        font-size: 20px;
+    }
+    
+    .subjectCard {
+        height: 280px;
+    }
+    
+    .subjectOverlay h3 {
+        font-size: 32px;
+    }
+    
+    .subjectOverlay p {
+        font-size: 16px;
+    }
+    
+    .carouselTrack {
+        gap: 25px;
+        animation: scroll 40s linear infinite;
+    }
+    
+    .supporterCard {
+        min-width: 130px;
+        padding: 20px 25px;
+    }
+    
+    .supporterLogo {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+    
+    .supporterCard p {
+        font-size: 16px;
+    }
+    
+    .carouselContainer::before,
+    .carouselContainer::after {
+        width: 50px;
+    }
+    
+    .ctaContent h2 {
+        font-size: 26px;
+    }
+    
+    .ctaContent p {
+        font-size: 16px;
+    }
+    
+    .ctaButton {
+        padding: 15px 40px;
+        font-size: 16px;
+    }
 }
