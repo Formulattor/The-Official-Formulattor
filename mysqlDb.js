@@ -301,7 +301,6 @@ export async function listCourses(req, res) {
             'SELECT * FROM matriculas'
         );
         // res.status(200).json(result.rows);
-        console.log(result.rows);
         res.render('matriculas', {
             matriculas: result.rows
         })

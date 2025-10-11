@@ -81,10 +81,10 @@ function isAuthenticated(req, res, next) {
 // Rotas públicas
 app.get('/', (req, res) => {
     const homePath = path.join(__dirname, 'public', 'home.html');
-    console.log('📂 Tentando servir:', homePath);
+    console.log('Tentando servir:', homePath);
     res.sendFile(homePath, (err) => {
         if (err) {
-            console.error('❌ Erro ao servir home.html:', err.message);
+            console.error('Erro ao servir home.html:', err.message);
             res.status(404).send('Página não encontrada. Verifique se a pasta public/ existe.');
         }
     });
