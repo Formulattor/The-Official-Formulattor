@@ -10,10 +10,10 @@
     <!-- Exibindo erro único -->
     <div id="content">
 
-        <img id="errors" data-code="<%= erro.code %>">
+        <img id="errors" data-code="<%= erro.code %>" draggable="false">
         
         <div id="text">
-            <h2>Erro: <%= erro.erro %></h2>
+            <h2>Erro: <%= erro.message %></h2>
         </div>
 
     </div>
@@ -22,7 +22,7 @@
 
         const code = document.getElementById('errors').dataset.code;
 
-        document.getElementById("errors").src = `../assets/images/${code}.jpeg`;
+        document.getElementById("errors").src = `../assets/images/${code}.png`;
 
     </script>
 </body>

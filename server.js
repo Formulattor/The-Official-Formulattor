@@ -123,11 +123,22 @@ app.use((err, req, res, next) => {
     res.status(500).send('Erro interno do servidor');
 });
 
+app.use((req, res, next) => {
+    res.render("error", {
+        erro: {
+            code: 404,
+            message: "Caminho especificado não encontrado ou mal indentado"
+        }
+    }
+    )
+});
+
 // Inicialização do servidor
 app.listen(PORT, '0.0.0.0', () => {
     console.log('==========================================');
     console.log(`Servidor rodando na porta ${PORT}`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Local URL: http://localhost:${PORT}`);
     console.log(`URL: https://the-official-formulattor.onrender.com`);
     console.log(`Diretório: ${__dirname}`);
     console.log(`Public: ${path.join(__dirname, 'public')}`);

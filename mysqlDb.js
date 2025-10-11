@@ -179,7 +179,9 @@ export async function getTopTen(req, res) {
         const result = await pool.query(
             'SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10'
         );
-        res.render('usuarios', { usuarios: result.rows });
+        res.render('usuarios', {
+            usuarios: result.rows
+        });
     } catch (err) {
         console.error('Erro ao buscar top 10:', err);
         returnError(500, "Erro interno no servidor", res);
