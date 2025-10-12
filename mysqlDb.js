@@ -20,25 +20,23 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Configuração do pool PostgreSQL (Supabase)
-// Suporta tanto variáveis individuais quanto DATABASE_URL completa
 const pool = new Pool(
     process.env.DATABASE_URL
         ? {
-              connectionString: process.env.DATABASE_URL,
-              ssl: { rejectUnauthorized: false }
-          }
+            connectionString: process.env.DATABASE_URL,
+            ssl: { rejectUnauthorized: false }
+        }
         : {
-              host: process.env.DB_HOST || 'aws-1-us-east-2.pooler.supabase.com', // TEMPORÁRIO: seu host aqui
-              port: parseInt(process.env.DB_PORT) || 6543,
-              database: process.env.DB_DATABASE || 'postgres',
-              user: process.env.DB_USER || 'postgres.seuprojeto', // TEMPORÁRIO: seu user aqui
-              password: process.env.DB_PASS || 'suasenha', // TEMPORÁRIO: sua senha aqui
-              ssl: { rejectUnauthorized: false },
-              max: 20,
-              idleTimeoutMillis: 30000,
-              connectionTimeoutMillis: 10000,
-          }
+            host: process.env.DB_HOST,
+            port: parseInt(process.env.DB_PORT) || 6543,
+            database: process.env.DB_DATABASE,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            ssl: { rejectUnauthorized: false },
+            max: 20,
+            idleTimeoutMillis: 30000,
+            connectionTimeoutMillis: 10000,
+        }
 );
 
 function returnError(code, message, response){
@@ -50,7 +48,6 @@ function returnError(code, message, response){
     });
 }
 
-// Testar conexão inicial
 pool.connect((err, client, release) => {
     if (err) {
         console.error('❌ Erro ao conectar ao PostgreSQL:', err.message);
@@ -69,7 +66,6 @@ pool.connect((err, client, release) => {
     }
 });
 
-// Função auxiliar para enviar e-mail
 async function sendEmail(mailOptions) {
     try {
         await transporter.sendMail(mailOptions);
@@ -87,7 +83,6 @@ export async function registerNewUser(req, res) {
             return res.status(400).send('Todos os campos são obrigatórios');
         }
 
-        // Verificar se o e-mail já existe
         const existingResult = await pool.query('SELECT id FROM usuario WHERE email = $1', [email]);
         if (existingResult.rows.length > 0) {
             return res.status(400).send('E-mail já cadastrado');
@@ -99,7 +94,6 @@ export async function registerNewUser(req, res) {
     
         await pool.query(sql, [name, email, hashedPassword]);
 
-        // Enviar e-mail de boas-vindas
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -124,7 +118,6 @@ export async function registerNewUser(req, res) {
 export async function loginUser(req, res) {
     const { email, password } = req.body;
 
-    // DEBUG: Verificar req.session
     console.log('🔍 DEBUG loginUser:', {
         temSession: !!req.session,
         temSessionID: !!req.sessionID,
@@ -153,7 +146,6 @@ export async function loginUser(req, res) {
         req.session.email = email;
         req.session.userId = user.id;
 
-        // Enviar e-mail de notificação de login
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -163,7 +155,7 @@ export async function loginUser(req, res) {
         sendEmail(mailOptions);
 
         res.render('initialScreen', {
-             usuario: user 
+            usuario: user 
         });
     } catch (err) {
         console.error('Erro ao fazer login:', err);

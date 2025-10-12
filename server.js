@@ -23,46 +23,36 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ========================================
-// ORDEM CORRETA DOS MIDDLEWARES
-// ========================================
-
-// 1. Parse do body ANTES de tudo
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 2. Sessão logo DEPOIS do parse
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'fallback-secret-change-me-in-production',
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true, // Mudado para true
+    saveUninitialized: true,
     cookie: {
-        secure: false, // Sempre false até resolver (mesmo em produção)
+        secure: false,
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000, // 24 horas
+        maxAge: 24 * 60 * 60 * 1000,
         sameSite: 'lax'
     },
     name: 'connect.sid'
 }));
 
-// 3. Debug - Apenas em desenvolvimento
-if (process.env.NODE_ENV !== 'production') {
-    app.use((req, res, next) => {
-        if (!req.path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-            console.log('🔍 Rota:', req.method, req.path);
-        }
-        next();
-    });
-}
+// if (process.env.NODE_ENV !== 'production') {
+//     app.use((req, res, next) => {
+//         if (!req.path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+//             console.log('🔍 Rota:', req.method, req.path);
+//         }
+//         next();
+//     });
+// }
 
-// 4. Arquivos estáticos por último
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuração do view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public', 'views'));
 
-// Middleware para adicionar cabeçalhos de segurança
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
@@ -70,7 +60,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware de autenticação
 function isAuthenticated(req, res, next) {
     if (req.session.email) {
         return next();
@@ -78,7 +67,6 @@ function isAuthenticated(req, res, next) {
     res.status(401).send('Você precisa estar logado para acessar esta página');
 }
 
-// Rotas públicas
 app.get('/', (req, res) => {
     const homePath = path.join(__dirname, 'public', 'home.html');
     console.log('Tentando servir:', homePath);
@@ -130,7 +118,6 @@ app.get("/aulas", (req, res) => {
     getClass(req, res);
 });
 
-// Tratamento de erros gerais
 app.use((err, req, res, next) => {
     console.error('Erro não tratado:', err);
     res.status(500).send('Erro interno do servidor');
@@ -146,11 +133,9 @@ app.use((req, res) => {
     )
 });
 
-// Inicialização do servidor
 app.listen(PORT, '0.0.0.0', () => {
     console.log('==========================================');
     console.log(`Servidor rodando na porta ${PORT}`);
-    console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
     console.log(`Local URL: http://localhost:${PORT}`);
     console.log(`URL: https://the-official-formulattor.onrender.com`);
     console.log(`Diretório: ${__dirname}`);
@@ -159,7 +144,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log('==========================================');
 });
 
-// Tratamento de erros não capturados
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });

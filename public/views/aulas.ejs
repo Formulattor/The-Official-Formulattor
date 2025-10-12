@@ -4,27 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulas</title>
+    <link rel="stylesheet" href="../assets/styles/aulas.css">
+    <script defer src="../assets/scripts/aulas.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <% aulas.forEach(aula => { %>
-        <div>
-            <button onclick="getAula(this)" data-id="<%= aula.id %>">
-                <h2>Aula <%= aula.nome %></h2>
-                <p><%= aula.conteudo %></p>
-            </button>
+    <div class="sidebar">
+        <div class="logo">Formulattor</div>
+        <div class="menu-item"><i class="fa-solid fa-book"></i> Aulas</div>
+        <div class="menu-item"><i class="fa-solid fa-video"></i> Videoaulas</div>
+        <div class="menu-item"><i class="fa-solid fa-newspaper"></i> Notícias</div>
+        <div class="menu-item"><i class="fa-solid fa-trophy"></i> Tabela Classificativa</div>
+        <div class="menu-item"><i class="fa-solid fa-gear"></i> Configurações</div>
+    </div>
+
+    <div class="main">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-type="undone">Undone</button>
+            <button class="filter-btn" data-type="doing">Doing</button>
+            <button class="filter-btn" data-type="finished">Finished</button>
         </div>
-    <% }); %>
+
+        <div class="lessons-container">
+            <div class="lessons" data-type="undone">
+                <% aulas.forEach(aula => { %>
+                    <div class="lesson" onclick="getAula(this)" data-id="<%= aula.id %>" ><i class=""></i><span><%= aula.nome %></span></div>
+                <% }); %>
+            </div>
+
+            <div class="lessons" data-type="doing" style="display:none;">
+                <% aulas.forEach(aula => { %>
+                    <div class="lesson" onclick="getAula(this)" data-id="<%= aula.id %>" ><i class=""></i><span><%= aula.nome %></span></div>
+                <% }); %>
+            </div>
+
+            <div class="lessons" data-type="finished" style="display:none;">
+                <% aulas.forEach(aula => { %>
+                    <div class="lesson" onclick="getAula(this)" data-id="<%= aula.id %>" ><i class=""></i><span><%= aula.nome %></span></div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="status">
+            <div><i class="fa-solid fa-crown"></i><div>0</div></div>
+            <div><i class="fa-solid fa-fire"></i><div>0</div></div>
+            <div><i class="fa-solid fa-gem"></i><div>0</div></div>
+        </div>
+
+        <div class="duo">
+            <i class="fa-solid fa-frog"></i>
+            <p>Parabéns! Você completou suas tarefas de hoje.</p>
+        </div>
+
+        <div class="league">
+            <h3>Top 3 Diário</h3>
+            <div class="rank-list">
+                <div class="rank"><span>1. _____</span><span>0 Pontos</span></div>
+                <div class="rank"><span>2. _____</span><span>0 Pontos</span></div>
+                <div class="rank"><span>3. _____</span><span>0 Pontos</span></div>
+            </div>
+        </div>
+
+        <div class="progress">
+            <h4>Barra de XP</h4>
+            <div class="bar"><div class="bar-fill"></div></div>
+        </div>
+    </div>
 </body>
-    <script>
-    
-    function getAula(element) {
-        const aulaId = element.dataset.id;
-
-        const url = `/aulas/${aulaId}`;
-
-        window.location.href = url;
-    }
-
-    </script>
-
 </html>

@@ -1,0 +1,403 @@
+* { 
+    box-sizing: border-box; 
+    font-family: "Poppins", sans-serif; 
+    margin: 0; 
+    padding: 0; 
+}
+
+body { 
+    display: flex;
+    height: 100vh; 
+    background: #f0f4ff; 
+    color: #333; 
+}
+
+.sidebar {
+    width: 220px;
+    background: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-right: 1px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.logo { 
+    font-size: 26px; 
+    font-weight: bold; 
+    color: #6a5acd; 
+    margin-bottom: 40px;
+}
+
+.menu-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-size: 16px; 
+    color: #555; 
+    cursor: pointer; 
+    transition: 0.2s; 
+}
+
+.menu-item:hover { 
+    color: #3d2fa8; 
+}
+
+.menu-item i { 
+    width: 20px; 
+    font-size: 18px; 
+}
+
+.main { 
+    flex: 1; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    padding: 30px 50px; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    position: relative;
+}
+
+.lessons {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    gap: 30px 60px;
+    margin-top: 40px;
+}
+
+.lesson {
+    background: #fff;
+    width: 120px; 
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #d6cffe;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lesson:hover { 
+    transform: scale(1.05); 
+}
+
+.lesson i { 
+    font-size: 36px; 
+    color: #6a5acd; 
+}
+
+.lesson span { 
+    margin-top: 8px; 
+    font-weight: 500; 
+    text-align: center;
+    font-size: 14px;
+}
+
+.right-panel {
+    width: 300px;
+    background: #fff;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+    display: flex; 
+    flex-direction: column; 
+    gap: 25px;
+    overflow-y: auto;
+}
+
+.status { 
+    display: flex; 
+    justify-content: space-around; 
+    background: #f0f0ff; 
+    padding: 10px; 
+    border-radius: 10px; 
+}
+
+.status div {
+    text-align: center; 
+}
+
+.status i {
+    color: #8a2be2; 
+    font-size: 20px; 
+}
+
+.duo {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center;
+    background: #f7f7ff; 
+    border-radius: 10px; 
+    padding: 20px;
+}
+
+.duo i { 
+    font-size: 50px; 
+    color: #6a5acd; 
+    margin-bottom: 10px; 
+}
+
+.league, .progress {
+    background: #fafafa; 
+    border-radius: 10px; 
+    padding: 15px;
+}
+
+.league h3, .progress h4 { 
+    margin-bottom: 10px; 
+    color: #3d2fa8; 
+}
+
+.rank-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+}
+
+.rank { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background: #fff; 
+    border: 1px solid #eee; 
+    padding: 5px 10px; 
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.rank:nth-child(odd) {
+    background: #f9f9ff; 
+}
+
+.bar { 
+    background: #e0e0ff; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    height: 10px; 
+}
+
+.bar-fill {
+    height: 10px; 
+    width: 70%; 
+    background: #6a5acd;
+    transition: width 0.3s ease;
+}
+
+::-webkit-scrollbar { 
+    width: 6px; 
+}
+
+::-webkit-scrollbar-thumb { 
+    background: #ccc; 
+    border-radius: 4px; 
+}
+
+.filter-buttons {
+    display: flex;
+    top: 30px;
+    gap: 15px;
+    position: absolute;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background: #e0e0ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #3d2fa8;
+    transition: 0.2s;
+}
+
+.filter-btn:hover {
+    background: #d6cffe;
+}
+
+.filter-btn.active {
+    background: #6a5acd;
+    color: #fff;
+}
+
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background: #6a5acd;
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .right-panel {
+        width: 250px;
+    }
+    
+    .lessons {
+        grid-template-columns: repeat(2, 120px);
+        gap: 25px 40px;
+    }
+    
+    .main {
+        padding: 30px 30px;
+    }
+    
+    .filter-buttons {
+        top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main {
+        width: 100%;
+        padding: 80px 20px 20px;
+    }
+    
+    .right-panel {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #ddd;
+    }
+    
+    .lessons {
+        grid-template-columns: repeat(2, 110px);
+        gap: 20px 30px;
+        margin-top: 30px;
+    }
+    
+    .lesson {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .lesson i {
+        font-size: 32px;
+    }
+    
+    .lesson span {
+        font-size: 13px;
+    }
+    
+    .filter-buttons {
+        position: relative;
+        top: 0;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lessons {
+        grid-template-columns: repeat(1, 110px);
+        gap: 20px;
+        justify-content: center;
+    }
+    
+    .filter-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .filter-btn {
+        width: 100%;
+    }
+    
+    .main {
+        padding: 70px 15px 15px;
+    }
+    
+    .sidebar {
+        width: 250px;
+    }
+    
+    .status {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .duo {
+        padding: 15px;
+    }
+    
+    .duo i {
+        font-size: 40px;
+    }
+    
+    .duo p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .lessons {
+        grid-template-columns: repeat(3, 100px);
+        gap: 15px 25px;
+    }
+    
+    .lesson {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .lesson i {
+        font-size: 28px;
+    }
+}
