@@ -94,6 +94,14 @@ app.get('/usuarios', (req, res) => {
     getTopTen(res);
 });
 
+app.get('/quiz', (req, res) => {
+    renderQuestion(req, res);
+});
+
+app.post('/quiz', (req, res) => {
+    renderQuestion(req, res, true);
+});
+
 app.post('/cadastrar', (req, res) => {
     registerNewUser(req, res);
 });
@@ -128,7 +136,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Erro interno do servidor');
 });
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.render("error", {
         erro: {
             code: 404,

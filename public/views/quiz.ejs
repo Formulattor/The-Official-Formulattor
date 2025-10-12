@@ -30,10 +30,8 @@
         </ul>
     <script>
         function didIGetItRight(element){
-            console.log('Valor data-correta:', element.dataset.correta);
-            const val = element.dataset.correta || '';
-            const isCorrect = val === '';
-            if(isCorrect){
+            const isCorrect = element.dataset.correta || '';
+            if(isCorrect == "true"){
                 alert("Acertou!");
             }
             else{

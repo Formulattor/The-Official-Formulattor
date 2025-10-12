@@ -162,7 +162,7 @@ export async function loginUser(req, res) {
         };
         sendEmail(mailOptions);
 
-        res.render('temporary', {
+        res.render('initialScreen', {
              usuario: user 
         });
     } catch (err) {
