@@ -127,20 +127,20 @@ export async function loginUser(req, res) {
 
     try {
         if (!email || !password) {
-            return res.status(400).send('E-mail e senha são obrigatórios');
+            returnError(400, 'E-mail e senha são obrigatórios', res)
         }
 
         const result = await pool.query('SELECT * FROM usuario WHERE email = $1', [email]);
 
         if (result.rows.length === 0) {
-            return res.status(401).send('E-mail ou senha incorretos');
+            returnError(400, 'E-mail ou senha incorretos', res);
         }
 
         const user = result.rows[0];
 
         const match = await bcrypt.compare(password, user.senha);
         if (!match) {
-            return res.status(401).send('E-mail ou senha incorretos');
+            returnError(400, 'E-mail ou senha incorretos', res);
         }
 
         req.session.email = email;
@@ -205,7 +205,8 @@ export async function joinCourse(req, res) {
         );
 
         if (existingResult.rows.length > 0) {
-            return res.status(400).send('Você já está matriculado nesta matéria');
+            returnError(400, 'Você já está matriculado nesta matéria', res);
+            // return res.status(400).send('Você já está matriculado nesta matéria');
         }
 
         const dataMatricula = new Date();
@@ -246,7 +247,7 @@ export async function renderQuestion(req, res, renderSomething = false) {
 
             if (!qResult.rows || qResult.rows.length === 0) {
                 returnError(404, "Não há questões para essa matéria", res);
-                return res.status(404).json({ message: 'Não há questões para essa matéria' });
+                // return res.status(404).json({ message: 'Não há questões para essa matéria' });
             }
 
             if (!shownQuestions.has(userId)) {

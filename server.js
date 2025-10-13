@@ -64,7 +64,12 @@ function isAuthenticated(req, res, next) {
     if (req.session.email) {
         return next();
     }
-    res.status(401).send('Você precisa estar logado para acessar esta página');
+    res.render({
+        erro:{
+            code: 401,
+            message:'Você precisa estar logado para acessar esta página'
+        }
+    });
 }
 
 app.get('/', (req, res) => {
