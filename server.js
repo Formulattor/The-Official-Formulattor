@@ -83,6 +83,16 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/login', (req, res) => {
+    const loginPath = path.join(__dirname, 'public', 'login.html');
+    res.sendFile(loginPath, (err) => {
+        if (err) {
+            console.error('Erro ao servir login.html:', err.message);
+            res.status(404).send('Página não encontrada. Verifique se a pasta public/ existe.');
+        }
+    });
+});
+
 app.get('/usuarios', (req, res) => {
     getTopTen(res);
 });

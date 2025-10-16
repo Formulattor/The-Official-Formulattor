@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn with Tubito - Formulattor</title>
+    <link rel="stylesheet" href="../assets/styles/newArduino.css">
+    <script defer type="module" src="../threejsfiles/newArduino.js"></script>
+    <script defer type="module" src="../assets/scripts/newSerialScript.js"></script>
+    <script type="importmap"> 
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.153.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.153.0/examples/jsm/"
+            }
+        }    
+    </script>
+</head>
+<body>
+    <header>
+
+    </header>
+
+    <main>
+        <div class="threejsArea">
+            <div id="container" class="container">
+
+            </div>
+            <div class="connectBtns">
+                <button class="connectArduino">
+                    Connect Tubito
+                </button>
+                <button class="clearTerminal">
+                    Clear Terminal
+                </button>
+            </div>
+        </div>
+
+        <div class="terminalArea">
+            <div class="terminal">
+                <div class="terminalHeader">
+                    <div class="terminalInfos">
+                        <img src="../assets/images/Tubito-Terminal-Icon.png" draggable="false" alt="Icone Terminal">
+                        <p class="terminalName">
+                           Tubito's Monitor
+                        </p>  
+                    </div>
+                    <div class="terminalBtns">
+                        <button class="minimizeBtn">
+                            
+                        </button>
+
+                        <button class="fullscreenBtn">
+
+                        </button>
+                    </div>
+                </div>
+                <div class="terminalInterface">
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

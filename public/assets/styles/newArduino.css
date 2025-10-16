@@ -1,0 +1,368 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 100px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    min-height: calc(100vh - 100px);
+    align-items: center;
+}
+
+.threejsArea {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    height: fit-content;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container {
+    width: 100%;
+    height: auto;
+    min-height: 500px;
+    border-radius: 8px;
+    /* background: #1a1a2e; */
+    display: block;
+    flex: 1;
+}
+
+.connectBtns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.connectBtns button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: #1a1a2e;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    min-width: 150px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.connectBtns button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.connectBtns button:active {
+    transform: translateY(0);
+}
+
+.terminalArea {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.terminal {
+    width: 100%;
+    background: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+}
+
+.terminalHeader {
+    background: #2d2d2d;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+.terminalInfos {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.terminalInfos img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: invert();
+}
+
+.terminalName {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.terminalBtns {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.terminalBtns button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    background: #3a3a3a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.terminalBtns button:hover {
+    background: #4a4a4a;
+    transform: scale(1.05);
+}
+
+.terminalBtns button:active {
+    transform: scale(0.95);
+}
+
+.minimizeBtn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 2px;
+    background: #fff;
+    border-radius: 1px;
+}
+
+.fullscreenBtn::before,
+.fullscreenBtn::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    border-radius: 1px;
+}
+
+.fullscreenBtn::before {
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    background: transparent;
+}
+
+.terminalInterface {
+    background: #1e1e1e;
+    padding: 1.5rem;
+    min-height: 400px;
+    max-height: 600px;
+    overflow-y: auto;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.terminalInterface::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminalInterface::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.terminalInterface::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 4px;
+}
+
+.terminalInterface::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+}
+
+/*  TAVA RODANDO ATÉ O THREE ESTRAGAR TUDO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+@media (max-width: 1024px) {
+    main {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .threejsArea {
+        min-height: 500px;
+    }
+
+    .threejsArea canvas {
+        min-height: 400px;
+    }
+
+    .terminalInterface {
+        max-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 1.5rem 1rem;
+        min-height: 80px;
+    }
+
+    main {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .threejsArea {
+        padding: 1rem;
+        min-height: 400px;
+    }
+
+    .threejsArea canvas {
+        min-height: 320px;
+    }
+
+    .connectBtns {
+        flex-direction: column;
+    }
+
+    .connectBtns button {
+        width: 100%;
+        padding: 0.65rem 1.25rem;
+        font-size: 0.95rem;
+        min-width: auto;
+    }
+
+    .terminal {
+        border-radius: 8px;
+    }
+
+    .terminalHeader {
+        padding: 0.6rem 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .terminalInfos {
+        gap: 0.5rem;
+    }
+
+    .terminalInfos img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .terminalName {
+        font-size: 0.85rem;
+    }
+
+    .terminalBtns button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .terminalInterface {
+        padding: 1rem;
+        min-height: 300px;
+        max-height: 400px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1.25rem 0.75rem;
+        min-height: 70px;
+    }
+
+    main {
+        padding: 0.75rem;
+    }
+
+    .threejsArea {
+        padding: 0.75rem;
+        min-height: 350px;
+    }
+
+    .threejsArea canvas {
+        min-height: 280px;
+    }
+
+    .connectBtns button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .terminalHeader {
+        padding: 0.5rem 0.6rem;
+    }
+
+    .terminalName {
+        font-size: 0.8rem;
+    }
+
+    .terminalBtns button {
+        width: 26px;
+        height: 26px;
+    }
+
+    .terminalInterface {
+        padding: 0.75rem;
+        min-height: 250px;
+        max-height: 350px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 896px) and (orientation: landscape) {
+    main {
+        grid-template-columns: 1fr 1fr;
+        min-height: auto;
+    }
+
+    .threejsArea,
+    .threejsArea canvas {
+        min-height: 300px;
+    }
+
+    .connectBtns {
+        flex-direction: row;
+    }
+
+    .connectBtns button {
+        width: auto;
+    }
+
+    .terminalInterface {
+        max-height: 300px;
+    }
+} */

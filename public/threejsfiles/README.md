@@ -8,5 +8,3 @@
         }
     }  
 </script> 
-
-<!-- MUDANÇAS OCORRERÃO DIA 17 -->

@@ -124,6 +124,7 @@ if(window.page === "LOGIN") {
     function saveEmail() {
         const emailTyped = emailhomeInput.value;
         localStorage.setItem("savedEmail", emailTyped);
-        window.location.href = "login.html";
+        // window.location.href = "login.html";
+        window.location.assign('/login');
     }
 }
