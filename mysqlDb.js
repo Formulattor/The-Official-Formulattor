@@ -307,7 +307,7 @@ export async function getClassById(req, res) {
     try {
         const id = req.params.id;
         const result = await pool.query(
-            'SELECT id, nome, conteudo FROM aulas WHERE id = $1', 
+            'SELECT id, nome, contexto, conteudo_1, conteudo_2 FROM aulas WHERE id = $1', 
             [id]
         );
 
@@ -320,7 +320,7 @@ export async function getClassById(req, res) {
             });
         }
 
-        res.render('aulas', {
+        res.render('aula', {
             aulas: result.rows
         });
     } catch (error) {
@@ -331,8 +331,9 @@ export async function getClassById(req, res) {
 
 export async function getClass(req, res) {
     try {
-        const result = await pool.query('SELECT id, nome, conteudo FROM aulas');
+        const result = await pool.query('SELECT id, nome, contexto FROM aulas');
         // res.status(200).json(result.rows);
+        // console.log(JSON.stringify(result.rows));
         res.render('aulas', {
             aulas: result.rows
         });
@@ -340,4 +341,42 @@ export async function getClass(req, res) {
         console.error('Erro ao acessar aulas:', error);
         returnError(500, "Erro interno no servidor", res);
     }
+}
+
+export async function getQuestion(req, res){
+    const { aula_id } = req.params;
+    try{
+
+        console.log(aula_id);
+
+        const pergunta = await pool.query('SELECT id, enunciado FROM questoes WHERE aula_id = $1',
+            [aula_id]
+        );
+
+        
+
+
+        const id = pergunta.rows[0].id;
+
+        console.log(id);
+
+        const respostas = await pool.query('SELECT id, resposta, verdadeira, questao_id FROM respperg WHERE questao_id = $1',
+            [id]
+        );
+
+        const response = {
+            q: pergunta.rows,
+            a: respostas.rows
+        }
+
+        console.log(JSON.stringify(response));
+
+        return res.json(response);
+    }
+    catch (error) {
+
+        console.log("Erro ao acessar pergunta:", error);
+
+    }
+
 }

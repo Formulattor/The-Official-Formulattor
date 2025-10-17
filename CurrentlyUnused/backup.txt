@@ -1,0 +1,218 @@
+-- Aulas de Física (materia_id = 1)
+INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
+(
+  'Leis de Newton',
+  'Esta aula apresenta as bases da dinâmica clássica a partir das três leis de Newton, indispensáveis para resolver problemas de forças, atrito, movimento e equilíbrio em contextos de vestibular.',
+  'A Primeira Lei de Newton, também chamada de Lei da Inércia, diz que um corpo tende a permanecer em repouso ou em movimento retilíneo uniforme se sobre ele não atuar uma força resultante externa. Isso nos leva a definir o que é um referencial inercial e por que muitos casos devem ser avaliados em referenciais ‘fixos’ ou aproximados. Há exemplos práticos: um livro parado sobre uma mesa continua parado até uma força desequilibrada atuar; ou um carro em velocidade constante, sem atrito, tenderia a continuar se movendo indefinidamente. Essa lei é fundamental para distinguir movimentos espontâneos daquelas situações em que uma força externa induz aceleração.',
+  'A Segunda Lei de Newton estabelece que a força resultante agindo sobre um corpo é igual ao produto da massa do corpo pela aceleração adquirida (F = m · a). Esse princípio permite calcular como um objeto responde a esforços aplicados. A Terceira Lei — também chamada de ação e reação — afirma que forças sempre surgem em pares: se um corpo A exerce força sobre B, então B exerce força sobre A com mesma intensidade, direção, mas sentido oposto. Com essas leis, conseguimos resolver problemas de polias, blocos sobre superfícies com atrito, sistemas conectados por cordas e analisar forças internas e externas em aparatos físicos.',
+  1
+),
+(
+  'Cinemática',
+  'A aula de cinemática explora o movimento dos corpos sem discutir suas causas, focando em trajetórias, variações de posição e velocidade ao longo do tempo — base essencial para aprofundamentos futuros.',
+  'No estudo da cinemática, definem-se as grandezas fundamentais: posição, deslocamento, velocidade média e instantânea, aceleração e rapidez. O Movimento Retilíneo Uniforme (MRU) ocorre quando a velocidade é constante e não há aceleração; já o Movimento Retilíneo Uniformemente Variado (MRUV) envolve aceleração constante. As equações-chave são: v = v₀ + a·t, s = s₀ + v₀·t + ½·a·t², entre outras. A aplicação dessas fórmulas em exercícios variados é importante para fixar o entendimento.',
+  'Além das fórmulas, estudam-se os gráficos: posição (s) versus tempo (t), e velocidade (v) versus tempo (t). A inclinação desses gráficos revela velocidade ou aceleração instantâneas. Interpretações visuais permitem resolver problemas como variação de velocidade, movimento retrógrado, aceleração negativa (retardação) e transições entre regimes de movimento. Ferramentas gráficas associadas às fórmulas auxiliam em provas mais elaboradas.',
+  1
+),
+(
+  'Trabalho e Energia',
+  'Esta aula cobre conceitos fundamentais da energia e do trabalho mecânico, incluindo definições e transformações entre diferentes tipos de energia, com aplicações físicas e o teorema trabalho-energia.',
+  'O trabalho mecânico é a energia transferida por uma força que atua sobre um corpo ao longo de um deslocamento: W = F · d · cos θ. Quando a força varia com a posição, utiliza-se cálculo integral para expressão exata do trabalho. A potência representa a rapidez com que esse trabalho é realizado, expressa como P = W / t. Exemplos práticos aparecem em motores, alavancas e levantamento de massas.',
+  'A energia mecânica de um sistema é a soma da energia cinética e da energia potencial ( gravitacional ou elástica ). Em sistemas ideais, sem dissipação de energia (como o atrito), a energia mecânica total se conserva: Ec + Ep = constante. O teorema trabalho-energia relaciona a variação da energia cinética de um corpo ao trabalho da força resultante que atua sobre ele (W_total = ΔEc). Esses conceitos são recorrentes em questões de física de vestibular.',
+  1
+),
+(
+  'Gravitação Universal',
+  'Nesta aula estudamos a interação gravitacional entre massas e suas consequências em escala planetária e orbital — importante para astronomia, satélites e problemas gravitacionais em física.',
+  'A Lei da Gravitação Universal de Newton afirma que qualquer dois corpos se atraem com força diretamente proporcional ao produto de suas massas e inversamente proporcional ao quadrado da distância entre eles: F = G · (m₁ · m₂) / r². Aqui G é a constante gravitacional. Essa lei explica tanto a queda de objetos na Terra quanto o movimento orbital de satélites e planetas. Conceitos de campo gravitacional e potencial gravitacional também são abordados para quantificar a influência de massas no espaço ao seu redor.',
+  'As Leis de Kepler complementam o entendimento: (1) as órbitas planetárias são elipses com o Sol em um de seus focos; (2) as áreas varridas pelos planetas em tempos iguais são iguais; (3) o cubo do semi-eixo maior dividido pelo quadrado do período orbital é constante para todos os planetas. Combinando gravitação e leis de Kepler, calcula-se velocidade orbital, energia de escape, trajetórias elípticas, parabólicas ou hiperbólicas — tópicos frequentemente explorados em provas de vestibular.',
+  1
+),
+(
+  'Termodinâmica',
+  'A aula aborda os princípios básicos da termodinâmica, ou seja, como calor, trabalho e energia interna se relacionam em sistemas físicos — tema essencial em física e em aplicações tecnológicas.',
+  'A Primeira Lei da Termodinâmica é uma adaptação do princípio da conservação de energia para sistemas térmicos: ΔU = Q − W, onde ΔU representa a variação da energia interna, Q o calor fornecido e W o trabalho realizado pelo sistema. Com isso, interpretamos como os sistemas realizam trabalho ou trocam calor em processos como expansão de gases e calorimetria.',
+  'A Segunda Lei da Termodinâmica introduz irreversibilidade e o conceito de entropia. Processos naturais ocorrem no sentido do aumento da entropia, impedindo que calor flua espontaneamente de corpos frios para quentes. Também se exploram ciclos termodinâmicos — como o de Carnot — e eficiência de máquinas térmicas, além de implicações práticas como refrigeradores, motores e usinas térmicas.',
+  1
+),
+(
+  'Óptica Geométrica',
+  'Esta aula trata da propagação da luz, das leis da reflexão e refração, bem como da formação de imagens por espelhos e lentes — conteúdos muito presentes em questões de física ótica.',
+  'Assumindo propagação retilínea da luz em meios homogêneos, definimos raios de luz e aplicamos leis físicas: reflexão (ângulo de incidência = ângulo de reflexão) e refração segundo a Lei de Snell: n₁ sin θ₁ = n₂ sin θ₂. Estudam-se índices de refração, ângulo crítico e reflexão total interna para situações de ruptura de meios ópticos.',
+  'Para espelhos planos, côncavos e convexos, e lentes convergentes e divergentes, aprende-se a traçar imagens usando raios principais e a utilizar as fórmulas de Gauss (1/f = 1/p + 1/q) e ampliação (M = –q/p). Aplicações em instrumentos como lupas, microscópios e câmeras ilustram bem esses conceitos para uso em provas e experimentos.',
+  1
+),
+(
+  'Ondulatória',
+  'A aula de ondulatória investiga como as ondas se propagam, suas propriedades e fenômenos associados — aplicável a som, luz e outros tipos de onda.',
+  'As grandezas fundamentais de uma onda são amplitude, comprimento de onda, frequência e velocidade, relacionadas pela equação v = λ · f. Distinguem-se ondas transversais (como luz) e longitudinais (como som). Além disso, estuda-se o princípio da superposição, com interferência construtiva e destrutiva, bem como ondas estacionárias surgidas por reflexão em extremos fixos ou livres.',
+  'Fenômenos como difração (desvio ao passar por fendas), reflexão, refração de ondas, efeito Doppler e ressonância são discutidos. Exemplos práticos incluem som de ambulância que se aproxima e afasta, interferência de fendas (experimento de Young) e aplicações em acústica e óptica — frequentemente objeto de questões de vestibular.',
+  1
+),
+(
+  'Eletrostática',
+  'Essa aula dedica-se ao estudo das cargas elétricas em repouso, à força elétrica entre cargas, ao campo elétrico e ao potencial — conceitos fundamentais para a eletrodinâmica e circuitos.',
+  'A Lei de Coulomb define a força entre duas cargas pontuais: F = k · (q₁ · q₂) / r². Também é abordado o conceito de campo elétrico, E = F / q, que representa a força por unidade de carga em cada ponto do espaço. Linhas de campo elétrico ajudam a visualizar direção e intensidade da interação entre cargas.',
+  'O potencial elétrico (V) é a energia potencial por unidade de carga: V = W / q. Diferenças de potencial entre pontos relacionam-se ao trabalho da força elétrica. Conceitos como superfícies equipotenciais, energia potencial elétrica de sistemas de cargas, e capacitores simples com dielétricos integram esse conteúdo, frequentemente exigido em questões de física aplicada.',
+  1
+),
+(
+  'Eletrodinâmica',
+  'Nesta aula abordamos o movimento de cargas elétricas em condutores: corrente elétrica, resistência, leis de circuito e efeitos de dissipação — base para entender circuitos elétricos práticos.',
+  'A corrente elétrica (I) é o fluxo de carga por unidade de tempo. A Lei de Ohm (V = R · I) relaciona a tensão aplicada, a corrente resultante e a resistência do material. Em circuitos simples, aprendem-se associações de resistores em série e paralelo, bem como as leis de Kirchhoff, análise de malhas e nós.',
+  'Também se estuda a potência elétrica (P = V · I) e o efeito Joule (conversão de energia elétrica em calor). Problemas de circuitos mistos, tensão e corrente em ramos, e cálculo de resistência equivalente são resolvidos com aplicação prática em equipamentos elétricos e consumo de energia.',
+  1
+),
+(
+  'Magnetismo e Indução',
+  'Esta aula integra conceitos de magnetismo e indução eletromagnética, explicando como correntes e campos magnéticos interagem e geram fenômenos induzidos — tema essencial em eletromagnetismo.',
+  'Correntes elétricas geram campos magnéticos ao redor dos condutores, descritos pelas leis de Biot‑Savart e Ampère. Uma carga em movimento dentro de um campo magnético sofre força de Lorentz, perpendicular à velocidade. Isso fundamenta o funcionamento de motores elétricos e partículas em aceleradores.',
+  'A Lei de Faraday estabelece que uma variação no fluxo magnético induz uma f.e.m. (força eletromotriz) em um circuito; a Lei de Lenz determina que a direção dessa corrente induzida se opõe à variação de fluxo magnético. Também são tratados autoindução, indutância, transformadores e aplicações práticas em usinas e circuitos elétricos.',
+  1
+);
+
+-- Aulas de Química (materia_id = 2)
+INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
+(
+  'Estrutura Atômica',
+  'Nesta aula exploramos os modelos atômicos ao longo da história e como evoluíram até o modelo quântico moderno, servindo de base para a compreensão das propriedades químicas dos elementos.',
+  'Modelos atômicos históricos incluem Dalton (átomos indivisíveis), Thomson (modelo ‘pudim de passas’), Rutherford (núcleo com carga positiva e elétrons orbitando) e Bohr (órbitas quantizadas). O modelo quântico abandona órbitas fixas e introduz orbitais (s, p, d, f) e números quânticos (n, l, m, s) para descrever probabilisticamente a região onde o elétron pode ser encontrado. Esse modelo explica configurações eletrônicas e periodicidade dos elementos.',
+  'Define-se número atômico (Z) como quantidade de prótons, número de massa (A) como a soma de prótons e nêutrons, e isótopos como átomos do mesmo elemento com diferentes nêutrons. A distribuição eletrônica obedece aos princípios de Aufbau, Hund e Pauli. Esses conceitos são fundamentais para entender reatividade, ligação química, estados de oxidação e tendências periódicas dos elementos.',
+  2
+),
+(
+  'Tabela Periódica e Propriedades Periódicas',
+  'Essa aula organiza os elementos químicos em ordem sistemática e analisa as tendências ou periodicidade nas propriedades atômicas — conteúdo-chave em química geral e provas competitivas.',
+  'A Tabela Periódica foi organizada inicialmente por Mendeleev com base em propriedades semelhantes entre elementos. Hoje, ela é estruturada segundo o número atômico (Z). Os elementos formam grupos (colunas) e períodos (linhas), com blocos s, p, d e f. Cada grupo apresenta características químicas semelhantes, como metais alcalinos, halogênios, gases nobres, metais de transição etc.',
+  'Propriedades periódicas incluem raio atômico (aumenta ao descermos um grupo, diminui ao percorrermos um período), energia de ionização (tende a aumentar ao percorrer o período), afinidade eletrônica e eletronegatividade (atração dos elétrons em um átomo). Essas tendências explicam comportamentos químicos como reatividade, formação de ligações e estabilidade dos íons.',
+  2
+),
+(
+  'Ligações Químicas',
+  'Essa aula investiga como os átomos se combinam para formar moléculas e compostos, qual é a natureza dessas ligações e como isso influencia em propriedades físicas e químicas.',
+  'A ligação iônica ocorre entre átomos com diferença significativa de eletronegatividade, formando íons que se atraem eletrostaticamente. Exemplos clássicos incluem NaCl, MgO. Essas substâncias costumam formar redes cristalinas, com altos pontos de fusão e condução elétrica quando dissolvidas ou fundidas.',
+  'A ligação covalente compartilhando pares de elétrons pode ser polar ou apolar dependendo da diferença de eletronegatividade entre átomos. Ligação metálica envolve elétrons delocalizados em um “mar” metálico. Além disso, forças intermoleculares (dipolo-dipolo, London, ligação de hidrogênio) determinam propriedades físicas como ponto de ebulição, solubilidade e viscosidade de substâncias variadas.',
+  2
+),
+(
+  'Reações Químicas e Balanceamento',
+  'Nesta aula tratamos dos tipos de reações químicas, como classificá-las e as técnicas para balancear equações, fundamentais para resolver questões quantitativas de química.',
+  'Reações de síntese (combinação simples), decomposição, simples troca, dupla troca e oxirredução (redox) são classificadas em função dos elementos envolvidos. Para resolver problemas, é necessário identificar reagentes e produtos, estados de oxidação, cargas e espécies envolvidas.',
+  'Para balancear equações químicas, usamos o princípio da conservação da massa e da carga elétrica. Métodos incluem ajuste de coeficientes, balanceamento por tentativa e erro, abordagem algébrica e, para reações redox, o método das semi‑reações (meio ácido ou básico). Exemplos práticos com reações inorgânicas e orgânicas reforçam a compreensão.',
+  2
+),
+(
+  'Gases e Leis dos Gases',
+  'Esta aula abrange o comportamento dos gases ideais e reais sob diferentes condições de pressão, volume e temperatura, com aplicação em situações reais e calculísticas.',
+  'As leis fundamentais envolvem Boyle (P ∝ 1/V, temperatura constante), Charles (V ∝ T, pressão constante), Gay‑Lussac (P ∝ T, volume constante) e Avogadro (V ∝ n). A equação de estado dos gases ideais é PV = nRT, onde R é a constante universal dos gases.',
+  'Além disso, transformações gasosas (isotérmica, isobárica, isocórica, adiabática) são estudadas com fórmulas específicas. Para gases reais, considera-se a equação de Van der Waals, que corrige o comportamento ideal ao levar em conta o volume das moléculas de gás e forças intermoleculares. Essa abordagem é importante quando o gás está sob alta pressão ou baixas temperaturas.',
+  2
+),
+(
+  'Soluções e Solubilidade',
+  'Nesta aula estudamos o conceito de soluções, tipos, concentração e fatores que influenciam a solubilidade — tema frequente em questões de química geral e aplicada.',
+  'Soluções são misturas homogêneas entre soluto e solvente. Unidades de concentração incluem molaridade (mol/L), molalidade (mol/kg), normalidade (equivalentes/L), fração molar e percentual em massa. Conceitos de solubilidade, saturação e supersaturação são discutidos.',
+  'Fatores que influenciam a solubilidade incluem temperatura (aumenta a solubilidade de sólidos em muitos casos), pressão (para gases dissolvidos), e a natureza química de soluto/solvente (polaridade, forças intermoleculares). Também se aborda diluição (C₁V₁ = C₂V₂), reagente limitante em soluções e casos práticos laboratoriais.',
+  2
+),
+(
+  'Ácidos, Bases e pH',
+  'Aula voltada às teorias de ácidos e bases, à força relativa de cada um, ao cálculo de pH/pOH e à aplicação em problemas, inclusive de tamponamento — assunto frequente em vestibulares.',
+  'As teorias de Arrhenius (ácido produz H⁺, base produz OH⁻), Brønsted‑Lowry (ácido doa próton, base recebe próton) e Lewis (ácido aceita par de elétrons, base doa par) são apresentadas. Ácidos fortes e fracos, bases fortes e fracas, dissociação e constante de ionização (Ka, Kb) são explicados.',
+  'Cálculo de pH em soluções ácidas e básicas: para ácidos/bases fortes usa-se pH = –log[H⁺] ou pOH = –log[OH⁻]. Para ácidos/bases fracos, utiliza-se tabelas ICE (Initial, Change, Equilibrium). Também se estuda tampões (buffers), ponto de equivalência em titulações e curva de titulação com exemplos práticos.',
+  2
+),
+(
+  'Estequiometria e Cálculos Estequiométricos',
+  'Nesta aula realizamos cálculos quantitativos envolvendo reações químicas: conversões entre massa, mol, número de partículas, reagente limitante e rendimento — essencial em biologia, química e química analítica.',
+  'Introduz-se o conceito de mol, massa molar, número de Avogadro e relação entre mol, massa e número de partículas. Em seguida, aplicam-se proporções estequiométricas para converter massa ou número de mols de reagentes para produtos.',
+  'Em reações com excesso de reagente, identifica-se o reagente limitante e calcula-se rendimento teórico. Também se estima rendimento real e percentual de rendimento. Exemplos aplicados em reações industriais ou laboratoriais reforçam o entendimento e preparo para o vestibular.',
+  2
+),
+(
+  'Equilíbrio Químico',
+  'Aula dedicada ao estudo de reações reversíveis, condições de equilíbrio químico e deslocamento de equilíbrio com base no princípio de Le Chatelier — tema frequentemente presente em vestibulares intermediários e avançados.',
+  'Para uma reação reversível, define-se a constante de equilíbrio (Kc para concentração, Kp para pressão) a partir da expressão dos produtos sobre reagentes elevados aos seus coeficientes. O valor de K indica se o equilíbrio favorece reagentes ou produtos.',
+  'O Princípio de Le Chatelier explica que alterações em concentração, pressão ou temperatura deslocam o equilíbrio para restabelecer o equilíbrio. Exemplos práticos: aumentar concentração de reagente favorece formação de produto; aumentar pressão favorece lado com menos mols gasosos; aumentar temperatura favorece reação endotérmica. Aplicações quantitativas envolvendo cálculos do novo equilíbrio são comuns em exames.',
+  2
+),
+(
+  'Termoquímica e Entalpia',
+  'Esta aula explora as trocas de energia nas reações químicas, o conceito de entalpia, calores de reação e métodos de calorimetria — tópico essencial em análises termodinâmicas de química.',
+  'A entalpia de reação (ΔH) é a variação de energia térmica envolvida em uma reação química. A entalpia padrão de formação e de combustão são utilizadas para calcular ΔH em reações mais complexas por meio da Lei de Hess. Também é introduzido o conceito de entalpia de ligação.',
+  'Métodos de calorimetria permitem medir calor liberado ou absorvido em reações em calorímetros ideais. Reações endotérmicas absorvem calor (ΔH positivo), enquanto exotérmicas liberam calor (ΔH negativo). Combinando calorimetria, entalpia e ligações químicas, podemos predizer comportamento energético em reações reais ou industriais.',
+  2
+);
+
+-- Aulas de Matemática (materia_id = 3)
+INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
+(
+  'Funções e Gráficos',
+  'Nesta aula estudamos diferentes tipos de funções (lineares, quadráticas, exponenciais etc.) e suas representações gráficas, tema recorrente em provas de matemática de ensino médio.',
+  'Função do 1º grau: f(x) = ax + b. Discutimos domínio, imagem, coeficiente angular (a), coeficiente linear (b), interceptos com eixos, monotonia e uso em modelagem de fenômenos lineares. Aplicações típicas em física, economia e situações do cotidiano ajudam a fixar conceitos.',
+  'Função quadrática: f(x) = ax² + bx + c. Estudamos parábolas, vértice, concavidade, raízes pela fórmula de Bhaskara ou fatoração, soma e produto das raízes e interpretação do discriminante (Δ = b² – 4ac). Também introduzimos funções exponenciais e logarítmicas para modelar crescimento e decaimento.',
+  3
+),
+(
+  'Progressão Aritmética e Progressão Geométrica',
+  'A aula trata das sequências aritméticas (PA) e geométricas (PG), suas fórmulas gerais e aplicações em problemas de crescimento linear e exponencial — úteis para problemas financeiros, de física e biologia.',
+  'Para PA: termo geral aₙ = a₁ + (n – 1)·r e soma dos n primeiros termos Sₙ = (n/2)·(a₁ + aₙ). Exemplos práticos com sequências numéricas, distribuição de tarefas e progressões simples ajudam na fixação. Também se resolvem problemas inversos: achar razão dado soma e termos.',
+  'Para PG: termo geral aₙ = a₁ · q^(n – 1), razão q, soma de termos finitos (q ≠ 1) Sₙ = a₁ · (qⁿ – 1)/(q – 1). Aplicações como juros compostos, crescimento populacional e capitalizações financeiras ilustram o caráter exponencial dessas sequências. Comparações entre PA e PG reforçam noções de linearidade versus progressão geométrica.',
+  3
+),
+(
+  'Trigonometria Básica e Aplicada',
+  'Nesta aula introduzimos as funções trigonométricas no triângulo retângulo, no círculo unitário e suas aplicações práticas em resolução de triângulos e modelagem matemática.',
+  'Definimos seno, cosseno e tangente para ângulos agudos num triângulo retângulo, e estendemos ao círculo unitário para qualquer ângulo. Também discutimos a conversão entre graus e radianos, relações fundamentais com identidades pitagóricas (sen² + cos² = 1) e ângulos suplementares/complementares.',
+  'São estudadas identidades de adição e subtração de ângulos, duplicação, redução, também as fórmulas compostas. A lei dos senos e a lei dos cossenos resolvem triângulos quaisquer. Aplicações em navegação, cálculo de distâncias e problemas de engenharia completam o conteúdo prático para provas.',
+  3
+),
+(
+  'Geometria Plana e Polígonos',
+  'Esta aula investiga as propriedades dos polígonos, perímetro, área, ângulos internos e relações métricas entre lados e diagonais — fundamentos da geometria clássica.',
+  'Em triângulos, estudamos congruência, semelhança, teorema de Pitágoras e triângulos notáveis (30‑60‑90, 45‑45‑90). Para quadriláteros e polígonos regulares, analisamos relações de ângulos internos e externos, diagonais e simetrias.',
+  'Para cálculo de área e perímetro em figuras como triângulo, quadrado, retângulo, trapézio, círculo e setores circulares, utilizamos fórmulas clássicas. Exercícios combinam áreas compostas, figuras inscritas e relações de proporcionalidade entre polígonos semelhantes.',
+  3
+),
+(
+  'Geometria Espacial',
+  'Esta aula aborda sólidos geométricos, superfícies, volumes e relações métricas em dimensões tridimensionais — tópicos de destaque em provas que combinam álgebra e geometria.',
+  'Estudamos prismas, pirâmides, cilindros, cones e esferas: elementos como faces, vértices e arestas, e fórmulas para área total, área lateral e volume (ex: V = πr²h, ou V pirâmide = (1/3) · área da base · altura). Também tratamos cortes, seções transversais e projeções entre sólidos.',
+  'Problemas de interseção entre sólidos, localização de centros, cortes inclinados e seções planas enriquecem a aula. Também abordamos relações métricas entre arestas e áreas de faces inclinadas, muito presentes em questões de vestibular combinadas com álgebra.',
+  3
+),
+(
+  'Probabilidade e Estatística',
+  'Esta aula oferece bases para lidar com dados, interpretar eventos e calcular probabilidades simples e condicionais — importante para provas quantitativas e ciências aplicadas.',
+  'Probabilidade: experimento aleatório, espaço amostral, eventos elementares e compostos, probabilidade clássica (casos favoráveis / total). Introduz-se probabilidade condicional P(A|B) e independência de eventos, além do teorema de Bayes com exemplos práticos de aplicação.',
+  'Na estatística descritiva, aprenda-se média, mediana, moda, gráficos (histograma, boxplot) e outras formas de representação. Também são explicadas variância e desvio-padrão como medidas de dispersão, interpretação de gráficos e uso em problemas reais de ciências e economia.',
+  3
+),
+(
+  'Equações e Inequações',
+  'Nesta aula tratamos da resolução de equações (1º e 2º grau) e inequações lineares e quadráticas, aplicando os conceitos para resolver problemas de valor real — tema frequente nas provas de matemática do ensino médio.',
+  'Equações do 1º grau: ax + b = 0, solução x = –b/a, sistemas lineares simples por substituição ou eliminação. Para equações do 2º grau ax² + bx + c = 0, usamos fórmula de Bhaskara, discriminante Δ = b² – 4ac, análise da natureza das raízes, soma e produto das raízes conforme relações, e aplicação em problemas práticos.',
+  'Inequações lineares (ax + b > 0 ou < 0) resolvem-se por análise do sinal da expressão. Para inequações quadráticas f(x) = ax² + bx + c > 0 ou < 0, determina-se raiz(es), esboça-se o gráfico da parábola e identifica-se os intervalos nos quais a desigualdade é satisfeita, considerando concavidade e pontos críticos.',
+  3
+),
+(
+  'Álgebra Linear e Matrizes',
+  'Esta aula aborda operações com matrizes, determinantes e solução de sistemas lineares — ferramentas importantes tanto na matemática pura como em aplicações em física, economia e engenharia.',
+  'Operações com matrizes incluem soma, subtração, multiplicação por escalar, multiplicação entre matrizes e matriz transposta. Também definimos matriz identidade e matiz inversa (quando existente), discutindo critérios de invertibilidade, como determinante não nulo.',
+  'Determinantes de ordem 2 e 3 são calculados explicitamente, e aplica-se a regra de Cramer para resolver sistemas lineares. Também aprendemos o método de escalonamento (eliminação de Gauss) e substituição direta ou inversa. Há aplicação em problemas de equilíbrio, modelos econômicos e sistemas físicos.',
+  3
+),
+(
+  'Limites e Introdução ao Cálculo',
+  'Esta aula apresenta os conceitos fundamentais de limite e a noção de derivada como ferramenta de análise de variação — ponto de partida para o estudo do cálculo diferencial e integral.',
+  'O limite limₓ→a f(x) é o valor que f(x) tende enquanto x se aproxima de a. Estudam-se limites laterais, casos de indeterminação do tipo 0/0, técnicas de fatoração, racionalização e regra de L’Hôpital para resolver esses casos. Também introduzimos limites infinitos e limites no infinito, para entender comportamentos assintóticos de funções.',
+  'A derivada é definida como f′(x) = lim_{h→0} [f(x + h) – f(x)] / h. Interpretamos a derivada como taxa de variação ou inclinação da reta tangente ao gráfico de f em um ponto. Aprendemos regras de derivação (soma, produto, quociente, cadeia) e aplicamos em contexto físico (velocidade instantânea), econômico ou geométrico.',
+  3
+),
+(
+  'Integral e Aplicações do Cálculo',
+  'Nesta aula exploramos a integral indefinida e definida, bem como suas aplicações para cálculo de áreas, volumes e acumulação contínua — tema de nível mais avançado em vestibulares exigentes.',
+  'A integral indefinida ∫ f(x) dx representa a família de antiderivadas da função f. Usamos técnicas como substituição simples, integração por partes e pitágoras trigonométrico para resolver integrais complexas. Incluímos a constante de integração nos resultados gerais.',
+  'A integral definida ∫_a^b f(x) dx permite calcular a área sob a curva entre os limites a e b. Aplicamos isso no cálculo de área entre curvas, volumes por rotação (métodos dos discos e das cascas), trabalho realizado por uma força variável e acumulação de grandezas físicas. Exemplos aplicados enriquecem a compreensão do uso prático do cálculo.',
+  3
+);
