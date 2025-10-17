@@ -1,37 +1,170 @@
-CREATE DATABASE formulattordb;
-USE formulattordb;
+CREATE DATABASE formulattorbd;
+USE formulattorbd;
 
 -- Tabela de usuários
 CREATE TABLE usuario (
    id INT AUTO_INCREMENT PRIMARY KEY,
    nome VARCHAR(50) NOT NULL,
    email VARCHAR(50) UNIQUE NOT NULL,
-   senha VARCHAR(255) NOT NULL, -- melhor usar hash
+   senha VARCHAR(255) NOT NULL,
    dataNascimento DATE,
    pontuacao INT DEFAULT 0
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabela de matérias
 CREATE TABLE materias (
    id INT AUTO_INCREMENT PRIMARY KEY,
    nome VARCHAR(50) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO materias (nome) VALUES 
-("Física"),
-("Química"),
-("Matemática");
+CREATE TABLE questoes (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   materia_id INT NOT NULL,
+   enunciado VARCHAR(255) NOT NULL,
+   FOREIGN KEY (materia_id) REFERENCES materias(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabela de aulas
+CREATE TABLE respperg (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   questao_id INT NOT NULL,
+   resposta VARCHAR(255) NOT NULL,
+   verdadeira TINYINT(1) NOT NULL,
+   FOREIGN KEY (questao_id) REFERENCES questoes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabela para armazenar respostas dos usuários
+CREATE TABLE respostas (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   usuario_id INT NOT NULL,
+   questao_id INT NOT NULL,
+   respperg_id INT NOT NULL,
+   dataResposta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+   FOREIGN KEY (questao_id) REFERENCES questoes(id),
+   FOREIGN KEY (respperg_id) REFERENCES respperg(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE aulas(
    id INT AUTO_INCREMENT PRIMARY KEY,
    nome VARCHAR(100),
    materia_id INT NOT NULL,
    FOREIGN KEY (materia_id) REFERENCES materias(id),
    contexto VARCHAR(200),
-   conteudo_1 TEXT(1000),
-   conteudo_2 TEXT(1000)
-);
+   conteudo_1 TEXT,
+   conteudo_2 TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabela de possíveis respostas para cada questão
+-- Tabela de matrículas (relaciona usuário com matéria)
+CREATE TABLE matriculas (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   usuario_id INT NOT NULL,
+   materia_id INT NOT NULL,
+   dataMatricula DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+   FOREIGN KEY (materia_id) REFERENCES materias(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Inserindo usuários
+INSERT INTO usuario (nome, email, senha, pontuacao) VALUES
+('João Silva', 'joao.silva@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 150),
+('Maria Santos', 'maria.santos@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 280),
+('Pedro Oliveira', 'pedro.oliveira@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 95),
+('Ana Costa', 'ana.costa@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 320),
+('Carlos Mendes', 'carlos.mendes@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 210);
+
+INSERT INTO materias (nome) VALUES
+("Física"),
+("Química"),
+("Matemática");
+
+-- Inserindo questões
+INSERT INTO questoes (materia_id, enunciado) VALUES
+(1, 'Qual é a unidade de medida de força no Sistema Internacional?'),
+(1, 'Um objeto em repouso permanecerá em repouso, a menos que uma força atue sobre ele. Qual é o nome desta lei?'),
+(1, 'Qual é a fórmula da Segunda Lei de Newton?'),
+(2, 'Qual é o número atômico do carbono?'),
+(2, 'Qual é a diferença entre ligação iônica e ligação covalente?'),
+(2, 'Em uma reação química, o que o balanceamento garante?'),
+(3, 'Qual é o vértice da função f(x) = x² - 4x + 3?'),
+(3, 'Qual é a fórmula do termo geral de uma progressão aritmética?'),
+(3, 'Qual é a soma dos ângulos internos de um triângulo?');
+
+-- Inserindo respostas possíveis
+-- Questão 1: Unidade de força
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(1, 'Newton (N)', 1),
+(1, 'Joule (J)', 0),
+(1, 'Watt (W)', 0),
+(1, 'Pascal (Pa)', 0);
+
+-- Questão 2: Primeira Lei de Newton
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(2, 'Lei da Inércia', 1),
+(2, 'Lei de ação e reação', 0),
+(2, 'Lei da aceleração', 0),
+(2, 'Lei da gravidade', 0);
+
+-- Questão 3: Segunda Lei de Newton
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(3, 'F = m·a', 1),
+(3, 'F = m·v', 0),
+(3, 'F = m·g', 0),
+(3, 'F = m²·a', 0);
+
+-- Questão 4: Número atômico do carbono
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(4, '6', 1),
+(4, '8', 0),
+(4, '12', 0),
+(4, '4', 0);
+
+-- Questão 5: Ligação iônica vs covalente
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(5, 'Iônica: transferência de elétrons; Covalente: compartilhamento de elétrons', 1),
+(5, 'Iônica: compartilhamento; Covalente: transferência', 0),
+(5, 'Ambas são iguais', 0),
+(5, 'Iônica ocorre apenas em gases', 0);
+
+-- Questão 6: Balanceamento químico
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(6, 'Conservação de massa e carga', 1),
+(6, 'Conservação de energia apenas', 0),
+(6, 'Aumento de moléculas', 0),
+(6, 'Diminuição de átomos', 0);
+
+-- Questão 7: Vértice da parábola
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(7, '(2, -1)', 1),
+(7, '(1, -2)', 0),
+(7, '(2, 1)', 0),
+(7, '(0, 3)', 0);
+
+-- Questão 8: Termo geral PA
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(8, 'an = a1 + (n-1)·r', 1),
+(8, 'an = a1 + n·r', 0),
+(8, 'an = a1·r^(n-1)', 0),
+(8, 'an = a1 + r', 0);
+
+-- Questão 9: Soma ângulos internos
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(9, '180°', 1),
+(9, '360°', 0),
+(9, '90°', 0),
+(9, '270°', 0);
+
+-- Inserindo matrículas
+INSERT INTO matriculas (usuario_id, materia_id) VALUES
+(1, 1),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 2),
+(4, 1),
+(4, 2),
+(5, 3);
 
 -- Inserindo aulas com a associação à matéria
 -- Aulas para Física (materia_id = 1)
@@ -87,7 +220,6 @@ INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
  'Lei de Faraday, Lei de Lenz e indução eletromagnética, autoindução, indutores e aplicação prática em geradores e transformadores',
  1);
 
-
 -- Aulas para Química (materia_id = 2)
 INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
 ('Estrutura Atômica',
@@ -141,7 +273,6 @@ INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
  'Lei de Hess, calorimetria, variação de entalpia em reações diretas e indiretas, reações endotérmicas e exotérmicas',
  2);
 
-
 -- Aulas para Matemática (materia_id = 3)
 INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
 ('Funções e Gráficos',
@@ -186,7 +317,7 @@ INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
  3),
 ('Limites e Introdução ao Cálculo',
  'Conceito de limite e noções iniciais de derivada, fundamentais para o estudo do cálculo diferencial.',
- 'Definição intuitiva e formal de limite, cálculo de limites com “0/0”, mudança de variável e regra de L’Hôpital',
+ 'Definição intuitiva e formal de limite, cálculo de limites com "0/0", mudança de variável e regra de Hôpital',
  'Derivada como taxa de variação e inclinação da reta tangente; regras de derivação (soma, produto, quociente)',
  3),
 ('Integral e Aplicações do Cálculo',
@@ -195,41 +326,91 @@ INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
  'Integral definida: cálculo de áreas sob curvas, cálculo de volumes por revolução, aplicações físicas e geométricas',
  3);
 
--- Tabela de matrículas (relaciona usuário com matéria)
-CREATE TABLE matriculas (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   usuario_id INT NOT NULL,
-   materia_id INT NOT NULL,
-   dataMatricula DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-   FOREIGN KEY (materia_id) REFERENCES materias(id)
-);
+------------------ Consultas --------------------
 
--- Tabela de questões
-CREATE TABLE questoes (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   materia_id INT NOT NULL,
-   enunciado VARCHAR(255) NOT NULL,
-   FOREIGN KEY (materia_id) REFERENCES materias(id)
-);
+-- Consultas importantes para o banco de dados 'eita'
 
--- Tabela de possíveis respostas para cada questão
-CREATE TABLE respperg (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   questao_id INT NOT NULL,
-   resposta VARCHAR(255) NOT NULL,
-   verdadeira BIT NOT NULL,
-   FOREIGN KEY (questao_id) REFERENCES questoes(id)
-);
+-- Listar todos os usuários
+SELECT * FROM usuario;
 
--- Tabela para armazenar respostas dos usuários
-CREATE TABLE respostas (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   usuario_id INT NOT NULL,
-   questao_id INT NOT NULL,
-   respperg_id INT NOT NULL, -- qual alternativa o usuário escolheu
-   dataResposta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-   FOREIGN KEY (questao_id) REFERENCES questoes(id),
-   FOREIGN KEY (respperg_id) REFERENCES respperg(id)
-);
+-- Listar todas as matérias
+SELECT * FROM materias;
+
+-- Listar todas as questões de uma matéria específica (ex: Física)
+SELECT q.id, q.enunciado
+FROM questoes q
+JOIN materias m ON q.materia_id = m.id
+WHERE m.nome = 'Física';
+
+-- Listar todas as respostas de uma questão específica (ex: id = 1)
+SELECT r.resposta, r.verdadeira
+FROM respperg r
+WHERE r.questao_id = 1;
+
+-- Listar todas as aulas de uma matéria (ex: Química)
+SELECT a.nome, a.contexto
+FROM aulas a
+JOIN materias m ON a.materia_id = m.id
+WHERE m.nome = 'Química';
+
+-- Verificar as matrículas de um usuário específico (ex: id = 2)
+SELECT u.nome AS usuario, m.nome AS materia, ma.dataMatricula
+FROM matriculas ma
+JOIN usuario u ON ma.usuario_id = u.id
+JOIN materias m ON ma.materia_id = m.id
+WHERE u.id = 2;
+
+-- Consultar as respostas de um usuário específico
+SELECT u.nome AS usuario, q.enunciado, r.resposta AS resposta_usuario, rp.resposta AS resposta_correta, rp.verdadeira
+FROM respostas r
+JOIN usuario u ON r.usuario_id = u.id
+JOIN questoes q ON r.questao_id = q.id
+JOIN respperg rp ON r.respperg_id = rp.id
+WHERE u.id = 2;
+
+-- Contar quantas questões cada matéria possui
+SELECT m.nome AS materia, COUNT(q.id) AS total_questoes
+FROM materias m
+LEFT JOIN questoes q ON m.id = q.materia_id
+GROUP BY m.nome;
+
+-- Listar usuários com pontuação acima de 200
+SELECT nome, email, pontuacao
+FROM usuario
+WHERE pontuacao > 200;
+
+-- Listar as questões e suas respostas corretas
+SELECT q.enunciado, r.resposta
+FROM questoes q
+JOIN respperg r ON q.id = r.questao_id
+WHERE r.verdadeira = 1;
+
+-- Obter média de pontuação dos usuários
+SELECT AVG(pontuacao) AS media_pontuacao
+FROM usuario;
+
+-- Obter a quantidade de usuários matriculados em cada matéria
+SELECT m.nome AS materia, COUNT(ma.usuario_id) AS total_usuarios
+FROM materias m
+LEFT JOIN matriculas ma ON m.id = ma.materia_id
+GROUP BY m.nome;
+
+-- Listar aulas e matéria correspondente
+SELECT a.nome AS aula, m.nome AS materia
+FROM aulas a
+JOIN materias m ON a.materia_id = m.id;
+
+-- Listar todas as respostas de um usuário em uma matéria específica
+SELECT u.nome AS usuario, q.enunciado, rp.resposta AS resposta_usuario
+FROM respostas r
+JOIN usuario u ON r.usuario_id = u.id
+JOIN questoes q ON r.questao_id = q.id
+JOIN respperg rp ON r.respperg_id = rp.id
+JOIN materias m ON q.materia_id = m.id
+WHERE u.id = 1 AND m.nome = 'Física';
+
+-- Listar usuários que ainda não responderam nenhuma questão
+SELECT u.nome, u.email
+FROM usuario u
+LEFT JOIN respostas r ON u.id = r.usuario_id
+WHERE r.id IS NULL;
