@@ -30,20 +30,18 @@
             
             const aula_id = document.getElementById("div").dataset.id;
 
-            const data = await fetch(`http://localhost:3000/aulas/${aula_id}/perguntas`);
+            const url = window.location.href;
+
+            const data = await fetch(`${url}/perguntas`);
 
             const results = await data.json();
 
             document.getElementById("pergunta").textContent += results.q[0].enunciado;
             
-            alert(JSON.stringify(results));
-
             results.a.forEach(resp => {
                 const newLi = document.createElement('button');
                 newLi.textContent = resp.resposta;
                 newLi.dataset.correta = resp.verdadeira;
-                alert(this);
-                alert(newLi.dataset.correta);
                 document.getElementById("alternativas").appendChild(newLi);
                 newLi.addEventListener('click', function (){
                     didIGetItRight(this)

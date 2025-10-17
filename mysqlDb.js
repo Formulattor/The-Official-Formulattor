@@ -353,12 +353,7 @@ export async function getQuestion(req, res){
             [aula_id]
         );
 
-        
-
-
         const id = pergunta.rows[0].id;
-
-        console.log(id);
 
         const respostas = await pool.query('SELECT id, resposta, verdadeira, questao_id FROM respperg WHERE questao_id = $1',
             [id]
@@ -368,8 +363,6 @@ export async function getQuestion(req, res){
             q: pergunta.rows,
             a: respostas.rows
         }
-
-        console.log(JSON.stringify(response));
 
         return res.json(response);
     }
