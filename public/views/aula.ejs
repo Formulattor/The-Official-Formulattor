@@ -8,6 +8,8 @@
 </head>
 <body>
 
+    <button id="back">Ver aulas</button>
+
     <% aulas.forEach(aula => { %>
         <div id="div" data-id="<%= aula.id %>">
             <p><%= aula.nome %></p>
@@ -44,12 +46,14 @@
                 newLi.dataset.correta = resp.verdadeira;
                 document.getElementById("alternativas").appendChild(newLi);
                 newLi.addEventListener('click', function (){
-                    didIGetItRight(this)
+                    didIGetItRight(this);
                 });
 
             });
 
         });
+
+        document.getElementById("back").addEventListener('click', () => window.location.assign("/aulas"));
 
     </script>
 
