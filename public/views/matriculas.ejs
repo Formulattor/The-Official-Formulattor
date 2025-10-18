@@ -14,6 +14,15 @@
             <p>Data: <%= matricula.data_matricula %></p>
         </div>
     <% }); %>
+
+        <button id="getCursos">Ver mais cursos</button>
+
+        <script>
+
+            document.getElementById("getCursos").addEventListener('click', () => window.location.href = "/cursos");
+
+        </script>
+
 </body>
 
 </html>

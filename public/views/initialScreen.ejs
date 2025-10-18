@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="../assets/styles/initialScreen.css">
 </head>
 <body>
+
+    <script>
+    </script>
     <!-- <header class="header">
         <div class="header-left">
             <h2>Formulattor</h2>
@@ -22,7 +25,7 @@
                     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%635eea' width='60' height='60'/%3E%3C/svg%3E" alt="Profile Photo" class="profile-photo">
                     <ul>
                         <li><%= usuario.nome %></li>
-                        <li>Nome_Materia</li>
+                        <button onclick="getMatriculas()" id="getMatriculas" data-user_id="<%= usuario.id %>">Minhas matrículas</button>
                     </ul>
                 </div>
 
@@ -102,10 +105,11 @@
                         </div>
                     </div>
                     <div class="leaderboard-body">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Users Icon">
-                        <div class="leaderboard-text">
-                            <p>Maiores pontuações</p>
-                        </div>
+                        <% leaderboard.forEach(l => { %>
+                            <div class="leaderboard-text">
+                                <p><%= l.nome %> - <%= l.pontuacao %></p>
+                            </div>
+                        <% }); %>
                     </div>
                 </section>
 

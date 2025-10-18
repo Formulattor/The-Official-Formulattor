@@ -102,5 +102,5 @@ function selectsubject(valor) {
 }
 
 document.getElementById('fis').addEventListener('click', () => selectsubject(1));
-document.getElementById('mat').addEventListener('click', () => selectsubject(2));
-document.getElementById('qui').addEventListener('click', () => selectsubject(3));
+document.getElementById('qui').addEventListener('click', () => selectsubject(2));
+document.getElementById('mat').addEventListener('click', () => selectsubject(3));

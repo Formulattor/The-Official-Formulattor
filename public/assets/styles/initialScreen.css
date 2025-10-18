@@ -289,9 +289,20 @@ header h2 {
     gap: 1rem;
 }
 
+.leaderboard-body{
+    flex-direction: column;
+    overflow-y: scroll;
+    height: 280px;
+}
+
 .leaderboard-title p, .leaderboard-text p {
     font-weight: 600;
     font-size: 1.1rem;
+}
+
+.leaderboard-text{
+    display: flex;
+    flex-direction: row;
 }
 
 .leaderboard-body {

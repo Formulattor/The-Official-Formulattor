@@ -83,16 +83,19 @@ export async function registerNewUser(req, res) {
             return res.status(400).send('Todos os campos são obrigatórios');
         }
 
-        const existingResult = await pool.query('SELECT id FROM usuario WHERE email = $1', [email]);
-        if (existingResult.rows.length > 0) {
+        const existingResult = await pool.query('SELECT * FROM usuario WHERE email = $1', [email]);
+
+        if (existingResult && existingResult.rows.length > 0) {
             return res.status(400).send('E-mail já cadastrado');
         }
     
         const hashedPassword = await bcrypt.hash(password, 10);
     
         const sql = `INSERT INTO usuario (nome, email, senha, pontuacao) VALUES ($1, $2, $3, 0)`;
-    
+        
         await pool.query(sql, [name, email, hashedPassword]);
+    
+        const user = await pool.query('SELECT * FROM usuario WHERE email = $1', [email]);
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -103,10 +106,10 @@ export async function registerNewUser(req, res) {
         sendEmail(mailOptions);
 
         req.session.email = email;
-        req.session.userId = user.id;
+        req.session.userId = user.rows[0].id;
 
         res.render('temporary', {
-            usuario: user 
+            usuario: user.rows[0]
        });
 
     } catch (error) {
@@ -154,9 +157,21 @@ export async function loginUser(req, res) {
         };
         sendEmail(mailOptions);
 
-        res.render('initialScreen', {
-            usuario: user 
-        });
+        const userMatriculas = await pool.query("SELECT * FROM matriculas WHERE usuario_id = $1", [user.id]);
+
+        const users = await pool.query("SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10");
+
+        console.log(users);
+
+        if(userMatriculas.rows.length > 0){
+            return res.render('initialscreen', {
+                usuario: user,
+                leaderboard: users.rows
+            });
+        }
+        return res.render('temporary', {
+            usuario: user
+        })
     } catch (err) {
         console.error('Erro ao fazer login:', err);
         returnError(500, "Erro interno no servidor", res);
@@ -171,9 +186,7 @@ export async function getTopTen(req, res) {
         const result = await pool.query(
             'SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10'
         );
-        res.render('usuarios', {
-            usuarios: result.rows
-        });
+        res.json(result.rows);
     } catch (err) {
         console.error('Erro ao buscar top 10:', err);
         returnError(500, "Erro interno no servidor", res);
@@ -194,7 +207,7 @@ export async function joinCourse(req, res) {
         );
 
         if (userResult.rows.length === 0) {
-            returnError(404, "Usuário não encontrado", res);
+            return returnError(404, "Usuário não encontrado", res);
             // return res.status(404).send('Usuário não encontrado');
         }
 
@@ -205,7 +218,7 @@ export async function joinCourse(req, res) {
         );
 
         if (existingResult.rows.length > 0) {
-            returnError(400, 'Você já está matriculado nesta matéria', res);
+            return returnError(400, 'Você já está matriculado nesta matéria', res);
             // return res.status(400).send('Você já está matriculado nesta matéria');
         }
 
@@ -215,6 +228,12 @@ export async function joinCourse(req, res) {
             [userResult.rows[0].id, materia_id, dataMatricula]
         );
 
+        const user = await pool.query("SELECT * FROM usuario WHERE id = $1", 
+            [userResult.rows[0].id]
+        );
+
+        console.log(user);
+        
         res.status(201).json({ message: 'Matrícula realizada com sucesso!' });
 
     } catch (e) {
@@ -224,13 +243,16 @@ export async function joinCourse(req, res) {
 }
 
 export async function redirectAfterJoining(req, res) {
-    const userResultName = await pool.query(
-        `SELECT nome FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER($1))`, 
+    if (!req.user) {
+        return res.redirect('/login');
+    }
+    const user = await pool.query(
+        `SELECT * FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER($1))`, 
         [req.session.email]
     );
 
     res.render('initialScreen', {
-        usuario: userResultName.rows[0]
+        usuario: user.rows[0]
     });
 }
 
@@ -290,17 +312,41 @@ export async function renderQuestion(req, res, renderSomething = false) {
 
 export async function listCourses(req, res) {
     try {
+
+        const { usuario_id } = req.params;
+
         const result = await pool.query(
-            'SELECT * FROM matriculas'
+            'SELECT * FROM matriculas WHERE usuario_id = $1',
+            [usuario_id]
         );
         // res.status(200).json(result.rows);
         res.render('matriculas', {
             matriculas: result.rows
-        })
+        });
+
     } catch (error) {
         console.error('Erro ao listar matrículas:', error);
         returnError(500, "Erro interno no servidor", res);
     }
+}
+
+export async function getCourses(req, res){
+
+    const userId = req.session.userId;
+    let user = await pool.query("SELECT * FROM usuario WHERE id = $1", [userId]);
+
+    if(user.rows.length === 0){
+        user.rows[0] = {
+            id: null,
+            nome: "guest"
+        }
+    }
+
+    console.log(user.rows);
+
+    return res.render('matricular', {
+        usuario: user.rows[0]
+    });
 }
 
 export async function getClassById(req, res) {
@@ -346,8 +392,6 @@ export async function getClass(req, res) {
 export async function getQuestion(req, res){
     const { aula_id } = req.params;
     try{
-
-        console.log(aula_id);
 
         const pergunta = await pool.query('SELECT id, enunciado FROM questoes WHERE aula_id = $1',
             [aula_id]
