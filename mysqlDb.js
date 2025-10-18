@@ -159,9 +159,7 @@ export async function loginUser(req, res) {
 
         const userMatriculas = await pool.query("SELECT * FROM matriculas WHERE usuario_id = $1", [user.id]);
 
-        const users = await pool.query("SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10");
-
-        console.log(users);
+        const users = await pool.query("SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10")
 
         if(userMatriculas.rows.length > 0){
             return res.render('initialscreen', {
@@ -231,8 +229,6 @@ export async function joinCourse(req, res) {
         const user = await pool.query("SELECT * FROM usuario WHERE id = $1", 
             [userResult.rows[0].id]
         );
-
-        console.log(user);
         
         res.status(201).json({ message: 'Matrícula realizada com sucesso!' });
 
@@ -342,8 +338,6 @@ export async function getCourses(req, res){
         }
     }
 
-    console.log(user.rows);
-
     return res.render('matricular', {
         usuario: user.rows[0]
     });
@@ -415,5 +409,4 @@ export async function getQuestion(req, res){
         console.log("Erro ao acessar pergunta:", error);
 
     }
-
 }
