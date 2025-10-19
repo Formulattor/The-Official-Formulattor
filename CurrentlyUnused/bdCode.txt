@@ -1,59 +1,60 @@
-CREATE DATABASE formulattordb;
-USE formulattordb;
+CREATE DATABASE formulattorbd;
+USE formulattorbd;
 
 -- Tabela de usuários
 CREATE TABLE usuario (
    id INT AUTO_INCREMENT PRIMARY KEY,
    nome VARCHAR(50) NOT NULL,
    email VARCHAR(50) UNIQUE NOT NULL,
-   senha VARCHAR(255) NOT NULL, -- melhor usar hash
+   senha VARCHAR(255) NOT NULL,
    dataNascimento DATE,
    pontuacao INT DEFAULT 0
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Tabela de matérias
 CREATE TABLE materias (
    id INT AUTO_INCREMENT PRIMARY KEY,
    nome VARCHAR(50) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO materias (nome) VALUES 
-("Física"),
-("Química"),
-("Matemática");
+CREATE TABLE questoes (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   materia_id INT NOT NULL,
+   enunciado VARCHAR(255) NOT NULL,
+   FOREIGN KEY (materia_id) REFERENCES materias(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabela de aulas
+CREATE TABLE respperg (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   questao_id INT NOT NULL,
+   resposta VARCHAR(255) NOT NULL,
+   verdadeira TINYINT(1) NOT NULL,
+   FOREIGN KEY (questao_id) REFERENCES questoes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tabela para armazenar respostas dos usuários
+CREATE TABLE respostas (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   usuario_id INT NOT NULL,
+   questao_id INT NOT NULL,
+   respperg_id INT NOT NULL,
+   dataResposta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+   FOREIGN KEY (questao_id) REFERENCES questoes(id),
+   FOREIGN KEY (respperg_id) REFERENCES respperg(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE aulas(
    id INT AUTO_INCREMENT PRIMARY KEY,
    nome VARCHAR(100),
    materia_id INT NOT NULL,
    FOREIGN KEY (materia_id) REFERENCES materias(id),
-   conteudo VARCHAR(500)
-);
+   contexto VARCHAR(200),
+   conteudo_1 TEXT,
+   conteudo_2 TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Inserindo aulas com a associação à matéria
--- Aulas de Física (ID 1)
-INSERT INTO aulas (nome, conteudo, materia_id) VALUES
-("Introdução à Física", "Nesta aula, abordaremos os conceitos fundamentais da Física, como as leis de Newton, o movimento de corpos e a força.", 1),
-("Termodinâmica - Parte 1", "Esta aula trata dos conceitos iniciais de termodinâmica, incluindo a primeira e segunda lei da termodinâmica e suas aplicações.", 1),
-("Leis de Newton", "Estudo aprofundado das três leis de Newton e suas implicações na mecânica clássica.", 1),
-("Movimento Circular", "Abordagem do movimento circular uniforme e não uniforme, forças centrípetas e forças radiais.", 1);
-
--- Aulas de Química (ID 2)
-INSERT INTO aulas (nome, conteudo, materia_id) VALUES
-("Estrutura Atômica", "Aula de Química Geral, discutindo a estrutura atômica, modelos atômicos e a tabela periódica.", 2),
-("Reações Químicas - Introdução", "Abordagem sobre as reações químicas, tipos de reações e como balancear equações químicas.", 2),
-("Ligação Química", "Estudo dos tipos de ligação química: covalente, iônica e metálica.", 2),
-("Termodinâmica Química", "Estudo da termodinâmica aplicada aos processos químicos, incluindo entalpia e entropia.", 2);
-
--- Aulas de Matemática (ID 3)
-INSERT INTO aulas (nome, conteudo, materia_id) VALUES
-("Álgebra - Fundamentos", "Aula introdutória sobre álgebra, explorando expressões algébricas, equações e as operações fundamentais.", 3),
-("Cálculo Diferencial - Introdução", "Nesta aula, introduziremos os conceitos básicos do cálculo diferencial, incluindo limites e derivadas.", 3),
-("Geometria Analítica", "Exploração de coordenadas no plano cartesiano, equações de retas e curvas.", 3),
-("Equações Diferenciais", "Introdução ao estudo de equações diferenciais ordinárias e suas soluções.", 3);
-
-
+-- Tabela de possíveis respostas para cada questão
 -- Tabela de matrículas (relaciona usuário com matéria)
 CREATE TABLE matriculas (
    id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,33 +63,354 @@ CREATE TABLE matriculas (
    dataMatricula DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
    FOREIGN KEY (materia_id) REFERENCES materias(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Tabela de questões
-CREATE TABLE questoes (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   materia_id INT NOT NULL,
-   enunciado VARCHAR(255) NOT NULL,
-   FOREIGN KEY (materia_id) REFERENCES materias(id)
-);
+-- Inserindo usuários
+INSERT INTO usuario (nome, email, senha, pontuacao) VALUES
+('João Silva', 'joao.silva@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 150),
+('Maria Santos', 'maria.santos@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 280),
+('Pedro Oliveira', 'pedro.oliveira@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 95),
+('Ana Costa', 'ana.costa@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 320),
+('Carlos Mendes', 'carlos.mendes@email.com', '$2y$10$abcdefghijklmnopqrstuvwxyz123456', 210);
 
--- Tabela de possíveis respostas para cada questão
-CREATE TABLE respperg (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   questao_id INT NOT NULL,
-   resposta VARCHAR(255) NOT NULL,
-   verdadeira BIT NOT NULL,
-   FOREIGN KEY (questao_id) REFERENCES questoes(id)
-);
+INSERT INTO materias (nome) VALUES
+("Física"),
+("Química"),
+("Matemática");
 
--- Tabela para armazenar respostas dos usuários
-CREATE TABLE respostas (
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   usuario_id INT NOT NULL,
-   questao_id INT NOT NULL,
-   respperg_id INT NOT NULL, -- qual alternativa o usuário escolheu
-   dataResposta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-   FOREIGN KEY (questao_id) REFERENCES questoes(id),
-   FOREIGN KEY (respperg_id) REFERENCES respperg(id)
-);
+-- Inserindo questões
+INSERT INTO questoes (materia_id, enunciado) VALUES
+(1, 'Qual é a unidade de medida de força no Sistema Internacional?'),
+(1, 'Um objeto em repouso permanecerá em repouso, a menos que uma força atue sobre ele. Qual é o nome desta lei?'),
+(1, 'Qual é a fórmula da Segunda Lei de Newton?'),
+(2, 'Qual é o número atômico do carbono?'),
+(2, 'Qual é a diferença entre ligação iônica e ligação covalente?'),
+(2, 'Em uma reação química, o que o balanceamento garante?'),
+(3, 'Qual é o vértice da função f(x) = x² - 4x + 3?'),
+(3, 'Qual é a fórmula do termo geral de uma progressão aritmética?'),
+(3, 'Qual é a soma dos ângulos internos de um triângulo?');
+
+-- Inserindo respostas possíveis
+-- Questão 1: Unidade de força
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(1, 'Newton (N)', 1),
+(1, 'Joule (J)', 0),
+(1, 'Watt (W)', 0),
+(1, 'Pascal (Pa)', 0);
+
+-- Questão 2: Primeira Lei de Newton
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(2, 'Lei da Inércia', 1),
+(2, 'Lei de ação e reação', 0),
+(2, 'Lei da aceleração', 0),
+(2, 'Lei da gravidade', 0);
+
+-- Questão 3: Segunda Lei de Newton
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(3, 'F = m·a', 1),
+(3, 'F = m·v', 0),
+(3, 'F = m·g', 0),
+(3, 'F = m²·a', 0);
+
+-- Questão 4: Número atômico do carbono
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(4, '6', 1),
+(4, '8', 0),
+(4, '12', 0),
+(4, '4', 0);
+
+-- Questão 5: Ligação iônica vs covalente
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(5, 'Iônica: transferência de elétrons; Covalente: compartilhamento de elétrons', 1),
+(5, 'Iônica: compartilhamento; Covalente: transferência', 0),
+(5, 'Ambas são iguais', 0),
+(5, 'Iônica ocorre apenas em gases', 0);
+
+-- Questão 6: Balanceamento químico
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(6, 'Conservação de massa e carga', 1),
+(6, 'Conservação de energia apenas', 0),
+(6, 'Aumento de moléculas', 0),
+(6, 'Diminuição de átomos', 0);
+
+-- Questão 7: Vértice da parábola
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(7, '(2, -1)', 1),
+(7, '(1, -2)', 0),
+(7, '(2, 1)', 0),
+(7, '(0, 3)', 0);
+
+-- Questão 8: Termo geral PA
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(8, 'an = a1 + (n-1)·r', 1),
+(8, 'an = a1 + n·r', 0),
+(8, 'an = a1·r^(n-1)', 0),
+(8, 'an = a1 + r', 0);
+
+-- Questão 9: Soma ângulos internos
+INSERT INTO respperg (questao_id, resposta, verdadeira) VALUES
+(9, '180°', 1),
+(9, '360°', 0),
+(9, '90°', 0),
+(9, '270°', 0);
+
+-- Inserindo matrículas
+INSERT INTO matriculas (usuario_id, materia_id) VALUES
+(1, 1),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 2),
+(4, 1),
+(4, 2),
+(5, 3);
+
+-- Inserindo aulas com a associação à matéria
+-- Aulas para Física (materia_id = 1)
+INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
+('Leis de Newton',
+ 'Estudo das três leis fundamentais formuladas por Isaac Newton, essenciais para a mecânica clássica e para resolver problemas de forças e movimento.',
+ 'A Primeira Lei de Newton (Lei da Inércia): definição, exemplos práticos, referenciais inerciais e não-inerciais',
+ 'A Segunda Lei (F = m·a) e a Terceira Lei (ação e reação): aplicação em sistemas, forças internas e externas, exemplos cotidianos',
+ 1),
+('Cinemática',
+ 'Análise dos movimentos sem considerar causas, trabalho com equações de movimento e gráficos para interpretar fenômenos físicos.',
+ 'Movimento retilíneo uniforme (MRU) e uniformemente variado (MRUV): definição, equações suvat, exemplos numéricos',
+ 'Gráficos posição × tempo e velocidade × tempo, interpretação, aceleração constante e variação de velocidade',
+ 1),
+('Trabalho e Energia',
+ 'Exploração da relação entre força, deslocamento e energia, e como essas quantidades se transformam entre si.',
+ 'Definição de trabalho (força · deslocamento · cosseno do ângulo), trabalho de força variável, potência',
+ 'Energia cinética e potencial, conservação da energia, trabalho realizado por forças conservativas e não-conservativas',
+ 1),
+('Gravitação Universal',
+ 'Estudo das interações gravitacionais em corpos massivos e aplicações em sistemas planetários e satélites.',
+ 'Lei da Gravitação Universal de Newton: formulação, dependência da massa e da distância, constante gravitacional',
+ 'Leis de Kepler: órbitas elípticas, áreas, tempos de revolução; energia orbital e velocidade escape',
+ 1),
+('Termodinâmica',
+ 'Introdução aos princípios termodinâmicos que governam transferência de calor e transformações de sistemas físicos.',
+ 'Primeira Lei da Termodinâmica (conservação da energia em sistemas térmicos), calor, trabalho e energia interna',
+ 'Segunda Lei da Termodinâmica, entropia, irreversibilidade, ciclos termodinâmicos ideais (Carnot, entre outros)',
+ 1),
+('Óptica Geométrica',
+ 'Propagação da luz, leis da reflexão e refração, formação de imagens e instrumentos ópticos simples.',
+ 'Leis da reflexão e refração (Lei de Snell), índices de refração, ângulo crítico e reflexão total interna',
+ 'Espelhos (planos, côncavos, convexos) e lentes (convergentes e divergentes): construção de imagens, equações de Gauss e espessura delgada',
+ 1),
+('Ondulatória',
+ 'Conceitos de ondas mecânicas e eletromagnéticas, propagação, superposição e fenômenos associados.',
+ 'Grandezas das ondas: frequência, comprimento de onda, velocidade, amplitude; ondas transversais e longitudinais',
+ 'Princípio da superposição, interferência, difração, ressonância e efeito Doppler',
+ 1),
+('Eletrostática',
+ 'Interações elétricas entre cargas em repouso, campo e potencial elétrico, conceitos fundamentais de eletrostática.',
+ 'Lei de Coulomb (força entre cargas pontuais), campo elétrico e linha de campo, distribuição de carga',
+ 'Potencial elétrico e energia potencial elétrica, diferença de potencial, equipotenciais e capacitores simples',
+ 1),
+('Eletrodinâmica',
+ 'Movimento de cargas em condutores: corrente elétrica, resistores e leis que regem circuitos simples.',
+ 'Corrente elétrica, densidade de corrente, condutividade; Lei de Ohm (V = R·I), resistores em série e em paralelo',
+ 'Potência elétrica, efeito Joule, associações de resistores, análise de circuitos básicos com malhas simples',
+ 1),
+('Magnetismo e Indução',
+ 'Relação entre eletricidade e magnetismo, campos magnéticos e fenômenos de indução eletromagnética.',
+ 'Campo magnético produzido por correntes (lei de Biot‑Savart, lei de Ampère) e força magnética sobre cargas em movimento',
+ 'Lei de Faraday, Lei de Lenz e indução eletromagnética, autoindução, indutores e aplicação prática em geradores e transformadores',
+ 1);
+
+-- Aulas para Química (materia_id = 2)
+INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
+('Estrutura Atômica',
+ 'Introdução aos modelos atômicos e à estrutura interna dos elementos, importante para entender ligações e reações.',
+ 'Modelos atômicos históricos (Dalton, Thomson, Rutherford, Bohr) e o modelo quântico moderno com orbitais',
+ 'Número atômico, número de massa, isótopos, distribuição eletrônica e configuração eletrônica',
+ 2),
+('Tabela Periódica e Propriedades Periódicas',
+ 'Organização sistemática dos elementos químicos e tendências periódicas nos elementos da tabela.',
+ 'Grupos e períodos, blocos s, p, d e f, classificação geral dos elementos',
+ 'Propriedades periódicas: raio atômico, afinidade eletrônica, energia de ionização, eletronegatividade',
+ 2),
+('Ligações Químicas',
+ 'Tipos de ligações entre átomos e como elas determinam propriedades dos compostos.',
+ 'Ligação iônica: formação de íons, forças eletrostáticas, propriedades físicas (pontos de fusão e ebulição)',
+ 'Ligação covalente (polar e apolar), ligação metálica, forças intermoleculares (ligação de hidrogênio, dipolo-dipolo, London)',
+ 2),
+('Reações Químicas e Balanceamento',
+ 'Classificação de reações, princípios e técnicas para balancear equações químicas.',
+ 'Tipos de reações: síntese, decomposição, simples troca, dupla troca e óxido-redução (redox)',
+ 'Métodos de balanceamento: tentativa e erro, método algébrico, balanceamento por íons, conservação de massa e de carga',
+ 2),
+('Gases e Leis dos Gases',
+ 'Estudo dos comportamentos dos gases ideais e reais sob variações de pressão, volume e temperatura.',
+ 'Leis fundamentais: Boyle, Charles, Gay-Lussac, Avogadro; equação de estado dos gases ideais (PV = nRT)',
+ 'Transformações gasosas (isotérmica, isobárica, isocórica, adiabática), gás real e equação de Van der Waals',
+ 2),
+('Soluções e Solubilidade',
+ 'Conceito de soluções, concentração e fatores que influenciam a dissolução e a solubilidade.',
+ 'Unidades de concentração: molaridade, molalidade, normalidade, fração molar, percentual em massa',
+ 'Fatores que afetam a solubilidade (temperatura, pressão, natureza dos solvente/soluto), diluição e reagentes limitantes',
+ 2),
+('Ácidos, Bases e pH',
+ 'Teorias de ácidos e bases e cálculo de pH e pOH em soluções aquosas.',
+ 'Teorias de Arrhenius, Brønsted‑Lowry e Lewis; força de ácidos e bases, pKa e pKb',
+ 'Cálculos de pH, pOH, ionização de ácidos fracos, base conjugada, reações de neutralização e tampas',
+ 2),
+('Estequiometria e Cálculos Estequiométricos',
+ 'Relação quantitativa entre reagentes e produtos em reações químicas, cálculo de rendimentos e reagentes limitantes.',
+ 'Cálculo de mols, massa molar, conversão entre massa, mol e número de partículas (Avogadro)',
+ 'Determinação de reagente limitante, rendimento teórico, rendimento real e porcentagem de rendimento',
+ 2),
+('Equilíbrio Químico',
+ 'Análise de reações reversíveis, constante de equilíbrio e deslocamento de equilíbrio segundo Le Chatelier.',
+ 'Constantes de equilíbrio (Kc e Kp), expressão de K para diferentes reações, interpretação de valores de K',
+ 'Princípio de Le Chatelier: efeitos de variações de concentração, pressão e temperatura sobre o equilíbrio',
+ 2),
+('Termoquímica e Entalpia',
+ 'Estudo de energia envolvida nas reações químicas e suas transformações caloríficas.',
+ 'Entalpia de reação, entalpia de formação padrão, entalpia de combustão, entalpia de ligação química',
+ 'Lei de Hess, calorimetria, variação de entalpia em reações diretas e indiretas, reações endotérmicas e exotérmicas',
+ 2);
+
+-- Aulas para Matemática (materia_id = 3)
+INSERT INTO aulas (nome, contexto, conteudo_1, conteudo_2, materia_id) VALUES
+('Funções e Gráficos',
+ 'Abordagem dos diferentes tipos de funções usadas no ensino médio e suas representações gráficas, fundamentais para vestibulares.',
+ 'Função do 1º grau: definição, coeficientes angular e linear, gráfico e aplicações em problemas de reta',
+ 'Função quadrática: forma canônica e fatorada, vértice, concavidade, raízes e estudo do discriminante',
+ 3),
+('Progressão Aritmética e Progressão Geométrica',
+ 'Estudo das progressões aritméticas (PA) e geométricas (PG) e suas aplicações em problemas matemáticos.',
+ 'PA: termo geral, soma dos termos, aplicações típicas em problemas de crescimento linear',
+ 'PG: termo geral, razão, soma de termos, aplicações em juros compostos e populações',
+ 3),
+('Trigonometria Básica e Aplicada',
+ 'Introdução às funções trigonométricas e sua aplicação na resolução de triângulos e modelagens.',
+ 'Definição de seno, cosseno e tangente; relações fundamentais; arcos e medida em radianos e graus',
+ 'Identidades trigonométricas (pitagóricas, adição/subtração de ângulos), lei dos senos e cossenos',
+ 3),
+('Geometria Plana e Polígonos',
+ 'Análise das figuras planas e suas propriedades, perímetros, áreas e relações internas.',
+ 'Propriedades de triângulos, quadriláteros, circunferência; relações entre ângulos e diagonais',
+ 'Fórmulas de área e perímetro de polígonos regulares e irregulares, teorema de Pitágoras e triângulos notáveis',
+ 3),
+('Geometria Espacial',
+ 'Estudo de sólidos geométricos, suas superfícies e volumes, aplicado a prismas, pirâmides, cilindros, cones e esferas.',
+ 'Elementos de sólidos geométricos (faces, arestas, vértices), cálculo de área total e área lateral',
+ 'Volume e relações dimensionais: prismas, pirâmides, cilindros, cones e esferas; problemas envolvendo cortes e seções',
+ 3),
+('Probabilidade e Estatística',
+ 'Introdução ao cálculo de probabilidades e à estatística descritiva para interpretar dados e fenômenos.',
+ 'Probabilidade: espaço amostral, eventos, probabilidade condicional, independência e teorema de Bayes',
+ 'Estatística: média, mediana, moda, variância, desvio-padrão e interpretação de gráficos estatísticos',
+ 3),
+('Equações e Inequações',
+ 'Resolução de equações e inequações de primeiro e segundo grau, com aplicação em problemas reais.',
+ 'Equações do 1º grau e sistemas lineares simples, técnicas algébricas de resolução',
+ 'Equações do 2º grau, discriminante, soma e produto das raízes; inequações lineares e quadráticas',
+ 3),
+('Álgebra Linear e Matrizes',
+ 'Estudo de matrizes, determinantes e aplicações de sistemas lineares via escalonamento e Cramer.',
+ 'Operações com matrizes (adição, multiplicação, transposta), determinantes de ordem 2 e 3',
+ 'Sistemas lineares: escalonamento, método de substituição, eliminação de Gauss e regra de Cramer',
+ 3),
+('Limites e Introdução ao Cálculo',
+ 'Conceito de limite e noções iniciais de derivada, fundamentais para o estudo do cálculo diferencial.',
+ 'Definição intuitiva e formal de limite, cálculo de limites com "0/0", mudança de variável e regra de Hôpital',
+ 'Derivada como taxa de variação e inclinação da reta tangente; regras de derivação (soma, produto, quociente)',
+ 3),
+('Integral e Aplicações do Cálculo',
+ 'Introdução à integral e suas aplicações em áreas, volumes e somatórios contínuos.',
+ 'Integral indefinida: conceito, antiderivadas, método de substituição e regra de integração por partes',
+ 'Integral definida: cálculo de áreas sob curvas, cálculo de volumes por revolução, aplicações físicas e geométricas',
+ 3);
+
+------------------ Consultas --------------------
+
+-- Consultas importantes para o banco de dados 'eita'
+
+-- Listar todos os usuários
+SELECT * FROM usuario;
+
+-- Listar todas as matérias
+SELECT * FROM materias;
+
+-- Listar todas as questões de uma matéria específica (ex: Física)
+SELECT q.id, q.enunciado
+FROM questoes q
+JOIN materias m ON q.materia_id = m.id
+WHERE m.nome = 'Física';
+
+-- Listar todas as respostas de uma questão específica (ex: id = 1)
+SELECT r.resposta, r.verdadeira
+FROM respperg r
+WHERE r.questao_id = 1;
+
+-- Listar todas as aulas de uma matéria (ex: Química)
+SELECT a.nome, a.contexto
+FROM aulas a
+JOIN materias m ON a.materia_id = m.id
+WHERE m.nome = 'Química';
+
+-- Verificar as matrículas de um usuário específico (ex: id = 2)
+SELECT u.nome AS usuario, m.nome AS materia, ma.dataMatricula
+FROM matriculas ma
+JOIN usuario u ON ma.usuario_id = u.id
+JOIN materias m ON ma.materia_id = m.id
+WHERE u.id = 2;
+
+-- Consultar as respostas de um usuário específico
+SELECT u.nome AS usuario, q.enunciado, r.resposta AS resposta_usuario, rp.resposta AS resposta_correta, rp.verdadeira
+FROM respostas r
+JOIN usuario u ON r.usuario_id = u.id
+JOIN questoes q ON r.questao_id = q.id
+JOIN respperg rp ON r.respperg_id = rp.id
+WHERE u.id = 2;
+
+-- Contar quantas questões cada matéria possui
+SELECT m.nome AS materia, COUNT(q.id) AS total_questoes
+FROM materias m
+LEFT JOIN questoes q ON m.id = q.materia_id
+GROUP BY m.nome;
+
+-- Listar usuários com pontuação acima de 200
+SELECT nome, email, pontuacao
+FROM usuario
+WHERE pontuacao > 200;
+
+-- Listar as questões e suas respostas corretas
+SELECT q.enunciado, r.resposta
+FROM questoes q
+JOIN respperg r ON q.id = r.questao_id
+WHERE r.verdadeira = 1;
+
+-- Obter média de pontuação dos usuários
+SELECT AVG(pontuacao) AS media_pontuacao
+FROM usuario;
+
+-- Obter a quantidade de usuários matriculados em cada matéria
+SELECT m.nome AS materia, COUNT(ma.usuario_id) AS total_usuarios
+FROM materias m
+LEFT JOIN matriculas ma ON m.id = ma.materia_id
+GROUP BY m.nome;
+
+-- Listar aulas e matéria correspondente
+SELECT a.nome AS aula, m.nome AS materia
+FROM aulas a
+JOIN materias m ON a.materia_id = m.id;
+
+-- Listar todas as respostas de um usuário em uma matéria específica
+SELECT u.nome AS usuario, q.enunciado, rp.resposta AS resposta_usuario
+FROM respostas r
+JOIN usuario u ON r.usuario_id = u.id
+JOIN questoes q ON r.questao_id = q.id
+JOIN respperg rp ON r.respperg_id = rp.id
+JOIN materias m ON q.materia_id = m.id
+WHERE u.id = 1 AND m.nome = 'Física';
+
+-- Listar usuários que ainda não responderam nenhuma questão
+SELECT u.nome, u.email
+FROM usuario u
+LEFT JOIN respostas r ON u.id = r.usuario_id
+WHERE r.id IS NULL;

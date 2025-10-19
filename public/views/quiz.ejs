@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../assets/scripts/aulas.js"></script>
     <title>Welcome to the Formulattor Quiz alpha version</title>
 </head>
 <body>
@@ -28,16 +29,5 @@
                 <button onclick="didIGetItRight(this)" data-correta="<%= resp.verdadeira %>"><%= resp.resposta %></button>
             <% }) %>
         </ul>
-    <script>
-        function didIGetItRight(element){
-            const isCorrect = element.dataset.correta || '';
-            if(isCorrect == "true"){
-                alert("Acertou!");
-            }
-            else{
-                alert("Ops, leia com atenção!");
-            }
-        }
-    </script>
 </body>
 </html>

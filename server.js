@@ -12,7 +12,9 @@ import {
     listCourses,
     getClassById,
     getClass,
-    redirectAfterJoining
+    redirectAfterJoining,
+    getQuestion,
+    getCourses
 } from './mysqlDb.js';
 
 dotenv.config();
@@ -78,7 +80,7 @@ app.get('/', (req, res) => {
     res.sendFile(homePath, (err) => {
         if (err) {
             console.error('Erro ao servir home.html:', err.message);
-            res.status(404).send('Página não encontrada. Verifique se a pasta public/ existe.');
+            res.status(404).send('Página não encontrada.');
         }
     });
 });
@@ -88,7 +90,7 @@ app.get('/login', (req, res) => {
     res.sendFile(loginPath, (err) => {
         if (err) {
             console.error('Erro ao servir login.html:', err.message);
-            res.status(404).send('Página não encontrada. Verifique se a pasta public/ existe.');
+            res.status(404).send('Página não encontrada.');
         }
     });
 });
@@ -121,9 +123,13 @@ app.get('/initialscreen', (req, res) => {
     redirectAfterJoining(req, res);
 });
 
-app.get('/matriculas', (req, res) => {
+app.get('/matriculas/:usuario_id', (req, res) => {
     listCourses(req, res);
 });
+
+app.get('/cursos', (req, res) => {
+    getCourses(req, res);
+})
 
 app.get("/aulas/:id", (req, res) => {
     getClassById(req, res);
@@ -131,6 +137,10 @@ app.get("/aulas/:id", (req, res) => {
 
 app.get("/aulas", (req, res) => {
     getClass(req, res);
+});
+
+app.get("/aulas/:aula_id/perguntas", (req, res) => {
+    getQuestion(req, res);
 });
 
 app.use((err, req, res, next) => {
@@ -149,14 +159,8 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log('==========================================');
-    console.log(`Servidor rodando na porta ${PORT}`);
     console.log(`Local URL: http://localhost:${PORT}`);
     console.log(`URL: https://the-official-formulattor.onrender.com`);
-    console.log(`Diretório: ${__dirname}`);
-    console.log(`Public: ${path.join(__dirname, 'public')}`);
-    console.log(`Views: ${path.join(__dirname,'public', 'views')}`);
-    console.log('==========================================');
 });
 
 process.on('unhandledRejection', (reason, promise) => {

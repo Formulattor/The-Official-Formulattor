@@ -6,6 +6,16 @@ function getAula(element) {
     window.location.href = url;
 }
 
+function didIGetItRight(element){
+    const isCorrect = element.dataset.correta || '';
+    if(isCorrect == "true"){
+        alert("Acertou!");
+    }
+    else{
+        alert("Ops, leia com atenção!");
+    }
+}
+
 const filterButtons = document.querySelectorAll('.filter-btn');
 const lessonsContainers = document.querySelectorAll('.lessons');
 
@@ -82,3 +92,8 @@ window.addEventListener('resize', () => {
         document.querySelector('.sidebar').classList.remove('active');
     }
 });
+
+
+
+
+// ========================================= ========================================= //

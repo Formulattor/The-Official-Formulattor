@@ -8,12 +8,21 @@
 <body>
     <% matriculas.forEach(matricula => { %>
         <div>
-                <h2>Matricula: <%= matricula.id %></h2>
-                <p>Usuário: <%= matricula.usuario_id %></p>
-                <p>Matéria: <%= matricula.materia_id %></p>
-                <p>Data: <%= matricula.data_matricula %></p>
+            <h2>Matricula: <%= matricula.id %></h2>
+            <p>Usuário: <%= matricula.usuario_id %></p>
+            <p>Matéria: <%= matricula.materia_id %></p>
+            <p>Data: <%= matricula.data_matricula %></p>
         </div>
     <% }); %>
+
+        <button id="getCursos">Ver mais cursos</button>
+
+        <script>
+
+            document.getElementById("getCursos").addEventListener('click', () => window.location.href = "/cursos");
+
+        </script>
+
 </body>
 
 </html>
