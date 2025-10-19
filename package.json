@@ -1,21 +1,22 @@
 {
-  "name": "projeto-educacional",
+  "name": "formulattor",
   "version": "1.0.0",
-  "description": "Aplicação educacional com Node.js, Express e MySQL",
+  "description": "",
   "type": "module",
   "main": "server.js",
   "scripts": {
     "start:dev": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": [
-    "nodejs",
-    "express",
-    "mysql",
-    "education",
-    "quiz"
-  ],
-  "author": "Seu Nome",
+  "keywords": [],
+  "author-1": {
+    "name": "Gabriel de Carvalho Comparini",
+    "email": "gc77777777777777@gmail.com"
+  },
+  "author-2": {
+    "name": "Fabrício de Araújo Krull",
+    "email": "flimflimflaus@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",

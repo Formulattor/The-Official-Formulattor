@@ -25,19 +25,20 @@
                     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%635eea' width='60' height='60'/%3E%3C/svg%3E" alt="Profile Photo" class="profile-photo">
                     <ul>
                         <li><%= usuario.nome %></li>
+                        <!-- mover para configurações no futuro -->
                         <button onclick="getMatriculas()" id="getMatriculas" data-user_id="<%= usuario.id %>">Minhas matrículas</button>
                     </ul>
                 </div>
 
                 <div class="miniOptions infos">
                     <button class="option-btn" title="Amigos">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect fill='white' width='24' height='24'/%3E%3C/svg%3E" alt="Friends Icon">
+                        <img src="../assets/images/Icons/friends-svgrepo-com.svg" alt="Friends Icon">
                     </button>
                     <button class="option-btn" title="Mensagens">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect fill='white' width='24' height='24'/%3E%3C/svg%3E" alt="Messages Icon">
+                        <img src="../assets/images/Icons/message-square-lines-alt-svgrepo-com.svg" alt="Messages Icon">
                     </button>
                     <button class="option-btn" title="Configurações">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect fill='white' width='24' height='24'/%3E%3C/svg%3E" alt="Settings Icon">
+                        <img src="../assets/images/Icons/settings-svgrepo-com.svg" alt="Settings Icon">
                     </button>
                 </div>
             </div>
@@ -46,28 +47,28 @@
                 <section class="mainSecs score-section">
                     <div class="score-header">
                         <div class="rank-info">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Ranking Icon">
+                            <img src="../assets/images/Icons/ranking-svgrepo-com.svg" alt="Ranking Icon">
                             <p>#0</p>
                         </div>
                         <div class="score-display">
-                            <p>Pontuacao</p>
+                            <p>Pontuação</p>
                             <div class="score-value">
                                 <p>0</p>
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Trophy Icon">
+                                <img src="../assets/images/Icons/coins-chinese-svgrepo-com.svg" alt="Coins Icon">
                             </div>
                         </div>
                     </div>
                     <div class="score-actions">
                         <button class="action-btn" onclick="getQuestions()">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect fill='white' width='20' height='20'/%3E%3C/svg%3E" alt="Exercises Icon">
+                            <img src="../assets/images/Icons/pen-square-svgrepo-com.svg" alt="Exercises Icon">
                             <p>Fazer Exercicios</p>
                         </button>
                         <button class="action-btn" onclick="getAulas()">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect fill='white' width='20' height='20'/%3E%3C/svg%3E" alt="Subject Icon">
+                            <img src="../assets/images/Icons/class-scene-svgrepo-com.svg" alt="Subject Icon">
                             <p>Aulas</p>
                         </button>
                         <button class="action-btn">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect fill='white' width='20' height='20'/%3E%3C/svg%3E" alt="Test Icon">
+                            <img src="../assets/images/Icons/studying-exam-svgrepo-com.svg" alt="Test Icon">
                             <p>Testes grandes</p>
                         </button>
                     </div>
@@ -76,19 +77,19 @@
                 <section class="mainSecs exercises-section">
                     <div class="exercise-header">
                         <div class="exercise-info">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Calendar Icon">
+                            <img src="../assets/images/Icons/book-svgrepo-com.svg" alt="Book Icon">
                             <p>0</p>
                         </div>
                         <div class="exercise-streak">
                             <p>Exercicios feitos</p>
                             <div class="streak-display">
                                 <p>0</p>
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Fire Icon">
+                                <img src="../assets/images/Icons/fire-svgrepo-com.svg" alt="Fire Icon">
                             </div>
                         </div>
                     </div>
                     <div class="exercise-extra">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Extra Icon">
+                        <img src="../assets/images/Icons/puzzle-piece-svgrepo-com.svg" alt="Extra Icon">
                         <div class="extra-text">
                             <p>Problema diário!</p>
                         </div>
@@ -98,7 +99,7 @@
                 <section class="mainSecs leaderboard-section">
                     <div class="leaderboard-header">
                         <div class="leaderboard-icon">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect fill='white' width='32' height='32'/%3E%3C/svg%3E" alt="Leaderboard Icon">
+                            <img src="../assets/images/Icons/trophy-svgrepo-com.svg" alt="Leaderboard Icon">
                         </div>
                         <div class="leaderboard-title">
                             <p>Leaderboard</p>
@@ -121,7 +122,7 @@
             </div>
 
             <div class="searchContent">
-                <input type="search" placeholder="Procure algo...">
+                <input type="search" placeholder="Procura geral...">
             </div>
         </div>
 
