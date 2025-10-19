@@ -162,7 +162,7 @@ export async function loginUser(req, res) {
         const users = await pool.query("SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10")
 
         if(userMatriculas.rows.length > 0){
-            return res.render('initialscreen', {
+            return res.render('initialScreen', {
                 usuario: user,
                 leaderboard: users.rows
             });
