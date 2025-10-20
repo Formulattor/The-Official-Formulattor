@@ -86,6 +86,7 @@ main {
 
 .terminalArea {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-start;
 }
@@ -366,3 +367,8 @@ main {
         max-height: 300px;
     }
 } */
+
+#calculate{
+    display: flex;
+    flex-direction: row;
+}

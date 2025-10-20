@@ -12,6 +12,25 @@ let isblueOn = false;
 
 document.querySelector('.connectArduino').addEventListener('click', connectSerial);
 
+let acc = document.getElementById("acc");
+let force = document.getElementById("force");
+
+acc.addEventListener('input', () => {
+    if (acc.value !== "") {
+        force.disabled = true;
+    } else {
+        force.disabled = false;
+    }
+});
+
+force.addEventListener('input', () => {
+    if (force.value !== "") {
+        acc.disabled = true;
+    } else {
+        acc.disabled = false;
+    }
+});
+
 document.querySelector('.clearTerminal').addEventListener('click', () => {
     document.querySelector('.terminalInterface').innerHTML = ">_<br><br>";
 });
@@ -182,6 +201,9 @@ async function getLoadcell(){
             const result = await readPort();
             // alert(result);
             sendToTerminal("Valor lido: " + result);
+            
+            document.getElementById("mass").textContent = parseFloat(result);
+            
         }, 200);
 
 
