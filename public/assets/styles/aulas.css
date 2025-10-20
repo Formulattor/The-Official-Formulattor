@@ -287,6 +287,7 @@ body {
 @media (max-width: 768px) {
     body {
         flex-direction: column;
+        height: 170vh;
     }
     
     .mobile-menu-btn {
