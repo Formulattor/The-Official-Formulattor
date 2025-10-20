@@ -91,6 +91,7 @@ function selectsubject(valor) {
         headers: {
             'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ materia_id: valor })
     })
     .then(response => response.json())

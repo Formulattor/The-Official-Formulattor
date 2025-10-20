@@ -19,21 +19,26 @@ function didIGetItRight(element){
 const filterButtons = document.querySelectorAll('.filter-btn');
 const lessonsContainers = document.querySelectorAll('.lessons');
 
+const endpoint = window.location.pathname;
+
 filterButtons.forEach(btn => {
+    
+    if(endpoint.includes(btn.dataset.type)){
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+    
     btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        const filterType = btn.getAttribute('data-type');
-        
-        lessonsContainers.forEach(container => {
-            if (container.getAttribute('data-type') === filterType) {
-                container.style.display = 'grid';
-            } else {
-                container.style.display = 'none';
-            }
-        });
+        window.location.href = `/aulas${btn.dataset.type}`;
+
     });
+});
+
+document.getElementById("myClasses").addEventListener('click', () => {
+    window.location.href = "/minhas-aulas";
 });
 
 const lessons = document.querySelectorAll('.lesson');

@@ -48,9 +48,27 @@ function returnError(code, message, response){
     });
 }
 
+function removeAccentuation(string) {
+  return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function extractSubject(value){
+    if(removeAccentuation(value).toLowerCase() === "fisica"){
+        value = 1;
+    }
+    else if(removeAccentuation(value).toLowerCase() === "quimica"){
+        value = 2;
+    }
+    else if(removeAccentuation(value).toLowerCase() === "matematica"){
+        value = 3;
+    }
+
+    return value;
+}
+
 pool.connect((err, client, release) => {
     if (err) {
-        console.error('❌ Erro ao conectar ao PostgreSQL:', err.message);
+        console.error('Erro ao conectar ao PostgreSQL:', err.message);
         console.error('Código do erro:', err.code);
         console.error('Detalhes da conexão:', {
             host: process.env.DB_HOST || 'não definido',
@@ -229,8 +247,9 @@ export async function joinCourse(req, res) {
         const user = await pool.query("SELECT * FROM usuario WHERE id = $1", 
             [userResult.rows[0].id]
         );
+
         
-        res.status(201).json({ message: 'Matrícula realizada com sucesso!' });
+        return res.status(201).json({ message: "Matrícula realizada" });
 
     } catch (e) {
         console.error('Erro ao matricular:', e);
@@ -239,16 +258,20 @@ export async function joinCourse(req, res) {
 }
 
 export async function redirectAfterJoining(req, res) {
-    if (!req.user) {
-        return res.redirect('/login');
-    }
+    // if (!req.user) {
+    //     return res.redirect('/login');
+    // }
+
+    const lead = await pool.query("SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 10");
+
     const user = await pool.query(
         `SELECT * FROM usuario WHERE TRIM(LOWER(email)) = TRIM(LOWER($1))`, 
         [req.session.email]
     );
 
     res.render('initialScreen', {
-        usuario: user.rows[0]
+        usuario: user.rows[0],
+        leaderboard: lead.rows
     });
 }
 
@@ -346,10 +369,19 @@ export async function getCourses(req, res){
 export async function getClassById(req, res) {
     try {
         const id = req.params.id;
+
         const result = await pool.query(
-            'SELECT id, nome, contexto, conteudo_1, conteudo_2 FROM aulas WHERE id = $1', 
+            'SELECT * FROM aulas WHERE id = $1', 
             [id]
         );
+
+        const aula = result.rows;
+
+        const userId = req.session.userId;
+        const user = await pool.query("SELECT * FROM usuario WHERE id = $1", [userId]);
+
+        const matriculas = await pool.query("SELECT * FROM matriculas WHERE usuario_id = $1 AND materia_id = $2", [userId, aula[0].materia_id]);
+
 
         if (result.rows.length === 0) {
             return res.render("error", {
@@ -359,10 +391,17 @@ export async function getClassById(req, res) {
                 }
             });
         }
-
-        res.render('aula', {
-            aulas: result.rows
-        });
+        
+        if(!matriculas.rows.length > 0 || !(aula[0].materia_id === matriculas.rows[0].materia_id)){
+            return res.render('matricular', {
+                usuario: user.rows[0]
+            });
+        }
+        else{
+            return res.render('aula', {
+                aulas: aula
+            });
+        }
     } catch (error) {
         console.error('Erro ao acessar aula:', error);
         returnError(500, "Erro interno no servidor", res);
@@ -372,6 +411,39 @@ export async function getClassById(req, res) {
 export async function getClass(req, res) {
     try {
         const result = await pool.query('SELECT id, nome, contexto FROM aulas');
+        // res.status(200).json(result.rows);
+        // console.log(JSON.stringify(result.rows));
+        res.render('aulas', {
+            aulas: result.rows
+        });
+    } catch (error) {
+        console.error('Erro ao acessar aulas:', error);
+        returnError(500, "Erro interno no servidor", res);
+    }
+}
+
+export async function getClassBySubject(req, res) {
+    try {
+        let materia = req.params.materia_id_ou_nome;
+        materia = extractSubject(materia);
+        const result = await pool.query('SELECT id, nome, contexto FROM aulas WHERE materia_id = $1', [materia]);
+        // res.status(200).json(result.rows);
+        // console.log(JSON.stringify(result.rows));
+        res.render('aulas', {
+            aulas: result.rows
+        });
+    } catch (error) {
+        console.error('Erro ao acessar aulas:', error);
+        returnError(500, "Erro interno no servidor", res);
+    }
+}
+
+export async function getClassByUserCourses(req, res) {
+    try {
+
+        const userId = req.session.userId;
+
+        const result = await pool.query('SELECT aulas.id, aulas.nome, contexto FROM aulas JOIN matriculas ON matriculas.materia_id = aulas.materia_id WHERE matriculas.usuario_id = $1', [userId]);
         // res.status(200).json(result.rows);
         // console.log(JSON.stringify(result.rows));
         res.render('aulas', {

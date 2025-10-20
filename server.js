@@ -14,7 +14,9 @@ import {
     getClass,
     redirectAfterJoining,
     getQuestion,
-    getCourses
+    getCourses,
+    getClassBySubject,
+    getClassByUserCourses
 } from './mysqlDb.js';
 
 dotenv.config();
@@ -137,6 +139,14 @@ app.get("/aulas/:id", (req, res) => {
 
 app.get("/aulas", (req, res) => {
     getClass(req, res);
+});
+
+app.get("/minhas-aulas", (req, res) => {
+    getClassByUserCourses(req, res);
+});
+
+app.get("/aulas/materias/:materia_id_ou_nome", (req, res) => {
+    getClassBySubject(req, res);
 });
 
 app.get("/aulas/:aula_id/perguntas", (req, res) => {
