@@ -16,21 +16,21 @@ document.querySelector('.clearTerminal').addEventListener('click', () => {
     document.querySelector('.terminalInterface').innerHTML = ">_<br><br>";
 });
 
-// document.getElementById('hxBtn').addEventListener('mouseup', () => {
-//     let currentColor = getComputedStyle(document.getElementById('hxBtn')).backgroundColor;
-//     if(readMode == "timer"){
-//         if (currentColor !== "rgb(210, 43, 43)"){  
-//             document.getElementById('hxBtn').style.backgroundColor = "rgb(210, 43, 43)";
-//             setTimeout(() => {
-//                 setLed();
-//                 document.getElementById('hxBtn').style.backgroundColor = "#323232";
-//             }, timeout);
-//         }
-//     }
-//     else{
-//         getLoadcell();
-//     }
-// });
+document.getElementById('hxBtn').addEventListener('mouseup', () => {
+    let currentColor = getComputedStyle(document.getElementById('hxBtn')).backgroundColor;
+    if(readMode == "timer"){
+        if (currentColor !== "rgb(210, 43, 43)"){  
+            document.getElementById('hxBtn').style.backgroundColor = "rgb(210, 43, 43)";
+            setTimeout(() => {
+                setLed();
+                document.getElementById('hxBtn').style.backgroundColor = "#323232";
+            }, timeout);
+        }
+    }
+    else{
+        getLoadcell();
+    }
+});
 
 const turnRGB = () => {
     if(!port || !writer){
