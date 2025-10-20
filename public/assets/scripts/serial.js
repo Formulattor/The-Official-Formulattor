@@ -10,27 +10,27 @@ let isredOn = false;
 let isgreenOn = false;
 let isblueOn = false;
 
-document.querySelector('.connBtn').addEventListener('click', connectSerial);
+document.querySelector('.connectArduino').addEventListener('click', connectSerial);
 
-document.getElementById('hxBtnCls').addEventListener('click', () => {
-    document.getElementById("terminalTxt").innerHTML = ">_<br><br>";
+document.querySelector('.clearTerminal').addEventListener('click', () => {
+    document.querySelector('.terminalInterface').innerHTML = ">_<br><br>";
 });
 
-document.getElementById('hxBtn').addEventListener('mouseup', () => {
-    let currentColor = getComputedStyle(document.getElementById('hxBtn')).backgroundColor;
-    if(readMode == "timer"){
-        if (currentColor !== "rgb(210, 43, 43)"){  
-            document.getElementById('hxBtn').style.backgroundColor = "rgb(210, 43, 43)";
-            setTimeout(() => {
-                setLed();
-                document.getElementById('hxBtn').style.backgroundColor = "#323232";
-            }, timeout);
-        }
-    }
-    else{
-        getLoadcell();
-    }
-});
+// document.getElementById('hxBtn').addEventListener('mouseup', () => {
+//     let currentColor = getComputedStyle(document.getElementById('hxBtn')).backgroundColor;
+//     if(readMode == "timer"){
+//         if (currentColor !== "rgb(210, 43, 43)"){  
+//             document.getElementById('hxBtn').style.backgroundColor = "rgb(210, 43, 43)";
+//             setTimeout(() => {
+//                 setLed();
+//                 document.getElementById('hxBtn').style.backgroundColor = "#323232";
+//             }, timeout);
+//         }
+//     }
+//     else{
+//         getLoadcell();
+//     }
+// });
 
 const turnRGB = () => {
     if(!port || !writer){
@@ -97,7 +97,7 @@ async function connectSerial() {
         await port.open({ baudRate: 9600 });
         writer = port.writable.getWriter();
         sendToTerminal("Porta serial conectada com sucesso!");
-        document.querySelector('.connBtn').classList.add('active');
+        document.querySelector('.connectArduino').classList.add('active');
     } catch (err) {
         sendToTerminal("Erro ao conectar: " + err.message);
     }
@@ -194,7 +194,7 @@ async function getLoadcell(){
 }
 
 function sendToTerminal(command){
-    document.getElementById("terminalTxt").innerHTML += "> " + command + "<br><br>";
+    document.querySelector('.terminalInterface').innerHTML += "> " + command + "<br><br>";
     commands.push(command);
 }
 
