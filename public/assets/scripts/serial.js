@@ -181,7 +181,7 @@ async function getLoadcell(){
         setTimeout(async () => {
             const result = await readPort();
             // alert(result);
-            sendToTerminal("Valor no A0: " + result);
+            sendToTerminal("Valor lido: " + result);
         }, 200);
 
 
