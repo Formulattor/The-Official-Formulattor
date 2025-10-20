@@ -128,3 +128,15 @@ if(window.page === "LOGIN") {
         window.location.assign('/login');
     }
 }
+
+const subjectBtns = document.querySelectorAll(".subjectOverlay");
+
+subjectBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        window.location.href = "/login";
+    });
+});
+
+document.querySelector(".ctaButton").addEventListener('click', () => {
+    window.location.href = "/login";
+});
