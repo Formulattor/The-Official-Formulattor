@@ -14,20 +14,29 @@ document.querySelector('.connectArduino').addEventListener('click', connectSeria
 
 let acc = document.getElementById("acc");
 let force = document.getElementById("force");
+let mass = document.getElementById("mass");
 
 acc.addEventListener('input', () => {
     if (acc.value !== "") {
         force.disabled = true;
+        if(mass.textContent !== ""){
+            force.value = parseFloat(mass.textContent) * parseFloat(acc.value);
+        }
     } else {
         force.disabled = false;
+        force.value = "";
     }
 });
 
 force.addEventListener('input', () => {
     if (force.value !== "") {
         acc.disabled = true;
+        if(mass.textContent !== ""){
+            acc.value = parseFloat(force.value) / parseFloat(mass.textContent);
+        }
     } else {
         acc.disabled = false;
+        acc.value = "";
     }
 });
 
