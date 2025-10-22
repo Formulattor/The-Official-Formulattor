@@ -465,7 +465,7 @@ export async function getQuestion(req, res){
 
         const id = pergunta.rows[0].id;
 
-        const respostas = await pool.query('SELECT id, resposta, verdadeira, questao_id FROM respperg WHERE questao_id = $1',
+        const respostas = await pool.query('SELECT id, resposta, verdadeira, questao_id FROM respperg WHERE questao_id = $1 ORDER BY RANDOM()',
             [id]
         );
 

@@ -6,7 +6,7 @@
     <title>Learn with Tubito - Formulattor</title>
     <link rel="stylesheet" href="../assets/styles/newArduino.css">
     <script defer type="module" src="../threejsfiles/newArduino.js"></script>
-    <script defer type="module" src="../assets/scripts/newSerialScript.js"></script>
+    <script defer type="module" src="../assets/scripts/serial.js"></script>
     <script type="importmap"> 
         {
             "imports": {
@@ -33,6 +33,20 @@
                 <button class="clearTerminal">
                     Clear Terminal
                 </button>
+                <div class="ledBtn">
+                    <button id="vBtn" class="btn">
+                        Vermelho
+                    </button>
+    
+                    <button id="vrBtn" class="btn">
+                        Verde
+                    </button>
+    
+                    <button id="azBtn" class="btn">
+                        Azul
+                    </button>
+                </div>
+                <button id="hxBtn">HX711 read</button>
             </div>
         </div>
 
@@ -58,6 +72,9 @@
                 <div class="terminalInterface">
                     
                 </div>
+            </div>
+            <div id="calculate">
+                <p id="mass">10</p> . <input id="acc" type="number" placeholder="aceleração (m/s²)"> = <input id="force" type="number" placeholder="força (N)"> 
             </div>
         </div>
     </main>

@@ -10,10 +10,38 @@ let isredOn = false;
 let isgreenOn = false;
 let isblueOn = false;
 
-document.querySelector('.connBtn').addEventListener('click', connectSerial);
+document.querySelector('.connectArduino').addEventListener('click', connectSerial);
 
-document.getElementById('hxBtnCls').addEventListener('click', () => {
-    document.getElementById("terminalTxt").innerHTML = ">_<br><br>";
+let acc = document.getElementById("acc");
+let force = document.getElementById("force");
+let mass = document.getElementById("mass");
+
+acc.addEventListener('input', () => {
+    if (acc.value !== "") {
+        force.disabled = true;
+        if(mass.textContent !== ""){
+            force.value = parseFloat(mass.textContent) * parseFloat(acc.value);
+        }
+    } else {
+        force.disabled = false;
+        force.value = "";
+    }
+});
+
+force.addEventListener('input', () => {
+    if (force.value !== "") {
+        acc.disabled = true;
+        if(mass.textContent !== ""){
+            acc.value = parseFloat(force.value) / parseFloat(mass.textContent);
+        }
+    } else {
+        acc.disabled = false;
+        acc.value = "";
+    }
+});
+
+document.querySelector('.clearTerminal').addEventListener('click', () => {
+    document.querySelector('.terminalInterface').innerHTML = ">_<br><br>";
 });
 
 document.getElementById('hxBtn').addEventListener('mouseup', () => {
@@ -97,7 +125,7 @@ async function connectSerial() {
         await port.open({ baudRate: 9600 });
         writer = port.writable.getWriter();
         sendToTerminal("Porta serial conectada com sucesso!");
-        document.querySelector('.connBtn').classList.add('active');
+        document.querySelector('.connectArduino').classList.add('active');
     } catch (err) {
         sendToTerminal("Erro ao conectar: " + err.message);
     }
@@ -181,7 +209,10 @@ async function getLoadcell(){
         setTimeout(async () => {
             const result = await readPort();
             // alert(result);
-            sendToTerminal("Valor no A0: " + result);
+            sendToTerminal("Valor lido: " + result);
+            
+            document.getElementById("mass").textContent = parseFloat(result);
+            
         }, 200);
 
 
@@ -194,7 +225,7 @@ async function getLoadcell(){
 }
 
 function sendToTerminal(command){
-    document.getElementById("terminalTxt").innerHTML += "> " + command + "<br><br>";
+    document.querySelector('.terminalInterface').innerHTML += "> " + command + "<br><br>";
     commands.push(command);
 }
 
