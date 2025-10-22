@@ -79,13 +79,18 @@ if(window.page === "LOGIN") {
         let opOpacity;
         //credito +1 pro fabras
         if(howmuchScroll >= 100) {
+            mainDescsInfos.style.display = "flex";
             mainHeader.style.backgroundColor = "#20132a";
             const invisibleOptions = Math.min((scrollY - 100) / 390, 1);
             opScale = 1 - invisibleOptions * 0.1;
             opOpacity = 1 - invisibleOptions;
             mainDescsInfos.style.transform = `scale(${opScale})`;
             mainDescsInfos.style.opacity = `${opOpacity}`;
+            if (howmuchScroll >= 400) {
+                mainDescsInfos.style.display = "none";
+            }
         } else {
+            mainDescsInfos.style.display = "flex";
             mainHeader.style.backgroundColor = "transparent";
             if (opScale != 1 || opOpacity != 1) {
                 opScale = 1;
