@@ -309,6 +309,37 @@ header h2 {
     flex-direction: row;
 }
 
+.goto-arduino {
+    width: 100%;
+    height: 290px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.goto-arduino:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(171, 75, 255, 0.4);
+}
+
+.goto-arduino img {
+    width: 20px;
+    height: 20px;
+    transform: scale(2);
+    filter: brightness(0) invert(1);
+}
+
 .leaderboard-body {
     padding: 1rem;
     /* background-color: var(--secondary-color); */

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../assets/scripts/aulas.js"></script>
+    <title>Aula</title>
+</head>
+<body>
+
+    <button id="back">Ver aulas</button>
+
+    <% aulas.forEach(aula => { %>
+        <div id="div" data-id="<%= aula.id %>">
+            <p><%= aula.nome %></p>
+            <p><%= aula.contexto %></p>
+            <p><%= aula.conteudo_1 %></p>
+            <p><%= aula.conteudo_2 %></p>
+        </div>
+    <% }); %>
+    
+    <button id="renderQuestion">
+        Gerar pergunta
+    </button>
+
+    <p id="pergunta">Pergunta: </p>
+    <div id="alternativas">
+    </div>
+
+    <script>
+        document.getElementById("renderQuestion").addEventListener('click', async () => {
+            
+            const aula_id = document.getElementById("div").dataset.id;
+
+            const url = window.location.href;
+
+            const data = await fetch(`${url}/perguntas`);
+
+            const results = await data.json();
+
+            document.getElementById("pergunta").textContent += results.q[0].enunciado;
+            
+            results.a.forEach(resp => {
+                const newLi = document.createElement('button');
+                newLi.textContent = resp.resposta;
+                newLi.dataset.correta = resp.verdadeira;
+                document.getElementById("alternativas").appendChild(newLi);
+                newLi.addEventListener('click', function (){
+                    didIGetItRight(this);
+                });
+
+            });
+
+        });
+
+        document.getElementById("back").addEventListener('click', () => window.location.assign("/aulas"));
+
+    </script>
+
+</body>
+</html>

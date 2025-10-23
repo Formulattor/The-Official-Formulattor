@@ -153,6 +153,10 @@ app.get("/aulas/:aula_id/perguntas", (req, res) => {
     getQuestion(req, res);
 });
 
+app.get("/arduino", isAuthenticated, (req, res) => {
+    res.render('bentotecArduino');
+});
+
 app.use((err, req, res, next) => {
     console.error('Erro não tratado:', err);
     res.status(500).send('Erro interno do servidor');

@@ -6,6 +6,8 @@ function getQuestions(){
     window.location.href = "/quiz";
 }
 
+document.querySelector('.goto-arduino').addEventListener('click', () => { window.location.assign("/arduino"); });
+
 async function getMatriculas(){
     const user_id = document.getElementById("getMatriculas").dataset.user_id;
 

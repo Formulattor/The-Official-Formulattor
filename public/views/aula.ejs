@@ -1,61 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../assets/scripts/aulas.js"></script>
-    <title>Aula</title>
+    <title>Aula - <%= aula.nome %></title>
+    <link rel="stylesheet" href="../assets/styles/aula.css">
+    <script defer src="../assets/scripts/aulas.js"></script>
+    <script defer src="../assets/scripts/aula.js"></script>
 </head>
+
 <body>
+    <header>
+        <button id="backBtn" class="btn">
+            Voltar
+        </button>
 
-    <button id="back">Ver aulas</button>
+        <p>Aula - <%= aula.nome %></p>
+    </header>
 
-    <% aulas.forEach(aula => { %>
-        <div id="div" data-id="<%= aula.id %>">
-            <p><%= aula.nome %></p>
-            <p><%= aula.contexto %></p>
-            <p><%= aula.conteudo_1 %></p>
-            <p><%= aula.conteudo_2 %></p>
-        </div>
-    <% }); %>
+    <main>
+        <section class="secMain">
+            <!-- Uma section deitada na horizontal -->   
+            <p>
+                <%= aula.contexto %>
+            </p>
+        </section>
+
+        <div class="secMain">
+            <!-- Duas sections em pé uma do lado da outra -->
+            <section class="contentSect">
+                <p>
+                    <%= aula.conteudo_1 %>
+                </p>
+            </section>
     
-    <button id="renderQuestion">
-        Gerar pergunta
-    </button>
+            <section class="contentSect">
+                <p>
+                    <%= aula.conteudo_2 %>
+                </p>
+            </section>
+        </div>
 
-    <p id="pergunta">Pergunta: </p>
-    <div id="alternativas">
-    </div>
+        <div class="secMain">
+            <button id="renderQuestion" class="btn">
+                Gerar Pergunta
+            </button>
 
-    <script>
-        document.getElementById("renderQuestion").addEventListener('click', async () => {
-            
-            const aula_id = document.getElementById("div").dataset.id;
+            <p id="questP">
+                
+            </p>
 
-            const url = window.location.href;
-
-            const data = await fetch(`${url}/perguntas`);
-
-            const results = await data.json();
-
-            document.getElementById("pergunta").textContent += results.q[0].enunciado;
-            
-            results.a.forEach(resp => {
-                const newLi = document.createElement('button');
-                newLi.textContent = resp.resposta;
-                newLi.dataset.correta = resp.verdadeira;
-                document.getElementById("alternativas").appendChild(newLi);
-                newLi.addEventListener('click', function (){
-                    didIGetItRight(this);
-                });
-
-            });
-
-        });
-
-        document.getElementById("back").addEventListener('click', () => window.location.assign("/aulas"));
-
-    </script>
-
-</body>
+            <div id="alternativas" class="answQuest">
+                
+            </div>
+        </div>
+    </main>
+</body> 
 </html>

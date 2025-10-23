@@ -1,0 +1,242 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    color: #333;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;  
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding-bottom: 6rem;
+}
+
+.mainSection {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mainSection:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+}
+
+.mainSection h2 {
+    color: #667eea;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mainSection p {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.65rem;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.mainSection p:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateX(5px);
+}
+
+.mainSection p:last-of-type {
+    margin-bottom: 0;
+}
+
+.mainSection p strong {
+    color: #667eea;
+    font-weight: 600;
+}
+
+#getCursos {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    background: #fff;
+    color: #764ba2;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4); */
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#getCursos:hover {
+    transform: translateY(-3px);
+    /* box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6); */
+}
+
+#getCursos:active {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 1024px) {
+    body {
+        padding: 1.5rem;
+    }
+
+    main {
+        gap: 1.25rem;
+        padding-bottom: 5rem;
+    }
+
+    .mainSection {
+        padding: 1.75rem;
+    }
+
+    .mainSection h2 {
+        font-size: 1.35rem;
+    }
+
+    #getCursos {
+        padding: 0.9rem 1.75rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding-bottom: 5rem;
+    }
+
+    .mainSection {
+        padding: 1.5rem;
+    }
+
+    .mainSection h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .mainSection p {
+        font-size: 0.95rem;
+        padding: 0.6rem;
+    }
+
+    #getCursos {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        left: 1.5rem;
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.75rem;
+    }
+
+    main {
+        gap: 0.85rem;
+        padding-bottom: 4.5rem;
+    }
+
+    .mainSection {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+
+    .mainSection h2 {
+        font-size: 1.15rem;
+        margin-bottom: 0.85rem;
+    }
+
+    .mainSection h2::before {
+        font-size: 1.5rem;
+    }
+
+    .mainSection p {
+        font-size: 0.9rem;
+        padding: 0.55rem;
+        margin-bottom: 0.65rem;
+    }
+
+    #getCursos {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        border-radius: 40px;
+    }
+
+    #getCursos::after {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .mainSection {
+        padding: 1rem;
+    }
+
+    .mainSection h2 {
+        font-size: 1.05rem;
+    }
+
+    .mainSection p {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+
+    #getCursos {
+        padding: 0.7rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 896px) and (orientation: landscape) {
+    main {
+        grid-template-columns: repeat(2, 1fr);
+        padding-bottom: 4rem;
+    }
+
+    #getCursos {
+        bottom: 1rem;
+        right: 1rem;
+        left: auto;
+    }
+}

@@ -258,10 +258,11 @@ body.homeBody {
     position: relative;
     flex-direction: column;
     align-items: center;
-    height: 166vh;
+    height: 100vh;
     width: 100vw;
     background: linear-gradient(0deg, #b27ee1, #7e45b4, #623c83);
     overflow: hidden;
+    z-index: 0;
 }
 
 header.homeHeader {
@@ -560,6 +561,7 @@ header.homeHeader {
 }
 
 .mainHomeContent {
+    z-index: 1;
     width: 100%;
     background: #f8f9fa;
 }
@@ -1138,42 +1140,42 @@ header.homeHeader {
 @media (max-width: 768px) {
     header.homeHeader {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         height: auto;
         padding: 15px;
         gap: 15px;
     }
     
+    .introContent {
+        /* height: 50vh; */
+    }
+
     .leftHomeHeaderContent {
         width: 100%;
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
     }
-    
+
+    .leftHomeHeaderContent::after {
+        content: 'Formulattor';
+        color: white;
+        font-size: 1.5rem;
+    }
+
     .leftHomeHeaderContent img {
         width: auto;
         max-width: 180px;
         height: 45px;
-        margin-bottom: 10px;
     }
     
     .leftHomeHeaderContent button {
-        min-width: auto;
-        flex: 1 1 calc(50% - 5px);
-        font-size: 13px;
-        padding: 8px 10px;
+        display: none;
     }
     
     .rightHomeHeaderContent {
-        width: 100%;
-        justify-content: center;
-        margin-top: 0;
-        gap: 10px;
-    }
-    
-    .rightHomeHeaderContent a {
-        flex: 1;
-        max-width: 150px;
+        display: none;
     }
     
     .mainOptionsscreen {

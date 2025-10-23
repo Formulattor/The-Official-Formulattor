@@ -399,7 +399,7 @@ export async function getClassById(req, res) {
         }
         else{
             return res.render('aula', {
-                aulas: aula
+                aula: aula[0]
             });
         }
     } catch (error) {
